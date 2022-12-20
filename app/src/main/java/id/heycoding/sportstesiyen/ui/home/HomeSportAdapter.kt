@@ -13,8 +13,7 @@ class HomeSportAdapter : RecyclerView.Adapter<HomeSportAdapter.ViewHolder>() {
     private val limit = 5
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = ItemSportHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(view)
+        return ViewHolder(ItemSportHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

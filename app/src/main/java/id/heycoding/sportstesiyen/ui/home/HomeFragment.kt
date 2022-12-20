@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import id.heycoding.sportstesiyen.R
+import id.heycoding.sportstesiyen.data.local.SportsItem
 import id.heycoding.sportstesiyen.data.remote.MainWebServices
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.home.banner.ImageAdapter
@@ -42,49 +43,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeSportAdapter = HomeSportAdapter()
+        imageAdapter = ImageAdapter()
         initViewModel()
         initViews()
-        initBannerSport()
-    }
-
-    private fun initBannerSport() {
-        listSportImage.add(
-            ImageData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
-            )
-        )
-        listSportImage.add(
-            ImageData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/motorsport.jpg"
-            )
-        )
-        listSportImage.add(
-            ImageData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/fighting.jpg"
-            )
-        )
-        listSportImage.add(
-            ImageData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/baseball.jpg"
-            )
-        )
-        listSportImage.add(
-            ImageData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/basketball.jpg"
-            )
-        )
-
-        imageAdapter = ImageAdapter(listSportImage)
-        fragmentHomeBinding?.vpSportHome?.adapter = imageAdapter
-        dotsSportImage = ArrayList()
-        setDotsIndicator()
-
-        fragmentHomeBinding?.vpSportHome?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                selectDots(position)
-                super.onPageSelected(position)
-            }
-        })
     }
 
     private fun selectDots(position: Int) {
@@ -117,7 +78,10 @@ class HomeFragment : Fragment() {
         homeViewModel.apply {
             getAllSportsData()
             listSportData.observe(requireActivity()) {
-                if (it != null) homeSportAdapter.setSportData(it)
+                if (it != null) {
+                    homeSportAdapter.setSportData(it)
+                    imageAdapter.setSportData(it)
+                }
             }
         }
     }
@@ -128,6 +92,18 @@ class HomeFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
                 adapter = homeSportAdapter
+            }
+            vpSportHome.apply {
+                adapter = imageAdapter
+                dotsSportImage = ArrayList()
+                setDotsIndicator()
+
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+                    override fun onPageSelected(position: Int) {
+                        selectDots(position)
+                        super.onPageSelected(position)
+                    }
+                })
             }
         }
     }
