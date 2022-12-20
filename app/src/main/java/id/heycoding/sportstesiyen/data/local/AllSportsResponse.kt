@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class AllSportsResponse(
 
 	@field:SerializedName("sports")
-	val sports: List<SportsItem?>? = null
+	val sports: List<SportsItem>
 )
 
 data class SportsItem(
