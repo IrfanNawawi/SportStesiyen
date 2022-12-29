@@ -1,4 +1,4 @@
-package id.heycoding.sportstesiyen.data.local
+package id.heycoding.sportstesiyen.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 

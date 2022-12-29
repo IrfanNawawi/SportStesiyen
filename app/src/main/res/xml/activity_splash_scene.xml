@@ -7,14 +7,14 @@
         motion:autoTransition="animateToEnd"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="3000">
+        motion:duration="2000">
        <KeyFrameSet>
        </KeyFrameSet>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/img_logo_app_ponxx"
+            android:id="@+id/img_logo_app"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -25,14 +25,14 @@
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            motion:layout_constraintTop_toBottomOf="@+id/img_logo_app_ponxx"
+            motion:layout_constraintTop_toBottomOf="@+id/img_logo_app"
             motion:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/img_logo_app_ponxx"
+            android:id="@+id/img_logo_app"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -44,7 +44,7 @@
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            motion:layout_constraintTop_toBottomOf="@+id/img_logo_app_ponxx"
+            motion:layout_constraintTop_toBottomOf="@+id/img_logo_app"
             motion:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp" />
     </ConstraintSet>

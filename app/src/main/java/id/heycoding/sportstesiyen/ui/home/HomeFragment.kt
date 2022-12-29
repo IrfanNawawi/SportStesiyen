@@ -9,27 +9,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.local.SportsItem
-import id.heycoding.sportstesiyen.data.remote.MainWebServices
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.home.banner.ImageAdapter
 import id.heycoding.sportstesiyen.ui.home.banner.ImageData
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import id.heycoding.sportstesiyen.ui.home.hotnews.HomeNewsSportAdapter
+import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryAdapter
 
 class HomeFragment : Fragment() {
 
     private var fragmentHomeBinding: FragmentHomeBinding? = null
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var homeSportAdapter: HomeSportAdapter
+    private val homeViewModel: HomeViewModel by activityViewModels()
+    private lateinit var homeSportCategoryAdapter: HomeSportCategoryAdapter
+    private lateinit var homeNewsSportAdapter: HomeNewsSportAdapter
     private lateinit var imageAdapter: ImageAdapter
     private val listSportImage = ArrayList<ImageData>()
-    private lateinit var dotsSportImage : ArrayList<TextView>
+    private lateinit var dotsSportImage: ArrayList<TextView>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +39,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeSportAdapter = HomeSportAdapter()
+        homeSportCategoryAdapter = HomeSportCategoryAdapter()
+        homeNewsSportAdapter = HomeNewsSportAdapter()
         imageAdapter = ImageAdapter()
         initViewModel()
         initViews()
@@ -51,9 +49,19 @@ class HomeFragment : Fragment() {
     private fun selectDots(position: Int) {
         for (i in 0 until listSportImage.size) {
             if (i == position) {
-                dotsSportImage[i].setTextColor(ContextCompat.getColor(requireContext(), com.google.android.material.R.color.design_default_color_on_primary))
+                dotsSportImage[i].setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        com.google.android.material.R.color.design_default_color_on_primary
+                    )
+                )
             } else {
-                dotsSportImage[i].setTextColor(ContextCompat.getColor(requireContext(), com.google.android.material.R.color.design_default_color_on_secondary))
+                dotsSportImage[i].setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        com.google.android.material.R.color.design_default_color_on_secondary
+                    )
+                )
             }
         }
     }
@@ -63,7 +71,8 @@ class HomeFragment : Fragment() {
             dotsSportImage.add(TextView(requireContext()))
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dotsSportImage[i].text = Html.fromHtml("&#9679", Html.FROM_HTML_MODE_LEGACY).toString()
+                dotsSportImage[i].text =
+                    Html.fromHtml("&#9679", Html.FROM_HTML_MODE_LEGACY).toString()
             } else {
                 dotsSportImage[i].text = Html.fromHtml("&#9679")
             }
@@ -74,13 +83,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         homeViewModel.apply {
+            // fetch API
             getAllSportsData()
-            listSportData.observe(requireActivity()) {
+            getNewsSportData()
+
+            // observe ViewModel
+            listSportData.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    homeSportAdapter.setSportData(it)
+                    homeSportCategoryAdapter.setSportData(it)
                     imageAdapter.setSportData(it)
+                }
+            }
+            
+            listNewsSportData.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    homeNewsSportAdapter.setNewsSportData(it)
                 }
             }
         }
@@ -88,22 +106,33 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         fragmentHomeBinding?.apply {
-            rvSportHome.apply {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                setHasFixedSize(true)
-                adapter = homeSportAdapter
-            }
+            // init ViewPager Banner
             vpSportHome.apply {
                 adapter = imageAdapter
                 dotsSportImage = ArrayList()
                 setDotsIndicator()
 
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         selectDots(position)
                         super.onPageSelected(position)
                     }
                 })
+            }
+
+            // init List Sport Category
+            rvSportHome.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                adapter = homeSportCategoryAdapter
+            }
+
+            // init Lits News Sport
+            rvNewsSportHome.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                adapter = homeNewsSportAdapter
             }
         }
     }

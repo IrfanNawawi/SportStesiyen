@@ -1,4 +1,4 @@
-package id.heycoding.sportstesiyen.ui.home.banner
+package id.heycoding.sportstesiyen.ui.home.sportcategory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,33 +6,36 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
-import id.heycoding.sportstesiyen.databinding.ListSliderSportHomeBinding
-import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryCallback
+import id.heycoding.sportstesiyen.databinding.ItemSportHomeBinding
 
-class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
-    private val listSportBannerData = ArrayList<SportsItem>()
+class HomeSportCategoryAdapter : RecyclerView.Adapter<HomeSportCategoryAdapter.ViewHolder>() {
+    private val listSportCategoryData = ArrayList<SportsItem>()
     private val limit = 5
 
-    inner class ViewHolder(private val binding: ListSliderSportHomeBinding) :
+    inner class ViewHolder(private val binding: ItemSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(sport: SportsItem) {
             binding.apply {
-                Glide.with(itemView.context).load(sport.strSportThumb).into(imgSliderHome)
+                Glide.with(itemView.context)
+                    .load(sport.strSportIconGreen)
+                    .into(imgSportHome)
+
+                tvSportHome.text = sport.strSport
             }
         }
     }
 
     fun setSportData(sport: List<SportsItem>) {
-        val diffCallback = HomeSportCategoryCallback(listSportBannerData, sport)
+        val diffCallback = HomeSportCategoryCallback(listSportCategoryData, sport)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        listSportBannerData.clear()
-        listSportBannerData.addAll(sport)
+        listSportCategoryData.clear()
+        listSportCategoryData.addAll(sport)
         diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ListSliderSportHomeBinding.inflate(
+            ItemSportHomeBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -41,14 +44,14 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listSportBannerData[position])
+        holder.bind(listSportCategoryData[position])
     }
 
     override fun getItemCount(): Int {
-        return if (listSportBannerData.size > limit) {
+        return if (listSportCategoryData.size > limit) {
             limit
         } else {
-            listSportBannerData.size
+            listSportCategoryData.size
         }
     }
 }

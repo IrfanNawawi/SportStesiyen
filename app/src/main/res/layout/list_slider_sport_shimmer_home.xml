@@ -7,6 +7,6 @@
         android:id="@+id/img_slider_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:background="@color/bw_300"/>
+        android:background="@color/bw_300"
+        android:scaleType="centerCrop" />
 </LinearLayout>

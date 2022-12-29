@@ -9,7 +9,7 @@
     tools:context=".ui.splash.SplashActivity">
 
     <ImageView
-        android:id="@+id/img_logo_app_ponxx"
+        android:id="@+id/img_logo_app"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:contentDescription="@string/app_name"
@@ -31,6 +31,6 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_logo_app_ponxx" />
+        app:layout_constraintTop_toBottomOf="@+id/img_logo_app" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
