@@ -12,6 +12,7 @@ import id.heycoding.sportstesiyen.ui.MainActivity
 class SplashActivity : AppCompatActivity() {
     private var activitySplashBinding: ActivitySplashBinding? = null
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)

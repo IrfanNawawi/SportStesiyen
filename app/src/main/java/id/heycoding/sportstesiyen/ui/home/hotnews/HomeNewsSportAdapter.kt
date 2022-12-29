@@ -11,7 +11,7 @@ import id.heycoding.sportstesiyen.utils.Helper
 
 class HomeNewsSportAdapter : RecyclerView.Adapter<HomeNewsSportAdapter.ViewHolder>() {
     private val listNewsSportData = ArrayList<ArticlesItem>()
-//    private val limit = 5
+    private val limit = 5
 
     inner class ViewHolder(private val binding: ItemNewsSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -48,11 +48,10 @@ class HomeNewsSportAdapter : RecyclerView.Adapter<HomeNewsSportAdapter.ViewHolde
     }
 
     override fun getItemCount(): Int {
-        return listNewsSportData.size
-//        return if (listNewsSportData.size > limit) {
-//            limit
-//        } else {
-//            listNewsSportData.size
-//        }
+        return if (listNewsSportData.size > limit) {
+            limit
+        } else {
+            listNewsSportData.size
+        }
     }
 }

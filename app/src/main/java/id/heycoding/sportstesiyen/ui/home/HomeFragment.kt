@@ -66,6 +66,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun setDotsIndicator() {
         for (i in 0 until listSportImage.size) {
             dotsSportImage.add(TextView(requireContext()))
@@ -101,6 +102,8 @@ class HomeFragment : Fragment() {
                     homeNewsSportAdapter.setNewsSportData(it)
                 }
             }
+
+            isloading.observe(viewLifecycleOwner) { showLoading(it) }
         }
     }
 
@@ -134,6 +137,28 @@ class HomeFragment : Fragment() {
                 setHasFixedSize(true)
                 adapter = homeNewsSportAdapter
             }
+        }
+    }
+
+    private fun showLoading(it: Boolean?) {
+        if (it == true) {
+            fragmentHomeBinding?.pgShimmerBannerHome?.startShimmer()
+            fragmentHomeBinding?.pgShimmerBannerHome?.visibility = View.VISIBLE
+
+            fragmentHomeBinding?.pgShimmerSportCategoryHome?.startShimmer()
+            fragmentHomeBinding?.pgShimmerSportCategoryHome?.visibility = View.VISIBLE
+
+            fragmentHomeBinding?.pgShimmerNewsHome?.startShimmer()
+            fragmentHomeBinding?.pgShimmerNewsHome?.visibility = View.VISIBLE
+        } else {
+            fragmentHomeBinding?.pgShimmerBannerHome?.stopShimmer()
+            fragmentHomeBinding?.pgShimmerBannerHome?.visibility = View.GONE
+
+            fragmentHomeBinding?.pgShimmerSportCategoryHome?.stopShimmer()
+            fragmentHomeBinding?.pgShimmerSportCategoryHome?.visibility = View.GONE
+
+            fragmentHomeBinding?.pgShimmerNewsHome?.stopShimmer()
+            fragmentHomeBinding?.pgShimmerNewsHome?.visibility = View.GONE
         }
     }
 

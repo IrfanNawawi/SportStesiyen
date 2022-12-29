@@ -30,7 +30,8 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.SportStesiyen.NoActionBar">
 
             <meta-data
                 android:name="android.app.lib_name"

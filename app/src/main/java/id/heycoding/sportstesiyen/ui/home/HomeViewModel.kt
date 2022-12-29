@@ -24,7 +24,11 @@ class HomeViewModel : ViewModel() {
     val listTeamsLeagueData: LiveData<List<TeamsItem>> = _listTeamLeagueData
 
     private val _isLoading = MutableLiveData<Boolean>()
+    val isloading: LiveData<Boolean> = _isLoading
+
     private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
+
     private val servicesTheSportDB = MainWebServices(BASE_URL_THESPORTDB)
     private val servicesNewsAPI = MainWebServices(BASE_URL_NEWSAPI)
 
@@ -50,7 +54,8 @@ class HomeViewModel : ViewModel() {
         servicesNewsAPI.getAllNewsSport(
             MainWebServices.EndPoint.COUNTRY_NEWSAPI,
             MainWebServices.EndPoint.CATEGORY_NEWSAPI,
-            MainWebServices.EndPoint.API_KEY_NEWSAPI)
+            MainWebServices.EndPoint.API_KEY_NEWSAPI
+        )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {

@@ -5,17 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".ui.home.HomeFragment">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_sport_home"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_sport_home"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        </androidx.cardview.widget.CardView>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/pg_shimmer_banner_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/list_slider_sport_shimmer_home"/>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/dots_indicator_vp_sport"
@@ -27,40 +44,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sport_home"
+        <FrameLayout
+            android:id="@+id/fm_list_sport_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dots_indicator_vp_sport"
-            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_sport_home" />
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/pg_shimmer_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dots_indicator_vp_sport"
-            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_sport_shimmer_home">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+            app:layout_constraintTop_toBottomOf="@id/dots_indicator_vp_sport">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_sport_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_sport_home" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/pg_shimmer_sport_category_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <include layout="@layout/item_sport_shimmer_home" />
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_hot_news_home"
@@ -71,16 +79,32 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_sport_home" />
+            app:layout_constraintTop_toBottomOf="@id/fm_list_sport_category" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_news_sport_home"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_hot_news_home"
-            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_news_sport_home" />
+            app:layout_constraintTop_toBottomOf="@id/tv_hot_news_home">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_news_sport_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_news_sport_home" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/pg_shimmer_news_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                <include layout="@layout/item_news_sport_shimmer_home" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
