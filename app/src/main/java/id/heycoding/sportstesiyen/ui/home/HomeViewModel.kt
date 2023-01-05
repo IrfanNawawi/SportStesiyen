@@ -24,10 +24,10 @@ class HomeViewModel : ViewModel() {
     val listTeamsLeagueData: LiveData<List<TeamsItem>> = _listTeamLeagueData
 
     private val _isLoading = MutableLiveData<Boolean>()
-    val isloading: LiveData<Boolean> = _isLoading
+    val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String> = _message
+    private val _isError = MutableLiveData<Boolean>()
+    val isError: LiveData<Boolean> = _isError
 
     private val servicesTheSportDB = MainWebServices(BASE_URL_THESPORTDB)
     private val servicesNewsAPI = MainWebServices(BASE_URL_NEWSAPI)
@@ -40,13 +40,15 @@ class HomeViewModel : ViewModel() {
                 _isLoading.value = true
             }
             .doOnError {
-                _message.value = it.message
+                _isLoading.value = false
+                _isError.value = true
             }
             .subscribe({
                 _isLoading.value = false
                 _listSportData.postValue(it.sports)
             }, {
-                _message.value = it.message
+                _isLoading.value = false
+                _isError.value = true
             })
     }
 
@@ -62,13 +64,14 @@ class HomeViewModel : ViewModel() {
                 _isLoading.value = true
             }
             .doOnError {
-                _message.value = it.message
+                _isLoading.value = false
             }
             .subscribe({
                 _isLoading.value = false
                 _listNewsSportData.postValue(it.articles)
             }, {
-                _message.value = it.message
+                _isLoading.value = false
+                _isError.value = true
             })
     }
 
@@ -80,13 +83,15 @@ class HomeViewModel : ViewModel() {
                 _isLoading.value = true
             }
             .doOnError {
-                _message.value = it.message
+                _isLoading.value = false
+                _isError.value = true
             }
             .subscribe({
                 _isLoading.value = false
                 _listTeamLeagueData.postValue(it.teams)
             }, {
-                _message.value = it.message
+                _isLoading.value = false
+                _isError.value = true
             })
     }
 }

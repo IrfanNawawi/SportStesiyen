@@ -13,7 +13,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.Url
 import java.util.concurrent.TimeUnit
 
 interface MainWebServices {
@@ -25,9 +24,11 @@ interface MainWebServices {
     fun getAllTeamsInLeague(@Query("l") league: String): Observable<TeamsLeagueResponse>
 
     @GET(EndPoint.NewsSports.GET_NEWS_SPORT)
-    fun getAllNewsSport(@Query("country") country: String,
-                        @Query("category") category: String,
-                        @Query("apiKey") apiKey: String): Observable<NewsSportResponse>
+    fun getAllNewsSport(
+        @Query("country") country: String,
+        @Query("category") category: String,
+        @Query("apiKey") apiKey: String
+    ): Observable<NewsSportResponse>
 
     companion object {
 
@@ -41,7 +42,7 @@ interface MainWebServices {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
-        operator fun invoke(baseUrl: String) : MainWebServices {
+        operator fun invoke(baseUrl: String): MainWebServices {
             val client = OkHttpClient.Builder().apply {
                 addNetworkInterceptor(loggingInterceptor)
                 connectTimeout(10, TimeUnit.MINUTES)

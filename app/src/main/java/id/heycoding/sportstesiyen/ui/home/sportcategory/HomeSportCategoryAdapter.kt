@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.databinding.ItemSportHomeBinding
+import id.heycoding.sportstesiyen.utils.Const
 
 class HomeSportCategoryAdapter : RecyclerView.Adapter<HomeSportCategoryAdapter.ViewHolder>() {
     private val listSportCategoryData = ArrayList<SportsItem>()
-    private val limit = 5
 
     inner class ViewHolder(private val binding: ItemSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(sport: SportsItem) {
             binding.apply {
                 Glide.with(itemView.context)
-                    .load(sport.strSportIconGreen)
+                    .load(sport.strSportThumb)
                     .into(imgSportHome)
 
                 tvSportHome.text = sport.strSport
@@ -48,8 +48,8 @@ class HomeSportCategoryAdapter : RecyclerView.Adapter<HomeSportCategoryAdapter.V
     }
 
     override fun getItemCount(): Int {
-        return if (listSportCategoryData.size > limit) {
-            limit
+        return if (listSportCategoryData.size > Const.LIMIT) {
+            Const.LIMIT
         } else {
             listSportCategoryData.size
         }

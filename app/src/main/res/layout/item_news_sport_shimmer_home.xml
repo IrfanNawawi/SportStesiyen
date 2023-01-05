@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -9,9 +8,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
+        android:layout_marginVertical="@dimen/activity_margin"
         android:layout_marginStart="2dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/activity_margin"
         android:orientation="horizontal"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
@@ -22,7 +21,7 @@
             android:orientation="vertical"
             android:paddingHorizontal="5dp"
             android:paddingTop="5dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="@dimen/activity_padding">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_image_news_home"
@@ -38,14 +37,15 @@
                     android:id="@+id/img_news_home"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@color/bw_300" />
+                    android:background="@color/bw_300"
+                    android:contentDescription="@string/txt_news_home" />
             </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tv_date_news_home"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:background="@color/bw_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_image_news_home" />
@@ -54,7 +54,7 @@
                 android:id="@+id/tv_title_news_home"
                 android:layout_width="200dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:background="@color/bw_300"
                 android:maxLines="2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,15 +63,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
+                android:layout_marginVertical="@dimen/activity_margin"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_news_home">
 
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@color/bw_300"/>
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:background="@color/bw_300" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,9 +80,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
+        android:layout_marginVertical="@dimen/activity_margin"
         android:layout_marginStart="2dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/activity_margin"
         android:orientation="horizontal"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
@@ -93,7 +93,7 @@
             android:orientation="vertical"
             android:paddingHorizontal="5dp"
             android:paddingTop="5dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="@dimen/activity_padding">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_image_news_home_second"
@@ -108,14 +108,15 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@color/bw_300" />
+                    android:background="@color/bw_300"
+                    android:contentDescription="@string/txt_news_home" />
             </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tv_date_news_home_second"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:background="@color/bw_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_image_news_home_second" />
@@ -124,7 +125,7 @@
                 android:id="@+id/tv_title_news_home_second"
                 android:layout_width="200dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:background="@color/bw_300"
                 android:maxLines="2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,15 +134,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
+                android:layout_marginVertical="@dimen/activity_margin"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_news_home_second">
 
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@color/bw_300"/>
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:background="@color/bw_300" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -35,11 +35,11 @@ object Helper {
         val months = (timeelapsed / 2600640000).toDouble().roundToInt()
         val years = (timeelapsed / 31207680000).toDouble().roundToInt()
 
-        if ( (thisYear - agoYear) >= 1 ) {
+        if ((thisYear - agoYear) >= 1) {
             return SimpleDateFormat("MMM dd, yyyy - hh:ma", currentLocale).format(mTime)
-        } else if ( (thisMonth - agoMonth) >= 1 ) {
+        } else if ((thisMonth - agoMonth) >= 1) {
             return SimpleDateFormat("MMM dd", currentLocale).format(mTime)
-        } else if ( thisMonth == agoMonth && (thisDay - agoDay) == 1 ) {
+        } else if (thisMonth == agoMonth && (thisDay - agoDay) == 1) {
             return "Yesterday"
         } else if (timeelapsed <= 60) {
             return "just now"

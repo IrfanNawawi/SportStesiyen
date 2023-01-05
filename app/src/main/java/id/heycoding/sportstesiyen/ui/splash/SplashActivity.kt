@@ -8,6 +8,7 @@ import android.view.View
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.ActivitySplashBinding
 import id.heycoding.sportstesiyen.ui.MainActivity
+import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class SplashActivity : AppCompatActivity() {
     private var activitySplashBinding: ActivitySplashBinding? = null
@@ -20,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
         Handler().postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, OnBoardingActivity::class.java))
             finish()
         }, 2000)
     }

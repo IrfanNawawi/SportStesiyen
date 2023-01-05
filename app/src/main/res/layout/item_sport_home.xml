@@ -4,9 +4,9 @@
     android:id="@+id/sportLayoutRoot"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="10dp"
+    android:layout_marginVertical="@dimen/activity_margin"
     android:layout_marginStart="2dp"
-    android:layout_marginEnd="10dp"
+    android:layout_marginEnd="@dimen/activity_margin"
     android:orientation="horizontal"
     app:cardCornerRadius="10dp"
     app:cardElevation="5dp">
@@ -15,12 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="@dimen/activity_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_sport_home"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="16dp"
             android:src="@mipmap/ic_launcher_round" />
 
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Football"
+            android:text="@string/txt_dummy"
             android:textSize="16sp" />
 
     </LinearLayout>

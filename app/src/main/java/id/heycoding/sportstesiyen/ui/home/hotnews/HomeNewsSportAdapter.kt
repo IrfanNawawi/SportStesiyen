@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesItem
 import id.heycoding.sportstesiyen.databinding.ItemNewsSportHomeBinding
+import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.Helper
 
 class HomeNewsSportAdapter : RecyclerView.Adapter<HomeNewsSportAdapter.ViewHolder>() {
     private val listNewsSportData = ArrayList<ArticlesItem>()
-    private val limit = 5
 
     inner class ViewHolder(private val binding: ItemNewsSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -48,8 +48,8 @@ class HomeNewsSportAdapter : RecyclerView.Adapter<HomeNewsSportAdapter.ViewHolde
     }
 
     override fun getItemCount(): Int {
-        return if (listNewsSportData.size > limit) {
-            limit
+        return if (listNewsSportData.size > Const.LIMIT) {
+            Const.LIMIT
         } else {
             listNewsSportData.size
         }
