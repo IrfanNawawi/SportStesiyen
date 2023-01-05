@@ -1,5 +1,6 @@
 package id.heycoding.sportstesiyen.ui.auth.login
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import id.heycoding.sportstesiyen.databinding.FragmentLoginBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.auth.register.RegisterFragment
+import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class LoginFragment : Fragment() {
 
@@ -52,7 +54,8 @@ class LoginFragment : Fragment() {
     private fun initView() {
         fragmentLoginBinding?.apply {
             btnLogin.setOnClickListener {
-                validateAndLogin()
+                startActivity(Intent(activity, OnBoardingActivity::class.java))
+//                validateAndLogin()
             }
             tvRegister.setOnClickListener {
                 (activity as AuthActivity).moveToFragment(RegisterFragment())

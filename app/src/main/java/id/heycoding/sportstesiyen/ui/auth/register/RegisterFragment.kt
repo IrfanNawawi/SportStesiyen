@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import id.heycoding.sportstesiyen.databinding.FragmentRegisterBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
+import id.heycoding.sportstesiyen.ui.auth.login.LoginFragment
 
 class RegisterFragment : Fragment() {
 
@@ -50,7 +51,9 @@ class RegisterFragment : Fragment() {
     private fun initView() {
         fragmentRegisterBinding?.apply {
             btnRegister.setOnClickListener {
-                validateAndRegister()
+                Toast.makeText(context, "Berhasil Didaftarkan", Toast.LENGTH_LONG).show()
+                (activity as AuthActivity).moveToFragment(LoginFragment())
+//                validateAndRegister()
             }
         }
     }

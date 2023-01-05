@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import id.heycoding.sportstesiyen.databinding.ListSliderOnboardingBinding
 
-class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.ViewHolder>() {
-    private val onBoardingItem = ArrayList<OnBoardingItem>()
+class OnBoardingAdapter(private val listOnBoardingData: ArrayList<OnBoardingItem>) :
+    RecyclerView.Adapter<OnBoardingAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ListSliderOnboardingBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -21,10 +21,10 @@ class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.ViewHolder>() {
     }
 
     fun setOnBoardingData(onBoarding: List<OnBoardingItem>) {
-        val diffCallback = OnBoardingCallback(onBoardingItem, onBoarding)
+        val diffCallback = OnBoardingCallback(listOnBoardingData, onBoarding)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        onBoardingItem.clear()
-        onBoardingItem.addAll(onBoarding)
+        listOnBoardingData.clear()
+        listOnBoardingData.addAll(onBoarding)
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -39,8 +39,8 @@ class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(onBoardingItem[position])
+        holder.bind(listOnBoardingData[position])
     }
 
-    override fun getItemCount(): Int = onBoardingItem.size
+    override fun getItemCount(): Int = listOnBoardingData.size
 }
