@@ -5,8 +5,12 @@ import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import id.heycoding.sportstesiyen.R
@@ -16,6 +20,7 @@ import id.heycoding.sportstesiyen.ui.MainActivity
 class OnBoardingActivity : AppCompatActivity() {
 
     private lateinit var activityOnboardingBinding: ActivityOnboardingBinding
+    private val onBoardingViewModel: OnBoardingViewModel by viewModels()
     private lateinit var onBoardingAdapter: OnBoardingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,52 +28,49 @@ class OnBoardingActivity : AppCompatActivity() {
         activityOnboardingBinding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(activityOnboardingBinding.root)
         supportActionBar?.title = ""
+        onBoardingAdapter = OnBoardingAdapter()
 
-        onBoardingItems()
+        initViewModel()
         setupIndicator()
         setCurrectIndicator(0)
     }
 
-    private fun onBoardingItems() {
-        onBoardingAdapter = OnBoardingAdapter(
-            listOf(
-                OnBoardingItem(
-                    imageOnBoarding = R.drawable.svg_sport_category_onboarding,
-                    titleOnBoarding = resources.getString(R.string.txt_category_onboarding),
-                    descOnBoarding = resources.getString(R.string.txt_ipsum)
-                ),
-                OnBoardingItem(
-                    imageOnBoarding = R.drawable.svg_sport_news_onboarding,
-                    titleOnBoarding = resources.getString(R.string.txt_news_onboarding),
-                    descOnBoarding = resources.getString(R.string.txt_ipsum)
-                ),
-                OnBoardingItem(
-                    imageOnBoarding = R.drawable.svg_sport_listdata_onboarding,
-                    titleOnBoarding = resources.getString(R.string.txt_data_player_onboarding),
-                    descOnBoarding = resources.getString(R.string.txt_ipsum)
-                ),
-            )
-        )
+    private fun initViewModel() {
+        onBoardingViewModel.apply {
+            getOnBoarding()
 
-        activityOnboardingBinding.vpOnboarding.adapter = onBoardingAdapter
-        activityOnboardingBinding.vpOnboarding.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                setCurrectIndicator(position)
-            }
-        })
-        activityOnboardingBinding.vpOnboarding.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-
-        activityOnboardingBinding.tvStartedOnboarding.setOnClickListener {
-            if (activityOnboardingBinding.vpOnboarding.currentItem + 1 < onBoardingAdapter.itemCount) {
-                activityOnboardingBinding.vpOnboarding.currentItem += 1
-            } else {
-                navigateToHomeActivity()
+            listOnBoardingData.observe(this@OnBoardingActivity) { listOnBoardingData ->
+                if (listOnBoardingData != null) {
+                    onBoardingAdapter.setOnBoardingData(listOnBoardingData)
+                }
             }
         }
+    }
 
-        activityOnboardingBinding.tvSkipOnboarding.setOnClickListener {
-            navigateToHomeActivity()
+    private fun initViews() {
+        activityOnboardingBinding.apply {
+            vpOnboarding.apply {
+                adapter = onBoardingAdapter
+                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        super.onPageSelected(position)
+                        setCurrectIndicator(position)
+                    }
+                })
+                getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            }
+
+            tvStartedOnboarding.setOnClickListener {
+                if (vpOnboarding.currentItem + 1 < onBoardingAdapter.itemCount) {
+                    vpOnboarding.currentItem += 1
+                } else {
+                    navigateToHomeActivity()
+                }
+            }
+
+            tvSkipOnboarding.setOnClickListener {
+                navigateToHomeActivity()
+            }
         }
     }
 

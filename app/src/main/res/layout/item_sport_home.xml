@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/mulish_medium_500"
             android:text="@string/txt_dummy"
             android:textSize="16sp" />
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motion_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    app:layoutDescription="@xml/fragment_login_scene">
 
     <LinearLayout
         android:id="@+id/ll_login"
@@ -16,18 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Space
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="120dp"
+            android:src="@drawable/svg_sport_signin" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/mulish_extrabold_800"
             android:text="@string/txt_login_intro"
-            android:textColor="@color/purple_700"
-            android:textSize="32sp" />
+            android:textColor="@color/teal_200"
+            android:textSize="26sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutEmail"
@@ -47,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <id.heycoding.storysubmission.ui.auth.customview.EmailCustomView
+            <id.heycoding.sportstesiyen.ui.auth.customview.EmailCustomView
                 android:id="@+id/edt_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,8 +57,8 @@
                 android:fontFamily="@font/mulish_semibold_600"
                 android:hint="@string/txt_email"
                 android:inputType="textEmailAddress"
-                android:textCursorDrawable="@color/purple_500"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:textCursorDrawable="@color/teal_200"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,14 +78,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutEmail">
 
-            <id.heycoding.storysubmission.ui.auth.customview.PasswordCustomView
+            <id.heycoding.sportstesiyen.ui.auth.customview.PasswordCustomView
                 android:id="@+id/edt_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mulish_semibold_600"
                 android:hint="@string/txt_password"
                 android:inputType="textPassword"
-                android:textCursorDrawable="@color/purple_500"
+                android:textCursorDrawable="@color/teal_200"
                 tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mulish_semibold_600"
                 android:text="@string/txt_login_new_register_click"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/teal_200"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
@@ -127,16 +129,18 @@
     <TextView
         android:id="@+id/btn_login"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
         android:background="@drawable/bg_btn_primary"
         android:fontFamily="@font/mulish_bold_700"
         android:gravity="center"
+        android:padding="10dp"
         android:text="@string/txt_login"
         android:textAlignment="center"
-        android:textColor="@color/bw_100"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

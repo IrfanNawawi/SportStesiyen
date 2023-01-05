@@ -18,6 +18,14 @@
         android:theme="@style/Theme.SportStesiyen"
         tools:targetApi="31">
         <activity
+            android:name=".ui.auth.AuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SportStesiyen.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.onboarding.OnBoardingActivity"
             android:exported="false"
             android:theme="@style/Theme.SportStesiyen.NoActionBar">

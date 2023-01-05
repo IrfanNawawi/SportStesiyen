@@ -1,4 +1,4 @@
-package id.heycoding.storysubmission.ui.auth.customview
+package id.heycoding.sportstesiyen.ui.auth.customview
 
 import android.annotation.SuppressLint
 import android.content.Context

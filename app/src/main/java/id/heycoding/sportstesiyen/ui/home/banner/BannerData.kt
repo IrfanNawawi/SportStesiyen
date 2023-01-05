@@ -1,5 +1,5 @@
 package id.heycoding.sportstesiyen.ui.home.banner
 
-data class ImageData(
+data class BannerData(
     val imgUrl: String
 )

@@ -8,6 +8,7 @@ import android.view.View
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.ActivitySplashBinding
 import id.heycoding.sportstesiyen.ui.MainActivity
+import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class SplashActivity : AppCompatActivity() {

@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,10 +25,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
-import id.heycoding.sportstesiyen.ui.home.banner.ImageAdapter
+import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
 import id.heycoding.sportstesiyen.ui.home.hotnews.HomeNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryAdapter
-import id.heycoding.sportstesiyen.utils.Const
 import java.lang.Math.abs
 
 
@@ -39,7 +37,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var homeSportCategoryAdapter: HomeSportCategoryAdapter
     private lateinit var homeNewsSportAdapter: HomeNewsSportAdapter
-    private lateinit var imageAdapter: ImageAdapter
+    private lateinit var bannerAdapter: BannerAdapter
     private val listSportBannerData = ArrayList<SportsItem>()
     private var sliderhandler = Handler()
 
@@ -56,7 +54,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         homeSportCategoryAdapter = HomeSportCategoryAdapter()
         homeNewsSportAdapter = HomeNewsSportAdapter()
-        imageAdapter = ImageAdapter(fragmentHomeBinding?.vpSportHome, listSportBannerData)
+        bannerAdapter = BannerAdapter(fragmentHomeBinding?.vpSportHome, listSportBannerData)
 
         if (isOnline(requireContext())) {
             initViewModel()
@@ -99,8 +97,8 @@ class HomeFragment : Fragment() {
             listSportData.observe(viewLifecycleOwner) { listSportData ->
                 if (listSportData != null) {
                     homeSportCategoryAdapter.setSportData(listSportData)
-                    imageAdapter.setSportData(listSportData)
-                    Log.d("dapet data nya ","asik ${imageAdapter.itemCount}")
+                    bannerAdapter.setSportData(listSportData)
+                    Log.d("dapet data nya ","asik ${bannerAdapter.itemCount}")
 
 //                    listIndicator(listSportData)
                 }
@@ -120,7 +118,7 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding?.apply {
             // init ViewPager Banner
             vpSportHome.apply {
-                adapter = imageAdapter
+                adapter = bannerAdapter
 
                 offscreenPageLimit = 3
                 clipToPadding = false
@@ -210,7 +208,7 @@ class HomeFragment : Fragment() {
 //    }
 
     private fun setupIndicator() {
-        val indicators = arrayOfNulls<ImageView>(imageAdapter.itemCount)
+        val indicators = arrayOfNulls<ImageView>(bannerAdapter.itemCount)
         val layoutParams : LinearLayout.LayoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -285,6 +283,7 @@ class HomeFragment : Fragment() {
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
         dialog.show()
+        dialog.setCancelable(false)
     }
 
     override fun onResume() {

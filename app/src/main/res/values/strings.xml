@@ -21,4 +21,16 @@
     <string name="txt_skip_onboarding">Skip</string>
     <string name="txt_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="txt_started_onboarding">Get Started</string>
+
+    <string name="txt_login_intro">Halo,\nSilahkan login di sini</string>
+    <string name="txt_register_intro">Halo,\nSilahkan register di sini</string>
+    <string name="txt_username">Username</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_email_invalid">Email Tidak Valid</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_password_invalid">Email Tidak Valid</string>
+    <string name="txt_login_new_register">Belum punya akun ? </string>
+    <string name="txt_login_new_register_click">klik disini</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_register">Register</string>
 </resources>
