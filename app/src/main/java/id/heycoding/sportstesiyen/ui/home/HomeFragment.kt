@@ -284,6 +284,8 @@ class HomeFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
         dialog.setCancelable(false)
+
+
     }
 
     override fun onResume() {
