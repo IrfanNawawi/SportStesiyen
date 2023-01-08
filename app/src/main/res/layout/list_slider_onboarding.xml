@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/img_onboarding"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="150dp"
         android:layout_margin="@dimen/activity_margin"
         android:scaleType="centerCrop"
@@ -39,8 +39,7 @@
         android:fontFamily="@font/mulish_semibold_600"
         android:text="@string/txt_ipsum"
         android:textAlignment="center"
-        android:textColor="@color/teal_700"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_onboarding" />

@@ -1,32 +1,30 @@
 package id.heycoding.sportstesiyen.ui.auth.register
 
-import android.content.SharedPreferences
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentRegisterBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
-import id.heycoding.sportstesiyen.ui.auth.login.LoginFragment
+import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class RegisterFragment : Fragment() {
 
     private var fragmentRegisterBinding: FragmentRegisterBinding? = null
-    private lateinit var authViewModel: AuthViewModel
-    private lateinit var pref: SharedPreferences
-//    private lateinit var userLoginPref: Preferences
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         fragmentRegisterBinding = FragmentRegisterBinding.inflate(inflater, container, false)
-//        initVM()
-//        initPref()
+
         return fragmentRegisterBinding!!.root
     }
 
@@ -36,39 +34,28 @@ class RegisterFragment : Fragment() {
         initView()
     }
 
-    private fun initVM() {
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
-
-//        authViewModel.isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-//        authViewModel.message.observe(viewLifecycleOwner) { showMessage(it) }
-    }
-
-    private fun initPref() {
-//        pref = requireActivity().getSharedPreferences(BuildConfig.PREF_NAME, Context.MODE_PRIVATE)
-//        userLoginPref = Preferences(requireContext())
-    }
-
     private fun initView() {
         fragmentRegisterBinding?.apply {
             btnRegister.setOnClickListener {
-                Toast.makeText(context, "Berhasil Didaftarkan", Toast.LENGTH_LONG).show()
-                (activity as AuthActivity).moveToFragment(LoginFragment())
-//                validateAndRegister()
+                validateAndRegister()
             }
         }
     }
 
     private fun validateAndRegister() {
         if (fragmentRegisterBinding?.edtRegisterUsername?.text!!.isBlank()) {
-            fragmentRegisterBinding?.edtRegisterUsername!!.error = "Username tidak boleh kosong"
+            fragmentRegisterBinding?.edtRegisterUsername!!.error =
+                context?.getString(R.string.txt_username_not_blank)
             return
         } else if (
             fragmentRegisterBinding?.edtRegisterEmail?.text!!.isBlank()) {
-            fragmentRegisterBinding?.edtRegisterEmail!!.error = "Email tidak boleh kosong"
+            fragmentRegisterBinding?.edtRegisterEmail!!.error =
+                context?.getString(R.string.txt_email_not_blank)
             return
         } else if (
             fragmentRegisterBinding?.edtRegisterPassword?.text!!.isBlank()) {
-            fragmentRegisterBinding?.edtRegisterPassword!!.error = "Password tidak boleh kosong"
+            fragmentRegisterBinding?.edtRegisterPassword!!.error =
+                context?.getString(R.string.txt_password_not_blank)
             return
         } else {
             doRegister()
@@ -76,17 +63,22 @@ class RegisterFragment : Fragment() {
     }
 
     private fun doRegister() {
-        val username = fragmentRegisterBinding?.edtRegisterUsername?.text.toString().trim()
+        val userName = fragmentRegisterBinding?.edtRegisterUsername?.text.toString().trim()
         val userEmail = fragmentRegisterBinding?.edtRegisterEmail?.text.toString().trim()
         val userPassword = fragmentRegisterBinding?.edtRegisterPassword?.text.toString().trim()
 
         authViewModel.apply {
-//            doRegister(username, userEmail, userPassword)
-//            isError.observe(viewLifecycleOwner) {
-//                if (it != true) {
-//                    (activity as MainActivity).moveToFragment(HomeFragment())
-//                }
-//            }
+            isCheckingAccount.observe(viewLifecycleOwner) {
+                if (it == true) {
+                    reload()
+                } else {
+                    doRegister(userName, userEmail, userPassword)
+                }
+            }
+
+            isSuccess.observe(viewLifecycleOwner) { reload() }
+            isMessage.observe(viewLifecycleOwner) { showMessage(it) }
+            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
     }
 
@@ -96,8 +88,19 @@ class RegisterFragment : Fragment() {
     }
 
     private fun showMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        authViewModel.doCheckingUser()
+    }
+
+    private fun reload() {
+        startActivity(Intent(activity, OnBoardingActivity::class.java))
+    }
+
 
     override fun onDetach() {
         super.onDetach()

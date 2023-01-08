@@ -11,6 +11,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import id.heycoding.sportstesiyen.R
 
 class PasswordCustomView : AppCompatEditText {
     constructor(context: Context) : super(context) {
@@ -38,7 +39,7 @@ class PasswordCustomView : AppCompatEditText {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length!! < 6) {
-                    error = "Password harus 6 karakter"
+                    error = context.getString(R.string.txt_password_limit)
                 }
             }
 

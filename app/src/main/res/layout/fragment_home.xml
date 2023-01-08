@@ -10,15 +10,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/activity_margin">
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_welcome_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_welcome"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/mulish_semibold_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_username_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_dummy"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="18sp"
+            android:fontFamily="@font/mulish_bold_700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_welcome_home"/>
+
+        <ImageView
+            android:id="@+id/img_search_home"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_search_home"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:layout_marginHorizontal="5dp"/>
 
         <FrameLayout
             android:id="@+id/fm_list_banner_home"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/tv_username_home">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_sport_home"
@@ -54,12 +87,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <LinearLayout
+                android:id="@+id/ll_category_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dots_indicator_vp_sport">
+
+                <TextView
+                    android:id="@+id/tv_category_home"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mulish_semibold_600"
+                    android:text="@string/txt_category_sport_home"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_show_category_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mulish_medium_500"
+                    android:text="@string/txt_show_all_list"
+                    android:textColor="@color/teal_700"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/fm_list_sport_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dots_indicator_vp_sport">
+                app:layout_constraintTop_toBottomOf="@id/ll_category_home">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_sport_home"
@@ -82,24 +147,44 @@
                 </com.facebook.shimmer.ShimmerFrameLayout>
             </FrameLayout>
 
-            <TextView
-                android:id="@+id/tv_hot_news_home"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_hot_news_home"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/mulish_semibold_600"
-                android:text="@string/txt_news_home"
-                android:textColor="@color/black"
-                android:textSize="16sp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fm_list_sport_category" />
+                app:layout_constraintTop_toBottomOf="@id/fm_list_sport_category">
+
+                <TextView
+                    android:id="@+id/tv_hot_news_home"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/mulish_semibold_600"
+                    android:text="@string/txt_news_home"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_show_hot_news_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mulish_medium_500"
+                    android:text="@string/txt_show_all_list"
+                    android:textColor="@color/teal_700"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/fm_list_news_sport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_hot_news_home">
+                app:layout_constraintTop_toBottomOf="@id/ll_hot_news_home">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_news_sport_home"

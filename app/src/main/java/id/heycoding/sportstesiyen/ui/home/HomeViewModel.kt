@@ -1,8 +1,13 @@
 package id.heycoding.sportstesiyen.ui.home
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.remote.MainWebServices
 import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_NEWSAPI
 import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_THESPORTDB
@@ -29,8 +34,28 @@ class HomeViewModel : ViewModel() {
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
+    private val _isValidate = MutableLiveData<Boolean>()
+    val isValidate: LiveData<Boolean> = _isValidate
+
+    private val _isCheckingAccount = MutableLiveData<String>()
+    val isCheckingAccount: LiveData<String> = _isCheckingAccount
+
     private val servicesTheSportDB = MainWebServices(BASE_URL_THESPORTDB)
     private val servicesNewsAPI = MainWebServices(BASE_URL_NEWSAPI)
+
+    private var auth: FirebaseAuth = Firebase.auth
+
+    fun doCheckingUser() {
+        val user = auth.currentUser
+        if (user != null) {
+            _isCheckingAccount.value = user.displayName
+        }
+    }
+
+    fun doSignOut() {
+        auth.signOut()
+        _isValidate.value = true
+    }
 
     fun getAllSportsData() {
         servicesTheSportDB.getAllSports()

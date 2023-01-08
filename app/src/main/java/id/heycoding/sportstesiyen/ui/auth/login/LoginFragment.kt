@@ -1,15 +1,14 @@
 package id.heycoding.sportstesiyen.ui.auth.login
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentLoginBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
@@ -19,17 +18,13 @@ import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 class LoginFragment : Fragment() {
 
     private var fragmentLoginBinding: FragmentLoginBinding? = null
-    private lateinit var authViewModel: AuthViewModel
-    private lateinit var pref: SharedPreferences
-//    private lateinit var userLoginPref: Preferences
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
-//        initVM()
-//        initPref()
         return fragmentLoginBinding!!.root
     }
 
@@ -39,23 +34,10 @@ class LoginFragment : Fragment() {
         initView()
     }
 
-    private fun initVM() {
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
-
-//        authViewModel.isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-//        authViewModel.message.observe(viewLifecycleOwner) { showMessage(it) }
-    }
-
-    private fun initPref() {
-//        pref = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-//        userLoginPref = Preferences(requireContext())
-    }
-
     private fun initView() {
         fragmentLoginBinding?.apply {
             btnLogin.setOnClickListener {
-                startActivity(Intent(activity, OnBoardingActivity::class.java))
-//                validateAndLogin()
+                validateAndLogin()
             }
             tvRegister.setOnClickListener {
                 (activity as AuthActivity).moveToFragment(RegisterFragment())
@@ -65,10 +47,12 @@ class LoginFragment : Fragment() {
 
     private fun validateAndLogin() {
         if (fragmentLoginBinding?.edtLoginEmail?.text!!.isBlank()) {
-            fragmentLoginBinding?.edtLoginEmail?.error = "Email tidak boleh kosong"
+            fragmentLoginBinding?.edtLoginEmail?.error =
+                context?.getString(R.string.txt_email_not_blank)
             return
         } else if (fragmentLoginBinding?.edtLoginPassword?.text!!.isBlank()) {
-            fragmentLoginBinding?.edtLoginPassword!!.error = "Password tidak boleh kosong"
+            fragmentLoginBinding?.edtLoginPassword!!.error =
+                context?.getString(R.string.txt_password_not_blank)
             return
         } else {
             doLogin()
@@ -80,32 +64,22 @@ class LoginFragment : Fragment() {
         val userPassword = fragmentLoginBinding?.edtLoginPassword?.text.toString().trim()
 
         authViewModel.apply {
-//            doLogin(userEmail, userPassword)
-//            userLogin.observe(viewLifecycleOwner) {
-//                if (it != null) {
-//                    //save the login session
-//
-//                    val currentUser = AuthSession(
-//                        it.name,
-//                        it.token,
-//                        it.userId,
-//                        true
-//                    )
-//
-//                    userLoginPref.setUserLogin(currentUser)
-//
-//                    AlertDialog.Builder(requireContext()).apply {
-//                        setTitle("Login Berhasil")
-//                        setMessage("Logged atas nama ${it.name}!")
-//                        setPositiveButton("Ok") { _, _ ->
-//                            (activity as MainActivity).moveToFragment(HomeFragment())
-//                        }
-//                        create()
-//                        show()
-//                    }
-//                }
-//
-//            }
+            doCheckingUser()
+            isCheckingAccount.observe(viewLifecycleOwner) {
+                if (it == true) {
+                    reload()
+                } else {
+                    doLogin(userEmail, userPassword)
+                }
+            }
+
+            isSuccess.observe(viewLifecycleOwner) {
+                if (it == true) {
+                    reload()
+                }
+            }
+            isMessage.observe(viewLifecycleOwner) { showMessage(it) }
+            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
 
     }
@@ -115,7 +89,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun showMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+//        doLogin()
+    }
+
+    private fun reload() {
+        startActivity(Intent(activity, OnBoardingActivity::class.java))
     }
 
     override fun onDetach() {

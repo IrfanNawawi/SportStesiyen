@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SportStesiyen</string>
     <string name="title_activity_main">MainActivity</string>
@@ -29,9 +28,16 @@
     <string name="txt_email">Email</string>
     <string name="txt_email_invalid">Email Tidak Valid</string>
     <string name="txt_password">Password</string>
+    <string name="txt_username_not_blank">Username tidak boleh kosong</string>
+    <string name="txt_email_not_blank">Email tidak boleh kosong</string>
     <string name="txt_password_invalid">Email Tidak Valid</string>
+    <string name="txt_password_not_blank">Password tidak boleh kosong</string>
+    <string name="txt_password_limit">Password harus 6 karakter</string>
     <string name="txt_login_new_register">Belum punya akun ? </string>
     <string name="txt_login_new_register_click">klik disini</string>
     <string name="txt_login">Login</string>
     <string name="txt_register">Register</string>
+    <string name="txt_welcome">Welcome </string>
+    <string name="txt_show_all_list">Show All</string>
+    <string name="txt_category_sport_home">Category Sport</string>
 </resources>

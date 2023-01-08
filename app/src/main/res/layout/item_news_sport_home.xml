@@ -3,51 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/newsLayoutRoot"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
+    android:layout_width="180dp"
+    android:layout_height="205dp"
     android:layout_marginVertical="@dimen/activity_margin"
     android:layout_marginStart="2dp"
     android:layout_marginEnd="@dimen/activity_margin"
     android:orientation="horizontal"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingHorizontal="5dp"
-        android:paddingTop="5dp"
         android:paddingBottom="@dimen/activity_padding">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_image_news_home"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/img_news_home"
+            android:layout_width="180dp"
             android:layout_height="100dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp"
+            android:contentDescription="@string/txt_news_home"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/img_news_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/txt_news_home"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_launcher_background" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_date_news_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:layout_marginTop="@dimen/activity_margin"
             android:fontFamily="@font/mulish_regular_400"
             android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_image_news_home"
+            app:layout_constraintTop_toBottomOf="@+id/img_news_home"
             tools:text="2 days ago" />
 
         <TextView
@@ -55,10 +46,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin"
+            android:paddingHorizontal="12dp"
+            android:fontFamily="@font/mulish_semibold_600"
             android:maxLines="2"
             android:textColor="@color/black"
-            android:fontFamily="@font/mulish_medium_500"
-            android:textSize="13sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_date_news_home"
             tools:text="Kansas Jayhawks vs. Arkansas Razorbacks Live Score and Stats - December 28, 2022 Gametracker - CBS Sports" />
@@ -67,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/activity_margin"
+            android:paddingHorizontal="12dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/tv_title_news_home"
@@ -78,11 +71,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:layout_weight="1"
-                android:fontFamily="@font/mulish_regular_400"
+                android:fontFamily="@font/mulish_medium_500"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:text="Youtube" />
 
             <ImageView
@@ -90,9 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:contentDescription="@string/txt_news_home"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/more"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@drawable/more" />
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

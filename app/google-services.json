@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "2317023789",
+    "project_id": "sportstesiyen",
+    "storage_bucket": "sportstesiyen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2317023789:android:a62371a64c819e09db16a4",
+        "android_client_info": {
+          "package_name": "id.heycoding.sportstesiyen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2317023789-6eltl86f0korij2ij86niifkq8ogkbom.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.heycoding.sportstesiyen",
+            "certificate_hash": "20fd419941b20a126f8c4362623c5cbc6a2417ba"
+          }
+        },
+        {
+          "client_id": "2317023789-k3vgnmgbcsoe5h0qldmv4al695d51538.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX8ROeX0Mi_gBZBHXDRfSWlG9CGzlKLw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2317023789-k3vgnmgbcsoe5h0qldmv4al695d51538.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

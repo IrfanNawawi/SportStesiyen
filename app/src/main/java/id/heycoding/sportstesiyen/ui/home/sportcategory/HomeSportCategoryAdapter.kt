@@ -21,6 +21,7 @@ class HomeSportCategoryAdapter : RecyclerView.Adapter<HomeSportCategoryAdapter.V
                     .into(imgSportHome)
 
                 tvSportHome.text = sport.strSport
+                tvSportFormatHome.text = sport.strFormat
             }
         }
     }

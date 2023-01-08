@@ -1,6 +1,7 @@
 package id.heycoding.sportstesiyen.ui.home
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -25,9 +26,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
+import id.heycoding.sportstesiyen.ui.auth.AuthActivity
+import id.heycoding.sportstesiyen.ui.auth.login.LoginFragment
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
 import id.heycoding.sportstesiyen.ui.home.hotnews.HomeNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryAdapter
+import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 import java.lang.Math.abs
 
 
@@ -90,6 +94,7 @@ class HomeFragment : Fragment() {
         homeViewModel.apply {
 
             // fetch API
+            doCheckingUser()
             getAllSportsData()
             getNewsSportData()
 
@@ -98,7 +103,6 @@ class HomeFragment : Fragment() {
                 if (listSportData != null) {
                     homeSportCategoryAdapter.setSportData(listSportData)
                     bannerAdapter.setSportData(listSportData)
-                    Log.d("dapet data nya ","asik ${bannerAdapter.itemCount}")
 
 //                    listIndicator(listSportData)
                 }
@@ -111,6 +115,12 @@ class HomeFragment : Fragment() {
             }
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
+            isCheckingAccount.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    fragmentHomeBinding?.tvUsernameHome?.text = it
+                }
+            }
+            isValidate.observe(viewLifecycleOwner) { showSignOut() }
         }
     }
 
@@ -138,7 +148,6 @@ class HomeFragment : Fragment() {
                     ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
-                        Log.d("dapet data nya ","asik $position")
                         setCurrectIndicator(position)
                         sliderhandler.removeCallbacks(sliderRunnable)
                         sliderhandler.postDelayed(sliderRunnable, 3000)
@@ -167,6 +176,10 @@ class HomeFragment : Fragment() {
 
                 val snapHelper: SnapHelper = LinearSnapHelper()
                 snapHelper.attachToRecyclerView(rvNewsSportHome)
+            }
+
+            imgSearchHome.setOnClickListener {
+                homeViewModel.doSignOut()
             }
         }
     }
@@ -209,7 +222,7 @@ class HomeFragment : Fragment() {
 
     private fun setupIndicator() {
         val indicators = arrayOfNulls<ImageView>(bannerAdapter.itemCount)
-        val layoutParams : LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+        val layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
@@ -284,8 +297,10 @@ class HomeFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
         dialog.setCancelable(false)
+    }
 
-
+    private fun showSignOut() {
+        startActivity(Intent(activity, AuthActivity::class.java))
     }
 
     override fun onResume() {
