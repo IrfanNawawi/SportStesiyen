@@ -25,6 +25,8 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        doCheckingAccount()
         return fragmentLoginBinding!!.root
     }
 
@@ -45,6 +47,16 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun doCheckingAccount() {
+        authViewModel.doCheckingUser()
+        authViewModel.isCheckingAccount.observe(viewLifecycleOwner) {
+            if (it == true) {
+                reload()
+            }
+        }
+
+    }
+
     private fun validateAndLogin() {
         if (fragmentLoginBinding?.edtLoginEmail?.text!!.isBlank()) {
             fragmentLoginBinding?.edtLoginEmail?.error =
@@ -55,29 +67,17 @@ class LoginFragment : Fragment() {
                 context?.getString(R.string.txt_password_not_blank)
             return
         } else {
-            doLogin()
+            doSignAccount()
         }
     }
 
-    private fun doLogin() {
+    private fun doSignAccount() {
         val userEmail = fragmentLoginBinding?.edtLoginEmail?.text.toString().trim()
         val userPassword = fragmentLoginBinding?.edtLoginPassword?.text.toString().trim()
 
         authViewModel.apply {
-            doCheckingUser()
-            isCheckingAccount.observe(viewLifecycleOwner) {
-                if (it == true) {
-                    reload()
-                } else {
-                    doLogin(userEmail, userPassword)
-                }
-            }
-
-            isSuccess.observe(viewLifecycleOwner) {
-                if (it == true) {
-                    reload()
-                }
-            }
+            doLogin(userEmail, userPassword)
+            isSuccess.observe(viewLifecycleOwner) { reload() }
             isMessage.observe(viewLifecycleOwner) { showMessage(it) }
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
@@ -95,7 +95,7 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-//        doLogin()
+        doCheckingAccount()
     }
 
     private fun reload() {

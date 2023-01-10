@@ -29,6 +29,7 @@ import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.login.LoginFragment
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
+import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.ui.home.hotnews.HomeNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryAdapter
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
@@ -42,7 +43,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeSportCategoryAdapter: HomeSportCategoryAdapter
     private lateinit var homeNewsSportAdapter: HomeNewsSportAdapter
     private lateinit var bannerAdapter: BannerAdapter
-    private val listSportBannerData = ArrayList<SportsItem>()
+    private val listSportBannerData = ArrayList<BannerData>()
     private var sliderhandler = Handler()
 
     override fun onCreateView(
@@ -63,8 +64,8 @@ class HomeFragment : Fragment() {
         if (isOnline(requireContext())) {
             initViewModel()
             initViews()
-//            setupIndicator()
-//            setCurrectIndicator(0)
+            setupIndicator()
+            setCurrectIndicator(0)
         } else {
             showError()
         }
@@ -99,12 +100,12 @@ class HomeFragment : Fragment() {
             getNewsSportData()
 
             // observe ViewModel
+            val onBannerData = getBannerData()
+            bannerAdapter.setBannerData(onBannerData)
+
             listSportData.observe(viewLifecycleOwner) { listSportData ->
                 if (listSportData != null) {
                     homeSportCategoryAdapter.setSportData(listSportData)
-                    bannerAdapter.setSportData(listSportData)
-
-//                    listIndicator(listSportData)
                 }
             }
 
@@ -133,7 +134,6 @@ class HomeFragment : Fragment() {
                 offscreenPageLimit = 3
                 clipToPadding = false
                 clipChildren = false
-                getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
                 val compositePageTransformer = CompositePageTransformer()
                 compositePageTransformer.addTransformer(MarginPageTransformer(30))
@@ -153,6 +153,7 @@ class HomeFragment : Fragment() {
                         sliderhandler.postDelayed(sliderRunnable, 3000)
                     }
                 })
+                getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             }
 
             // init List Sport Category
@@ -184,48 +185,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-//    private fun listIndicator(sliderList: List<SportsItem>) {
-//        dots = ArrayList()
-//        Log.d("Test Indicator", "nilai nya")
-//        dots.add(TextView(requireContext()))
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            dots[i].text = Html.fromHtml("&#9679", Html.FROM_HTML_MODE_LEGACY).toString()
-//        } else {
-//            dots[i].text = Html.fromHtml("&#9679")
-//        }
-//        dots[i].textSize = 18f
-//        fragmentHomeBinding?.dotsIndicatorVpSport?.addView(dots[i])
-//
-//        fragmentHomeBinding?.vpSportHome?.registerOnPageChangeCallback(object :
-//            ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                selectedDots(sliderList, position)
-//                sliderhandler.removeCallbacks(sliderRunnable)
-//                sliderhandler.postDelayed(sliderRunnable, 3000)
-//                super.onPageSelected(position)
-//            }
-//        })
-//    }
-//
-//    private fun selectedDots(sliderList: List<SportsItem>, position: Int) {
-//        for (i in sliderList.indices) {
-//            for (j in i until Const.LIMIT) {
-//                if (i == position) {
-//                    dots[i].setTextColor(ContextCompat.getColor(requireContext(), R.color.teal_700))
-//                } else {
-//                    dots[i].setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-//                }
-//            }
-//        }
-//    }
-
     private fun setupIndicator() {
         val indicators = arrayOfNulls<ImageView>(bannerAdapter.itemCount)
-        val layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        val layoutParams: LinearLayout.LayoutParams =
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         layoutParams.setMargins(8, 0, 8, 0)
         for (i in indicators.indices) {
             indicators[i] = ImageView(requireContext())
@@ -237,15 +203,16 @@ class HomeFragment : Fragment() {
                     )
                 )
                 it.layoutParams = layoutParams
-                fragmentHomeBinding?.dotsIndicatorVpSport?.addView(it)
+                fragmentHomeBinding?.llIndicatorBannerHome?.addView(it)
             }
         }
     }
 
     private fun setCurrectIndicator(position: Int) {
-        val childCount = fragmentHomeBinding?.dotsIndicatorVpSport?.childCount
+        val childCount = fragmentHomeBinding?.llIndicatorBannerHome?.childCount
         for (i in 0 until childCount!!) {
-            val imageView = fragmentHomeBinding?.dotsIndicatorVpSport?.getChildAt(i) as ImageView
+            val imageView =
+                fragmentHomeBinding?.llIndicatorBannerHome?.getChildAt(i) as ImageView
             if (i == position) {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(

@@ -24,7 +24,7 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentRegisterBinding = FragmentRegisterBinding.inflate(inflater, container, false)
-
+        doCheckingAccount()
         return fragmentRegisterBinding!!.root
     }
 
@@ -38,6 +38,15 @@ class RegisterFragment : Fragment() {
         fragmentRegisterBinding?.apply {
             btnRegister.setOnClickListener {
                 validateAndRegister()
+            }
+        }
+    }
+
+    private fun doCheckingAccount() {
+        authViewModel.doCheckingUser()
+        authViewModel.isCheckingAccount.observe(viewLifecycleOwner) {
+            if (it == true) {
+                reload()
             }
         }
     }
@@ -68,13 +77,8 @@ class RegisterFragment : Fragment() {
         val userPassword = fragmentRegisterBinding?.edtRegisterPassword?.text.toString().trim()
 
         authViewModel.apply {
-            isCheckingAccount.observe(viewLifecycleOwner) {
-                if (it == true) {
-                    reload()
-                } else {
-                    doRegister(userName, userEmail, userPassword)
-                }
-            }
+
+            doRegister(userName, userEmail, userPassword)
 
             isSuccess.observe(viewLifecycleOwner) { reload() }
             isMessage.observe(viewLifecycleOwner) { showMessage(it) }
@@ -94,7 +98,7 @@ class RegisterFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        authViewModel.doCheckingUser()
+        doCheckingAccount()
     }
 
     private fun reload() {

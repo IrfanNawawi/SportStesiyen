@@ -14,6 +14,9 @@ import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesItem
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.data.remote.response.TeamsItem
+import id.heycoding.sportstesiyen.ui.home.banner.BannerData
+import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingItem
+import id.heycoding.sportstesiyen.utils.DataDummy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -56,6 +59,8 @@ class HomeViewModel : ViewModel() {
         auth.signOut()
         _isValidate.value = true
     }
+
+    fun getBannerData(): List<BannerData> = DataDummy.generateDummyBanner()
 
     fun getAllSportsData() {
         servicesTheSportDB.getAllSports()

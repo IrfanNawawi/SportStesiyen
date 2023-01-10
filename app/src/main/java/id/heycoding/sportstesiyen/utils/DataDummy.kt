@@ -1,6 +1,7 @@
 package id.heycoding.sportstesiyen.utils
 
 import id.heycoding.sportstesiyen.R
+import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingItem
 
 object DataDummy {
@@ -28,6 +29,41 @@ object DataDummy {
             )
         )
         return onBoarding
+    }
+
+    fun generateDummyBanner(): ArrayList<BannerData> {
+        val banner = ArrayList<BannerData>()
+        banner.add(
+            BannerData(
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+            )
+        )
+        banner.add(
+            BannerData(
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+            )
+        )
+        banner.add(
+            BannerData(
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+            )
+        )
+        banner.add(
+            BannerData(
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+            )
+        )
+        banner.add(
+            BannerData(
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+            )
+        )
+        banner.add(
+            BannerData(
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+            )
+        )
+        return banner
     }
 
 }
