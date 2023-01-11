@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentRegisterBinding
+import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
@@ -102,7 +103,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun reload() {
-        startActivity(Intent(activity, OnBoardingActivity::class.java))
+        startActivity(Intent(activity, MainActivity::class.java))
     }
 
 

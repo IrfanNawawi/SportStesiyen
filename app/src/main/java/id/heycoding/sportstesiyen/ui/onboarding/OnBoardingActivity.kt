@@ -2,7 +2,6 @@ package id.heycoding.sportstesiyen.ui.onboarding
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.ActivityOnboardingBinding
-import id.heycoding.sportstesiyen.ui.MainActivity
+import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 
 class OnBoardingActivity : AppCompatActivity() {
 
@@ -59,18 +58,18 @@ class OnBoardingActivity : AppCompatActivity() {
                 if (vpOnboarding.currentItem + 1 < onBoardingAdapter.itemCount) {
                     vpOnboarding.currentItem += 1
                 } else {
-                    navigateToHomeActivity()
+                    navigateToAuthActivity()
                 }
             }
 
             tvSkipOnboarding.setOnClickListener {
-                navigateToHomeActivity()
+                navigateToAuthActivity()
             }
         }
     }
 
-    private fun navigateToHomeActivity() {
-        startActivity(Intent(applicationContext, MainActivity::class.java))
+    private fun navigateToAuthActivity() {
+        startActivity(Intent(applicationContext, AuthActivity::class.java))
         finish()
     }
 
