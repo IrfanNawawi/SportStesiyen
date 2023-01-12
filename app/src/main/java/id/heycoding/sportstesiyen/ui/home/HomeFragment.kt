@@ -24,15 +24,13 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
-import id.heycoding.sportstesiyen.ui.auth.login.LoginFragment
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
-import id.heycoding.sportstesiyen.ui.home.hotnews.HomeNewsSportAdapter
+import id.heycoding.sportstesiyen.ui.home.everything.HomeEverythingNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryAdapter
-import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
+import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportAdapter
 import java.lang.Math.abs
 
 
@@ -41,7 +39,8 @@ class HomeFragment : Fragment() {
     private var fragmentHomeBinding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var homeSportCategoryAdapter: HomeSportCategoryAdapter
-    private lateinit var homeNewsSportAdapter: HomeNewsSportAdapter
+    private lateinit var homeTopHeadlineNewsSportAdapter: HomeTopHeadlineNewsSportAdapter
+    private lateinit var homeEverythingNewsSportAdapter: HomeEverythingNewsSportAdapter
     private lateinit var bannerAdapter: BannerAdapter
     private val listSportBannerData = ArrayList<BannerData>()
     private var sliderhandler = Handler()
@@ -58,7 +57,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeSportCategoryAdapter = HomeSportCategoryAdapter()
-        homeNewsSportAdapter = HomeNewsSportAdapter()
+        homeTopHeadlineNewsSportAdapter = HomeTopHeadlineNewsSportAdapter()
+        homeEverythingNewsSportAdapter = HomeEverythingNewsSportAdapter()
         bannerAdapter = BannerAdapter(fragmentHomeBinding?.vpSportHome, listSportBannerData)
 
         if (isOnline(requireContext())) {
@@ -97,7 +97,8 @@ class HomeFragment : Fragment() {
             // fetch API
             doCheckingUser()
             getAllSportsData()
-            getNewsSportData()
+            getTopHeadlineNewsSportData()
+            getEverythingNewsSportData()
 
             // observe ViewModel
             val onBannerData = getBannerData()
@@ -109,9 +110,15 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            listNewsSportData.observe(viewLifecycleOwner) {
+            listTopHeadlineNewsSportData.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    homeNewsSportAdapter.setNewsSportData(it)
+                    homeTopHeadlineNewsSportAdapter.setTopHeadlineNewsSportData(it)
+                }
+            }
+
+            listEverythingNewsSportData.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    homeEverythingNewsSportAdapter.setEverythingNewsSportData(it)
                 }
             }
 
@@ -167,16 +174,28 @@ class HomeFragment : Fragment() {
             }
 
             // init List News Sport
-            rvNewsSportHome.apply {
+            rvTopHeadlineNewsSportHome.apply {
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
-                adapter = homeNewsSportAdapter
+                adapter = homeTopHeadlineNewsSportAdapter
                 clipToPadding = false
                 clipChildren = false
 
                 val snapHelper: SnapHelper = LinearSnapHelper()
-                snapHelper.attachToRecyclerView(rvNewsSportHome)
+                snapHelper.attachToRecyclerView(rvTopHeadlineNewsSportHome)
+            }
+
+            rvEverythingNewsSportHome.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                adapter = homeEverythingNewsSportAdapter
+                clipToPadding = false
+                clipChildren = false
+
+                val snapHelper: SnapHelper = LinearSnapHelper()
+                snapHelper.attachToRecyclerView(rvEverythingNewsSportHome)
             }
 
             imgSearchHome.setOnClickListener {
@@ -244,8 +263,11 @@ class HomeFragment : Fragment() {
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.startShimmer()
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.visibility = View.VISIBLE
 
-            fragmentHomeBinding?.pgShimmerNewsHome?.startShimmer()
-            fragmentHomeBinding?.pgShimmerNewsHome?.visibility = View.VISIBLE
+            fragmentHomeBinding?.pgShimmerTopHeadlineNewsHome?.startShimmer()
+            fragmentHomeBinding?.pgShimmerTopHeadlineNewsHome?.visibility = View.VISIBLE
+
+            fragmentHomeBinding?.pgShimmerEverythingNewsHome?.startShimmer()
+            fragmentHomeBinding?.pgShimmerEverythingNewsHome?.visibility = View.VISIBLE
         } else {
             fragmentHomeBinding?.pgShimmerBannerHome?.stopShimmer()
             fragmentHomeBinding?.pgShimmerBannerHome?.visibility = View.GONE
@@ -253,8 +275,11 @@ class HomeFragment : Fragment() {
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.stopShimmer()
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.visibility = View.GONE
 
-            fragmentHomeBinding?.pgShimmerNewsHome?.stopShimmer()
-            fragmentHomeBinding?.pgShimmerNewsHome?.visibility = View.GONE
+            fragmentHomeBinding?.pgShimmerTopHeadlineNewsHome?.stopShimmer()
+            fragmentHomeBinding?.pgShimmerTopHeadlineNewsHome?.visibility = View.GONE
+
+            fragmentHomeBinding?.pgShimmerEverythingNewsHome?.stopShimmer()
+            fragmentHomeBinding?.pgShimmerEverythingNewsHome?.visibility = View.GONE
         }
     }
 

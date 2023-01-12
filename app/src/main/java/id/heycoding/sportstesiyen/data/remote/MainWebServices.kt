@@ -3,7 +3,8 @@ package id.heycoding.sportstesiyen.data.remote
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import id.heycoding.sportstesiyen.data.remote.response.AllSportsResponse
-import id.heycoding.sportstesiyen.data.remote.response.NewsSportResponse
+import id.heycoding.sportstesiyen.data.remote.response.EverythingNewsSportResponse
+import id.heycoding.sportstesiyen.data.remote.response.TopHeadlineNewsSportResponse
 import id.heycoding.sportstesiyen.data.remote.response.TeamsLeagueResponse
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -23,12 +24,21 @@ interface MainWebServices {
     @GET(EndPoint.Sports.GET_ALL_TEAMS_IN_LEAGUE)
     fun getAllTeamsInLeague(@Query("l") league: String): Observable<TeamsLeagueResponse>
 
-    @GET(EndPoint.NewsSports.GET_NEWS_SPORT)
-    fun getAllNewsSport(
+    @GET(EndPoint.NewsSports.GET_TOP_HEADLINES_NEWS_SPORT)
+    fun getTopHeadlineNewsSport(
         @Query("country") country: String,
         @Query("category") category: String,
         @Query("apiKey") apiKey: String
-    ): Observable<NewsSportResponse>
+    ): Observable<TopHeadlineNewsSportResponse>
+
+    @GET(EndPoint.NewsSports.GET_EVERYTHING_NEWS_SPORT)
+    fun getEverythingNewsSport(
+        @Query("q") q: String,
+        @Query("from") fr: String,
+        @Query("to") to: String,
+        @Query("sortBy") sortBy: String,
+        @Query("apiKey") apiKey: String
+    ): Observable<EverythingNewsSportResponse>
 
     companion object {
 
@@ -67,6 +77,9 @@ interface MainWebServices {
         const val API_KEY_NEWSAPI = "835d5b8b0de0440ab3eb8aaf2410d374"
         const val COUNTRY_NEWSAPI = "us"
         const val CATEGORY_NEWSAPI = "sport"
+        const val FROM_NEWSAPI = "2023-01-01"
+        const val TO_NEWSAPI = "2023-12-31"
+        const val SORT_NEWSAPI = "popularity"
 
         object Sports {
             const val GET_ALL_SPORTS = "all_sports.php"
@@ -74,7 +87,8 @@ interface MainWebServices {
         }
 
         object NewsSports {
-            const val GET_NEWS_SPORT = "top-headlines"
+            const val GET_TOP_HEADLINES_NEWS_SPORT = "top-headlines"
+            const val GET_EVERYTHING_NEWS_SPORT = "everything"
         }
     }
 }

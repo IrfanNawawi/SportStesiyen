@@ -1,14 +1,15 @@
-package id.heycoding.sportstesiyen.ui.home.hotnews
+package id.heycoding.sportstesiyen.ui.home.everything
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import id.heycoding.sportstesiyen.data.remote.response.ArticlesItem
+import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
 
-class HomeNewsSportCallback(
-    private val oldList: List<ArticlesItem>,
-    private val newList: List<ArticlesItem>
+class HomeEverythingNewsSportCallback(
+    private val oldList: List<ArticlesEverything>,
+    private val newList: List<ArticlesEverything>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
+
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

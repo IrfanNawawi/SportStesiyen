@@ -26,7 +26,7 @@
                 android:layout_width="180dp"
                 android:layout_height="100dp"
                 android:background="@color/bw_300"
-                android:contentDescription="@string/txt_news_home"
+                android:contentDescription="@string/txt_top_headline_news_home"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +91,7 @@
                 android:layout_width="180dp"
                 android:layout_height="100dp"
                 android:background="@color/bw_300"
-                android:contentDescription="@string/txt_news_home"
+                android:contentDescription="@string/txt_top_headline_news_home"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -2,19 +2,19 @@ package id.heycoding.sportstesiyen.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class NewsSportResponse(
+data class TopHeadlineNewsSportResponse(
 
 	@field:SerializedName("totalResults")
 	val totalResults: Int? = null,
 
 	@field:SerializedName("articles")
-	val articles: List<ArticlesItem>,
+	val articles: List<ArticlesTopHeadline>,
 
 	@field:SerializedName("status")
 	val status: String? = null
 )
 
-data class ArticlesItem(
+data class ArticlesTopHeadline(
 
 	@field:SerializedName("publishedAt")
 	val publishedAt: String? = null,
@@ -29,7 +29,7 @@ data class ArticlesItem(
 	val description: String? = null,
 
 	@field:SerializedName("source")
-	val source: Source? = null,
+	val source: SourceTopHeadline? = null,
 
 	@field:SerializedName("title")
 	val title: String? = null,
@@ -41,11 +41,11 @@ data class ArticlesItem(
 	val content: String? = null
 )
 
-data class Source(
+data class SourceTopHeadline(
 
 	@field:SerializedName("name")
 	val name: String? = null,
 
 	@field:SerializedName("id")
-	val id: Any? = null
+	val id: String? = null
 )

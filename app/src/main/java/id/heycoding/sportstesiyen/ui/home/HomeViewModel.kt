@@ -1,21 +1,19 @@
 package id.heycoding.sportstesiyen.ui.home
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.remote.MainWebServices
 import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_NEWSAPI
 import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_THESPORTDB
-import id.heycoding.sportstesiyen.data.remote.response.ArticlesItem
+import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
+import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.data.remote.response.TeamsItem
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
-import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingItem
 import id.heycoding.sportstesiyen.utils.DataDummy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -25,8 +23,13 @@ class HomeViewModel : ViewModel() {
     private val _listSportData = MutableLiveData<List<SportsItem>>()
     val listSportData: LiveData<List<SportsItem>> = _listSportData
 
-    private val _listNewsSportData = MutableLiveData<List<ArticlesItem>>()
-    val listNewsSportData: LiveData<List<ArticlesItem>> = _listNewsSportData
+    private val _listTopHeadlineNewsSportData = MutableLiveData<List<ArticlesTopHeadline>>()
+    val listTopHeadlineNewsSportData: LiveData<List<ArticlesTopHeadline>> =
+        _listTopHeadlineNewsSportData
+
+    private val _listEverythingNewsSportData = MutableLiveData<List<ArticlesEverything>>()
+    val listEverythingNewsSportData: LiveData<List<ArticlesEverything>> =
+        _listEverythingNewsSportData
 
     private val _listTeamLeagueData = MutableLiveData<List<TeamsItem>>()
     val listTeamsLeagueData: LiveData<List<TeamsItem>> = _listTeamLeagueData
@@ -82,8 +85,8 @@ class HomeViewModel : ViewModel() {
             })
     }
 
-    fun getNewsSportData() {
-        servicesNewsAPI.getAllNewsSport(
+    fun getTopHeadlineNewsSportData() {
+        servicesNewsAPI.getTopHeadlineNewsSport(
             MainWebServices.EndPoint.COUNTRY_NEWSAPI,
             MainWebServices.EndPoint.CATEGORY_NEWSAPI,
             MainWebServices.EndPoint.API_KEY_NEWSAPI
@@ -98,7 +101,32 @@ class HomeViewModel : ViewModel() {
             }
             .subscribe({
                 _isLoading.value = false
-                _listNewsSportData.postValue(it.articles)
+                _listTopHeadlineNewsSportData.postValue(it.articles)
+            }, {
+                _isLoading.value = false
+                _isError.value = true
+            })
+    }
+
+    fun getEverythingNewsSportData() {
+        servicesNewsAPI.getEverythingNewsSport(
+            MainWebServices.EndPoint.CATEGORY_NEWSAPI,
+            MainWebServices.EndPoint.FROM_NEWSAPI,
+            MainWebServices.EndPoint.TO_NEWSAPI,
+            MainWebServices.EndPoint.SORT_NEWSAPI,
+            MainWebServices.EndPoint.API_KEY_NEWSAPI
+        )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                _isLoading.value = true
+            }
+            .doOnError {
+                _isLoading.value = false
+            }
+            .subscribe({
+                _isLoading.value = false
+                _listEverythingNewsSportData.postValue(it.articles)
             }, {
                 _isLoading.value = false
                 _isError.value = true

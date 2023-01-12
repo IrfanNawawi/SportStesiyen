@@ -67,8 +67,19 @@ object Helper {
             } else {
                 "$weeks weeks ago"
             }
+        } else if (months <= 12) {
+            return if (months == 1) {
+                "a month ago"
+            } else {
+                "$months months ago"
+            }
+        } else {
+            return if (years == 1) {
+                "a years ago"
+            } else {
+                "$years years ago"
+            }
         }
-        return null
     }
 
     private fun timestampToMilli(time: Long): Long {

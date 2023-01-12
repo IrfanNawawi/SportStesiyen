@@ -14,7 +14,8 @@
     <string name="txt_score_onboarding">Score Sport</string>
     <string name="txt_data_player_onboarding">Data Player Sport</string>
 
-    <string name="txt_news_home">Hottest News</string>
+    <string name="txt_top_headline_news_home">Top Headline News</string>
+    <string name="txt_everything_news_home">Everything News</string>
     <string name="txt_banner_home">Banner Home</string>
     <string name="txt_next_onboarding">Next</string>
     <string name="txt_back_onboarding">Back</string>
