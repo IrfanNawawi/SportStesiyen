@@ -18,17 +18,18 @@ import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class LoginFragment : Fragment() {
 
-    private var fragmentLoginBinding: FragmentLoginBinding? = null
+    private var _fragmentLoginBinding: FragmentLoginBinding? = null
+    private val fragmentLoginBinding get() = _fragmentLoginBinding
     private val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
+    ): View? {
+        _fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
         doCheckingAccount()
-        return fragmentLoginBinding!!.root
+        return fragmentLoginBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,6 +106,6 @@ class LoginFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        fragmentLoginBinding = null
+        _fragmentLoginBinding = null
     }
 }

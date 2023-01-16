@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
-                <include layout="@layout/list_slider_sport_shimmer_home" />
+                <include layout="@layout/item_slider_sport_shimmer_home" />
             </com.facebook.shimmer.ShimmerFrameLayout>
         </FrameLayout>
 

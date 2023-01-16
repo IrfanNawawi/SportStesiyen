@@ -18,6 +18,25 @@
         android:theme="@style/Theme.SportStesiyen"
         tools:targetApi="31">
         <activity
+            android:name=".NewsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.category.CategoryActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.SportStesiyen.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="false"
             android:theme="@style/Theme.SportStesiyen.NoActionBar">

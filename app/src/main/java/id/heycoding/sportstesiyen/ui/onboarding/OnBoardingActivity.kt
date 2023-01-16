@@ -16,7 +16,7 @@ import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 
 class OnBoardingActivity : AppCompatActivity() {
 
-    private lateinit var activityOnboardingBinding: ActivityOnboardingBinding
+    private var activityOnboardingBinding: ActivityOnboardingBinding? = null
     private val onBoardingViewModel: OnBoardingViewModel by viewModels()
     private lateinit var onBoardingAdapter: OnBoardingAdapter
     private val listOnBoardingData = ArrayList<OnBoardingItem>()
@@ -24,7 +24,8 @@ class OnBoardingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityOnboardingBinding = ActivityOnboardingBinding.inflate(layoutInflater)
-        setContentView(activityOnboardingBinding.root)
+        setContentView(activityOnboardingBinding?.root)
+
         supportActionBar?.title = ""
         onBoardingAdapter = OnBoardingAdapter(listOnBoardingData)
 
@@ -42,7 +43,7 @@ class OnBoardingActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        activityOnboardingBinding.apply {
+        activityOnboardingBinding?.apply {
             vpOnboarding.apply {
                 adapter = onBoardingAdapter
                 registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -88,16 +89,16 @@ class OnBoardingActivity : AppCompatActivity() {
                     )
                 )
                 it.layoutParams = layoutParams
-                activityOnboardingBinding.llIndicatorOnboarding.addView(it)
+                activityOnboardingBinding?.llIndicatorOnboarding?.addView(it)
             }
         }
     }
 
     private fun setCurrectIndicator(position: Int) {
-        val childCount = activityOnboardingBinding.llIndicatorOnboarding.childCount
-        for (i in 0 until childCount) {
+        val childCount = activityOnboardingBinding?.llIndicatorOnboarding?.childCount
+        for (i in 0 until childCount!!) {
             val imageView =
-                activityOnboardingBinding.llIndicatorOnboarding.getChildAt(i) as ImageView
+                activityOnboardingBinding?.llIndicatorOnboarding?.getChildAt(i) as ImageView
             if (i == position) {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(

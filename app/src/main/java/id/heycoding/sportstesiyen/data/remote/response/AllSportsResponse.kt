@@ -1,6 +1,7 @@
 package id.heycoding.sportstesiyen.data.remote.response
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class AllSportsResponse(
 
@@ -27,4 +28,4 @@ data class SportsItem(
 
 	@field:SerializedName("strSportDescription")
 	val strSportDescription: String? = null
-)
+) : Serializable

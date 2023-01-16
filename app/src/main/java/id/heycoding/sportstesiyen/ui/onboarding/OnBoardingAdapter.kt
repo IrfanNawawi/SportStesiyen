@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import id.heycoding.sportstesiyen.databinding.ListSliderOnboardingBinding
+import id.heycoding.sportstesiyen.databinding.ItemSliderOnboardingBinding
 
 class OnBoardingAdapter(private val listOnBoardingData: ArrayList<OnBoardingItem>) :
     RecyclerView.Adapter<OnBoardingAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ListSliderOnboardingBinding) :
+    inner class ViewHolder(private val binding: ItemSliderOnboardingBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(onBoardingItem: OnBoardingItem) {
             binding.apply {
@@ -30,7 +30,7 @@ class OnBoardingAdapter(private val listOnBoardingData: ArrayList<OnBoardingItem
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ListSliderOnboardingBinding.inflate(
+            ItemSliderOnboardingBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

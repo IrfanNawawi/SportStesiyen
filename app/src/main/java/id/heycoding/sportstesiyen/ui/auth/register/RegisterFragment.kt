@@ -17,16 +17,17 @@ import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class RegisterFragment : Fragment() {
 
-    private var fragmentRegisterBinding: FragmentRegisterBinding? = null
+    private var _fragmentRegisterBinding: FragmentRegisterBinding? = null
+    private val fragmentRegisterBinding get() = _fragmentRegisterBinding
     private val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        fragmentRegisterBinding = FragmentRegisterBinding.inflate(inflater, container, false)
+    ): View? {
+        _fragmentRegisterBinding = FragmentRegisterBinding.inflate(inflater, container, false)
         doCheckingAccount()
-        return fragmentRegisterBinding!!.root
+        return fragmentRegisterBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -109,6 +110,6 @@ class RegisterFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        fragmentRegisterBinding = null
+        _fragmentRegisterBinding = null
     }
 }

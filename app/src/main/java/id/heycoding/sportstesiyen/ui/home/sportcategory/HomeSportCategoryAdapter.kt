@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.databinding.ItemSportHomeBinding
+import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 
-class HomeSportCategoryAdapter : RecyclerView.Adapter<HomeSportCategoryAdapter.ViewHolder>() {
+class HomeSportCategoryAdapter(private val callback: HomeFragmentCallback) : RecyclerView.Adapter<HomeSportCategoryAdapter.ViewHolder>() {
     private val listSportCategoryData = ArrayList<SportsItem>()
 
     inner class ViewHolder(private val binding: ItemSportHomeBinding) :
@@ -22,6 +23,8 @@ class HomeSportCategoryAdapter : RecyclerView.Adapter<HomeSportCategoryAdapter.V
 
                 tvSportHome.text = sport.strSport
                 tvSportFormatHome.text = sport.strFormat
+
+                itemView.setOnClickListener { callback.onDetailCategory(sport, adapterPosition) }
             }
         }
     }

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,19 +25,23 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
+import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
+import id.heycoding.sportstesiyen.ui.category.CategoryActivity
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.ui.home.everything.HomeEverythingNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryAdapter
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportAdapter
+import id.heycoding.sportstesiyen.utils.ConstCategory
 import java.lang.Math.abs
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeFragmentCallback {
 
-    private var fragmentHomeBinding: FragmentHomeBinding? = null
+    private var _fragmentHomeBinding: FragmentHomeBinding? = null
+    private val fragmentHomeBinding get() = _fragmentHomeBinding
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var homeSportCategoryAdapter: HomeSportCategoryAdapter
     private lateinit var homeTopHeadlineNewsSportAdapter: HomeTopHeadlineNewsSportAdapter
@@ -49,14 +54,14 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
-        return fragmentHomeBinding!!.root
+    ): View? {
+        _fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
+        return fragmentHomeBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeSportCategoryAdapter = HomeSportCategoryAdapter()
+        homeSportCategoryAdapter = HomeSportCategoryAdapter(this)
         homeTopHeadlineNewsSportAdapter = HomeTopHeadlineNewsSportAdapter()
         homeEverythingNewsSportAdapter = HomeEverythingNewsSportAdapter()
         bannerAdapter = BannerAdapter(fragmentHomeBinding?.vpSportHome, listSportBannerData)
@@ -125,7 +130,7 @@ class HomeFragment : Fragment() {
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
             isCheckingAccount.observe(viewLifecycleOwner) {
                 if (it != null) {
-                    fragmentHomeBinding?.tvUsernameHome?.text = it
+                    _fragmentHomeBinding?.tvUsernameHome?.text = it
                 }
             }
             isValidate.observe(viewLifecycleOwner) { showSignOut() }
@@ -297,17 +302,34 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        Toast.makeText(requireContext(), "onResume", Toast.LENGTH_SHORT).show()
         initViewModel()
         sliderhandler.postDelayed(sliderRunnable, 3000)
     }
 
     override fun onPause() {
         super.onPause()
+
+        Toast.makeText(requireContext(), "onPause", Toast.LENGTH_SHORT).show()
         sliderhandler.postDelayed(sliderRunnable, 3000)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        fragmentHomeBinding = null
+        Toast.makeText(requireContext(), "onDestroyView", Toast.LENGTH_SHORT).show()
+        _fragmentHomeBinding = null
     }
+
+    override fun onDetailCategory(categoryList: SportsItem, position: Int) {
+        startActivity(
+            Intent(
+                requireContext(),
+                CategoryActivity::class.java
+            )
+                .putExtra(ConstCategory.EXTRA_SPORT, categoryList)
+                .putExtra(ConstCategory.EXTRA_POSITION, position)
+        )
+    }
+
 }
