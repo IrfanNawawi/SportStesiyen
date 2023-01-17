@@ -17,7 +17,12 @@ class CategoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _fragmentCategoryBinding = FragmentCategoryBinding.inflate(layoutInflater)
+        _fragmentCategoryBinding = FragmentCategoryBinding.inflate(layoutInflater, container, false)
         return fragmentCategoryBinding?.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragmentCategoryBinding = null
     }
 }

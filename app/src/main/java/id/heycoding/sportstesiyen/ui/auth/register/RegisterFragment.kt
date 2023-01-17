@@ -94,7 +94,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun showMessage(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onStart() {
@@ -108,8 +108,8 @@ class RegisterFragment : Fragment() {
     }
 
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _fragmentRegisterBinding = null
     }
 }

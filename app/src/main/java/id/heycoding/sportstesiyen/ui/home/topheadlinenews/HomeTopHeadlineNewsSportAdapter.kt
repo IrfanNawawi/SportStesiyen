@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
 import id.heycoding.sportstesiyen.databinding.ItemNewsSportHomeBinding
+import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.Helper
 
-class HomeTopHeadlineNewsSportAdapter : RecyclerView.Adapter<HomeTopHeadlineNewsSportAdapter.ViewHolder>() {
+class HomeTopHeadlineNewsSportAdapter(private val callback: HomeFragmentCallback) : RecyclerView.Adapter<HomeTopHeadlineNewsSportAdapter.ViewHolder>() {
     private val listTopHeadlineNewsSportData = ArrayList<ArticlesTopHeadline>()
 
     inner class ViewHolder(private val binding: ItemNewsSportHomeBinding) :
@@ -21,6 +22,8 @@ class HomeTopHeadlineNewsSportAdapter : RecyclerView.Adapter<HomeTopHeadlineNews
                 tvTitleNewsHome.text = topHeadlineNewsSport.title
                 tvDateNewsHome.text = Helper.timeAgo(topHeadlineNewsSport.publishedAt)
                 tvSourceNewsHome.text = topHeadlineNewsSport.source?.name
+
+                itemView.setOnClickListener { callback.onDetailNewsTopHeadlineNews(topHeadlineNewsSport) }
             }
         }
     }

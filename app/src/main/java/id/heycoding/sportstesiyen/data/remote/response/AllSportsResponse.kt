@@ -1,6 +1,8 @@
 package id.heycoding.sportstesiyen.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 data class AllSportsResponse(
@@ -9,6 +11,7 @@ data class AllSportsResponse(
 	val sports: List<SportsItem>
 )
 
+@Parcelize
 data class SportsItem(
 
 	@field:SerializedName("idSport")
@@ -28,4 +31,4 @@ data class SportsItem(
 
 	@field:SerializedName("strSportDescription")
 	val strSportDescription: String? = null
-) : Serializable
+) : Parcelable

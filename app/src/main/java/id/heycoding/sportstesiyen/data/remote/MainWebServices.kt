@@ -71,7 +71,7 @@ interface MainWebServices {
     }
 
     object EndPoint {
-        const val BASE_URL_THESPORTDB = "https://www.thesportsdb.com/api/v1/json/2/"
+        const val BASE_URL_THESPORTDB = "https://www.thesportsdb.com/api/v1/json/3/"
         const val BASE_URL_NEWSAPI = "https://newsapi.org/v2/"
 
         const val API_KEY_NEWSAPI = "835d5b8b0de0440ab3eb8aaf2410d374"

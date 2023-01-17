@@ -9,11 +9,12 @@ import id.heycoding.sportstesiyen.utils.ConstCategory
 
 class CategoryActivity : AppCompatActivity() {
 
-    private var activityCategoryBinding: ActivityCategoryBinding? = null
+    private var _activityCategoryBinding: ActivityCategoryBinding? = null
+    private val activityCategoryBinding get() = _activityCategoryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityCategoryBinding = ActivityCategoryBinding.inflate(layoutInflater)
+        _activityCategoryBinding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(activityCategoryBinding?.root)
         setSupportActionBar(activityCategoryBinding?.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -35,5 +36,10 @@ class CategoryActivity : AppCompatActivity() {
                 tab.text = listSports[position].strSport
             }.attach()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _activityCategoryBinding = null
     }
 }

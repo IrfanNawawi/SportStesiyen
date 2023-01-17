@@ -1,7 +1,10 @@
 package id.heycoding.sportstesiyen.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Window
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -13,12 +16,14 @@ import id.heycoding.sportstesiyen.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var activityMainBinding: ActivityMainBinding? = null
+    private var _activityMainBinding: ActivityMainBinding? = null
+    private val activityMainBinding get() = _activityMainBinding
+    private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+        _activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding?.root)
         supportActionBar?.title = ""
 
@@ -26,5 +31,22 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _activityMainBinding = null
     }
 }

@@ -11,11 +11,8 @@ import id.heycoding.sportstesiyen.databinding.FragmentAccountBinding
 
 class AccountFragment : Fragment() {
 
-    private var _binding: FragmentAccountBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private var _fragmentAccountBinding: FragmentAccountBinding? = null
+    private val fragmentAccountBinding get() = _fragmentAccountBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,10 +22,10 @@ class AccountFragment : Fragment() {
         val accountViewModel =
             ViewModelProvider(this).get(AccountViewModel::class.java)
 
-        _binding = FragmentAccountBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        _fragmentAccountBinding = FragmentAccountBinding.inflate(inflater, container, false)
+        val root: View = fragmentAccountBinding?.root!!
 
-        val textView: TextView = binding.textAccount
+        val textView: TextView = fragmentAccountBinding?.textAccount!!
         accountViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
@@ -37,6 +34,6 @@ class AccountFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _fragmentAccountBinding = null
     }
 }

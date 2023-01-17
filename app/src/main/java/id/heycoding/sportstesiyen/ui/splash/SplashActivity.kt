@@ -12,12 +12,14 @@ import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class SplashActivity : AppCompatActivity() {
-    private var activitySplashBinding: ActivitySplashBinding? = null
+
+    private var _activitySplashBinding: ActivitySplashBinding? = null
+    private val activitySplashBinding get() = _activitySplashBinding
 
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)
+        _activitySplashBinding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(activitySplashBinding?.root)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
@@ -29,6 +31,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        activitySplashBinding = null
+        _activitySplashBinding = null
     }
 }

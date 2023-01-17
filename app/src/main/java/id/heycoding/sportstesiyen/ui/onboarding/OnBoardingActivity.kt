@@ -16,14 +16,15 @@ import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 
 class OnBoardingActivity : AppCompatActivity() {
 
-    private var activityOnboardingBinding: ActivityOnboardingBinding? = null
+    private var _activityOnboardingBinding: ActivityOnboardingBinding? = null
+    private val activityOnboardingBinding get() = _activityOnboardingBinding
     private val onBoardingViewModel: OnBoardingViewModel by viewModels()
     private lateinit var onBoardingAdapter: OnBoardingAdapter
     private val listOnBoardingData = ArrayList<OnBoardingItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityOnboardingBinding = ActivityOnboardingBinding.inflate(layoutInflater)
+        _activityOnboardingBinding = ActivityOnboardingBinding.inflate(layoutInflater)
         setContentView(activityOnboardingBinding?.root)
 
         supportActionBar?.title = ""
@@ -115,5 +116,10 @@ class OnBoardingActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _activityOnboardingBinding = null
     }
 }

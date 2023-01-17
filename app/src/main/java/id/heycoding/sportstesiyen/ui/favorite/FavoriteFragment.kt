@@ -11,11 +11,8 @@ import id.heycoding.sportstesiyen.databinding.FragmentFavoriteBinding
 
 class FavoriteFragment : Fragment() {
 
-    private var _binding: FragmentFavoriteBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private var _fragmentFavoriteBinding: FragmentFavoriteBinding? = null
+    private val fragmentFavoriteBinding get() = _fragmentFavoriteBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,10 +22,10 @@ class FavoriteFragment : Fragment() {
         val favoriteViewModel =
             ViewModelProvider(this).get(FavoriteViewModel::class.java)
 
-        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        _fragmentFavoriteBinding = FragmentFavoriteBinding.inflate(inflater, container, false)
+        val root: View = fragmentFavoriteBinding?.root!!
 
-        val textView: TextView = binding.textFavorite
+        val textView: TextView = fragmentFavoriteBinding?.textFavorite!!
         favoriteViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
@@ -37,6 +34,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _fragmentFavoriteBinding = null
     }
 }

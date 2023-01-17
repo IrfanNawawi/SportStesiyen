@@ -91,7 +91,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showMessage(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onStart() {
@@ -104,8 +104,8 @@ class LoginFragment : Fragment() {
         startActivity(Intent(activity, MainActivity::class.java))
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _fragmentLoginBinding = null
     }
 }

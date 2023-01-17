@@ -1,6 +1,8 @@
 package id.heycoding.sportstesiyen.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class TopHeadlineNewsSportResponse(
 
@@ -14,13 +16,14 @@ data class TopHeadlineNewsSportResponse(
 	val status: String? = null
 )
 
+@Parcelize
 data class ArticlesTopHeadline(
 
 	@field:SerializedName("publishedAt")
 	val publishedAt: String? = null,
 
 	@field:SerializedName("author")
-	val author: Any? = null,
+	val author: String? = null,
 
 	@field:SerializedName("urlToImage")
 	val urlToImage: String? = null,
@@ -39,8 +42,9 @@ data class ArticlesTopHeadline(
 
 	@field:SerializedName("content")
 	val content: String? = null
-)
+) : Parcelable
 
+@Parcelize
 data class SourceTopHeadline(
 
 	@field:SerializedName("name")
@@ -48,4 +52,4 @@ data class SourceTopHeadline(
 
 	@field:SerializedName("id")
 	val id: String? = null
-)
+) : Parcelable

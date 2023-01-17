@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,6 +24,8 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
+import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
+import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
@@ -34,7 +35,10 @@ import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.ui.home.everything.HomeEverythingNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.sportcategory.HomeSportCategoryAdapter
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportAdapter
+import id.heycoding.sportstesiyen.ui.newseverything.NewsEverythingActivity
+import id.heycoding.sportstesiyen.ui.newstopheadline.NewsTopHeadlineActivity
 import id.heycoding.sportstesiyen.utils.ConstCategory
+import id.heycoding.sportstesiyen.utils.ConstNews
 import java.lang.Math.abs
 
 
@@ -48,6 +52,9 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
     private lateinit var homeEverythingNewsSportAdapter: HomeEverythingNewsSportAdapter
     private lateinit var bannerAdapter: BannerAdapter
     private val listSportBannerData = ArrayList<BannerData>()
+    private val listSport: MutableList<SportsItem> = mutableListOf()
+    private val listNewsEverything: MutableList<ArticlesEverything> = mutableListOf()
+    private val listNewsTopHeadline: MutableList<ArticlesTopHeadline> = mutableListOf()
     private var sliderhandler = Handler()
 
     override fun onCreateView(
@@ -55,15 +62,15 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
+        _fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return fragmentHomeBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeSportCategoryAdapter = HomeSportCategoryAdapter(this)
-        homeTopHeadlineNewsSportAdapter = HomeTopHeadlineNewsSportAdapter()
-        homeEverythingNewsSportAdapter = HomeEverythingNewsSportAdapter()
+        homeTopHeadlineNewsSportAdapter = HomeTopHeadlineNewsSportAdapter(this)
+        homeEverythingNewsSportAdapter = HomeEverythingNewsSportAdapter(this)
         bannerAdapter = BannerAdapter(fragmentHomeBinding?.vpSportHome, listSportBannerData)
 
         if (isOnline(requireContext())) {
@@ -110,21 +117,25 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             bannerAdapter.setBannerData(onBannerData)
 
             listSportData.observe(viewLifecycleOwner) { listSportData ->
-                if (listSportData != null) {
-                    homeSportCategoryAdapter.setSportData(listSportData)
-                }
+                listSport.clear()
+                listSport.addAll(listSportData)
+                homeSportCategoryAdapter.notifyDataSetChanged()
+                homeSportCategoryAdapter.setSportData(listSportData)
+
             }
 
-            listTopHeadlineNewsSportData.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    homeTopHeadlineNewsSportAdapter.setTopHeadlineNewsSportData(it)
-                }
+            listTopHeadlineNewsSportData.observe(viewLifecycleOwner) { listNewsTopHeadlineData ->
+                listNewsTopHeadline.clear()
+                listNewsTopHeadline.addAll(listNewsTopHeadlineData)
+                homeTopHeadlineNewsSportAdapter.notifyDataSetChanged()
+                homeTopHeadlineNewsSportAdapter.setTopHeadlineNewsSportData(listNewsTopHeadlineData)
             }
 
-            listEverythingNewsSportData.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    homeEverythingNewsSportAdapter.setEverythingNewsSportData(it)
-                }
+            listEverythingNewsSportData.observe(viewLifecycleOwner) { listNewsEverythingData ->
+                listNewsEverything.clear()
+                listNewsEverything.addAll(listNewsEverythingData)
+                homeEverythingNewsSportAdapter.notifyDataSetChanged()
+                homeEverythingNewsSportAdapter.setEverythingNewsSportData(listNewsEverythingData)
             }
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
@@ -171,7 +182,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             // init List Sport Category
             rvSportHome.apply {
                 layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
                 adapter = homeSportCategoryAdapter
                 clipToPadding = false
@@ -181,7 +192,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             // init List News Sport
             rvTopHeadlineNewsSportHome.apply {
                 layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
                 adapter = homeTopHeadlineNewsSportAdapter
                 clipToPadding = false
@@ -193,7 +204,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
             rvEverythingNewsSportHome.apply {
                 layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
                 adapter = homeEverythingNewsSportAdapter
                 clipToPadding = false
@@ -218,7 +229,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             )
         layoutParams.setMargins(8, 0, 8, 0)
         for (i in indicators.indices) {
-            indicators[i] = ImageView(requireContext())
+            indicators[i] = ImageView(context)
             indicators[i]?.let {
                 it.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -239,17 +250,21 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
                 fragmentHomeBinding?.llIndicatorBannerHome?.getChildAt(i) as ImageView
             if (i == position) {
                 imageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.indicator_active_background
-                    )
+                    context?.let {
+                        ContextCompat.getDrawable(
+                            it,
+                            R.drawable.indicator_active_background
+                        )
+                    }
                 )
             } else {
                 imageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.indicator_inactive_background
-                    )
+                    context?.let {
+                        ContextCompat.getDrawable(
+                            it,
+                            R.drawable.indicator_inactive_background
+                        )
+                    }
                 )
             }
         }
@@ -302,33 +317,47 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
     override fun onResume() {
         super.onResume()
-
-        Toast.makeText(requireContext(), "onResume", Toast.LENGTH_SHORT).show()
-        initViewModel()
         sliderhandler.postDelayed(sliderRunnable, 3000)
     }
 
     override fun onPause() {
         super.onPause()
-
-        Toast.makeText(requireContext(), "onPause", Toast.LENGTH_SHORT).show()
         sliderhandler.postDelayed(sliderRunnable, 3000)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Toast.makeText(requireContext(), "onDestroyView", Toast.LENGTH_SHORT).show()
         _fragmentHomeBinding = null
     }
 
     override fun onDetailCategory(categoryList: SportsItem, position: Int) {
         startActivity(
             Intent(
-                requireContext(),
+                context,
                 CategoryActivity::class.java
             )
                 .putExtra(ConstCategory.EXTRA_SPORT, categoryList)
                 .putExtra(ConstCategory.EXTRA_POSITION, position)
+        )
+    }
+
+    override fun onDetailNewsEverything(everythingList: ArticlesEverything) {
+        startActivity(
+            Intent(
+                context,
+                NewsEverythingActivity::class.java
+            )
+                .putExtra(ConstNews.EXTRA_NEWS_EVERYTHING, everythingList)
+        )
+    }
+
+    override fun onDetailNewsTopHeadlineNews(topHeadlineList: ArticlesTopHeadline) {
+        startActivity(
+            Intent(
+                context,
+                NewsTopHeadlineActivity::class.java
+            )
+                .putExtra(ConstNews.EXTRA_NEWS_TOPHEADLINE, topHeadlineList)
         )
     }
 

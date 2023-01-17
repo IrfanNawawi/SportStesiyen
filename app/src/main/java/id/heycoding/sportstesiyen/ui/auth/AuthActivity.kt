@@ -10,11 +10,12 @@ import id.heycoding.sportstesiyen.ui.auth.login.LoginFragment
 
 class AuthActivity : AppCompatActivity() {
 
-    private var activityAuthBinding: ActivityAuthBinding? = null
+    private var _activityAuthBinding: ActivityAuthBinding? = null
+    private val activityAuthBinding get() = _activityAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityAuthBinding = ActivityAuthBinding.inflate(layoutInflater)
+        _activityAuthBinding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(activityAuthBinding?.root)
 
         supportActionBar?.hide()
@@ -28,6 +29,6 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        activityAuthBinding = null
+        _activityAuthBinding = null
     }
 }

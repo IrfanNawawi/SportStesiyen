@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
 import id.heycoding.sportstesiyen.databinding.ItemNewsSportHomeBinding
+import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.Helper
 
-class HomeEverythingNewsSportAdapter :
+class HomeEverythingNewsSportAdapter(private val callback: HomeFragmentCallback) :
     RecyclerView.Adapter<HomeEverythingNewsSportAdapter.ViewHolder>() {
     private val listEverythingNewsSportData = ArrayList<ArticlesEverything>()
 
@@ -22,6 +23,8 @@ class HomeEverythingNewsSportAdapter :
                 tvTitleNewsHome.text = everythingNewsSport.title
                 tvDateNewsHome.text = Helper.timeAgo(everythingNewsSport.publishedAt)
                 tvSourceNewsHome.text = everythingNewsSport.source?.name
+
+                itemView.setOnClickListener { callback.onDetailNewsEverything(everythingNewsSport) }
             }
         }
     }
