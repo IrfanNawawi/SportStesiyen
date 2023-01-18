@@ -45,7 +45,8 @@
                     android:layout_height="80dp"
                     android:layout_alignParentBottom="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/bottom_shadow" />
+                    android:src="@drawable/bottom_shadow"
+                    android:contentDescription="@string/app_name" />
 
             </RelativeLayout>
 

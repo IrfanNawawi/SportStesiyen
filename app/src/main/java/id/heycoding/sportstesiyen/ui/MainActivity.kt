@@ -44,9 +44,4 @@ class MainActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _activityMainBinding = null
-    }
 }

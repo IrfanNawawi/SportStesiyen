@@ -1,5 +1,6 @@
 package id.heycoding.sportstesiyen.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,8 +12,7 @@ import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_
 import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_THESPORTDB
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
-import id.heycoding.sportstesiyen.data.remote.response.SportsItem
-import id.heycoding.sportstesiyen.data.remote.response.TeamsItem
+import id.heycoding.sportstesiyen.data.remote.response.Team
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.utils.DataDummy
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,8 +20,8 @@ import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel : ViewModel() {
 
-    private val _listSportData = MutableLiveData<List<SportsItem>>()
-    val listSportData: LiveData<List<SportsItem>> = _listSportData
+    private val _listTeamLeagueData = MutableLiveData<List<Team>>()
+    val listTeamsLeagueData: LiveData<List<Team>> = _listTeamLeagueData
 
     private val _listTopHeadlineNewsSportData = MutableLiveData<List<ArticlesTopHeadline>>()
     val listTopHeadlineNewsSportData: LiveData<List<ArticlesTopHeadline>> =
@@ -30,9 +30,6 @@ class HomeViewModel : ViewModel() {
     private val _listEverythingNewsSportData = MutableLiveData<List<ArticlesEverything>>()
     val listEverythingNewsSportData: LiveData<List<ArticlesEverything>> =
         _listEverythingNewsSportData
-
-    private val _listTeamLeagueData = MutableLiveData<List<TeamsItem>>()
-    val listTeamsLeagueData: LiveData<List<TeamsItem>> = _listTeamLeagueData
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -65,8 +62,8 @@ class HomeViewModel : ViewModel() {
 
     fun getBannerData(): List<BannerData> = DataDummy.generateDummyBanner()
 
-    fun getAllSportsData() {
-        servicesTheSportDB.getAllSports()
+    fun getAllTeamsData(league: String) {
+        servicesTheSportDB.getAllTeamsLeague(league)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
@@ -78,7 +75,8 @@ class HomeViewModel : ViewModel() {
             }
             .subscribe({
                 _isLoading.value = false
-                _listSportData.postValue(it.sports)
+                Log.d("dapet coy", "$it")
+                _listTeamLeagueData.postValue(it.teams)
             }, {
                 _isLoading.value = false
                 _isError.value = true
@@ -87,7 +85,7 @@ class HomeViewModel : ViewModel() {
 
     fun getTopHeadlineNewsSportData() {
         servicesNewsAPI.getTopHeadlineNewsSport(
-            MainWebServices.EndPoint.COUNTRY_NEWSAPI,
+            MainWebServices.EndPoint.COUNTRY_US_NEWSAPI,
             MainWebServices.EndPoint.CATEGORY_NEWSAPI,
             MainWebServices.EndPoint.API_KEY_NEWSAPI
         )
@@ -111,6 +109,7 @@ class HomeViewModel : ViewModel() {
     fun getEverythingNewsSportData() {
         servicesNewsAPI.getEverythingNewsSport(
             MainWebServices.EndPoint.CATEGORY_NEWSAPI,
+            MainWebServices.EndPoint.COUNTRY_ID_NEWSAPI,
             MainWebServices.EndPoint.FROM_NEWSAPI,
             MainWebServices.EndPoint.TO_NEWSAPI,
             MainWebServices.EndPoint.SORT_NEWSAPI,
@@ -127,26 +126,6 @@ class HomeViewModel : ViewModel() {
             .subscribe({
                 _isLoading.value = false
                 _listEverythingNewsSportData.postValue(it.articles)
-            }, {
-                _isLoading.value = false
-                _isError.value = true
-            })
-    }
-
-    fun getTeamLeagueData(league: String) {
-        servicesTheSportDB.getAllTeamsInLeague(league)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                _isLoading.value = true
-            }
-            .doOnError {
-                _isLoading.value = false
-                _isError.value = true
-            }
-            .subscribe({
-                _isLoading.value = false
-                _listTeamLeagueData.postValue(it.teams)
             }, {
                 _isLoading.value = false
                 _isError.value = true

@@ -1,39 +1,41 @@
-package id.heycoding.sportstesiyen.ui.home.sportcategory
+package id.heycoding.sportstesiyen.ui.home.teamsleague
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.heycoding.sportstesiyen.data.remote.response.SportsItem
+import id.heycoding.sportstesiyen.data.remote.response.Team
 import id.heycoding.sportstesiyen.databinding.ItemSportHomeBinding
 import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 
-class HomeSportCategoryAdapter(private val callback: HomeFragmentCallback) : RecyclerView.Adapter<HomeSportCategoryAdapter.ViewHolder>() {
-    private val listSportCategoryData = ArrayList<SportsItem>()
+class HomeTeamsLeagueAdapter(private val callback: HomeFragmentCallback) :
+    RecyclerView.Adapter<HomeTeamsLeagueAdapter.ViewHolder>() {
+    private val listTeamsLeagueData = ArrayList<Team>()
 
     inner class ViewHolder(private val binding: ItemSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(sport: SportsItem) {
+        fun bind(teams: Team) {
             binding.apply {
                 Glide.with(itemView.context)
-                    .load(sport.strSportThumb)
+
+                    .load(teams.strTeamBadge+"/tiny")
                     .into(imgSportHome)
 
-                tvSportHome.text = sport.strSport
-                tvSportFormatHome.text = sport.strFormat
+                tvSportHome.text = teams.strTeam
+                tvSportFormatHome.text = teams.intFormedYear
 
-                itemView.setOnClickListener { callback.onDetailCategory(sport, adapterPosition) }
+                itemView.setOnClickListener { callback.onDetailCategory(teams, adapterPosition) }
             }
         }
     }
 
-    fun setSportData(sport: List<SportsItem>) {
-        val diffCallback = HomeSportCategoryCallback(listSportCategoryData, sport)
+    fun setSportData(teams: List<Team>) {
+        val diffCallback = HomeTeamsLeagueCallback(listTeamsLeagueData, teams)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        listSportCategoryData.clear()
-        listSportCategoryData.addAll(sport)
+        listTeamsLeagueData.clear()
+        listTeamsLeagueData.addAll(teams)
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -48,14 +50,14 @@ class HomeSportCategoryAdapter(private val callback: HomeFragmentCallback) : Rec
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listSportCategoryData[position])
+        holder.bind(listTeamsLeagueData[position])
     }
 
     override fun getItemCount(): Int {
-        return if (listSportCategoryData.size > Const.LIMIT) {
+        return if (listTeamsLeagueData.size > Const.LIMIT) {
             Const.LIMIT
         } else {
-            listSportCategoryData.size
+            listTeamsLeagueData.size
         }
     }
 }

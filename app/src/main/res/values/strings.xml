@@ -13,10 +13,6 @@
     <string name="txt_category_onboarding">Category Sport</string>
     <string name="txt_score_onboarding">Score Sport</string>
     <string name="txt_data_player_onboarding">Data Player Sport</string>
-
-    <string name="txt_top_headline_news_home">Top Headline News</string>
-    <string name="txt_everything_news_home">Everything News</string>
-    <string name="txt_banner_home">Banner Home</string>
     <string name="txt_next_onboarding">Next</string>
     <string name="txt_back_onboarding">Back</string>
     <string name="txt_skip_onboarding">Skip</string>
@@ -39,8 +35,17 @@
     <string name="txt_login">Login</string>
     <string name="txt_register">Register</string>
     <string name="txt_welcome">Welcome </string>
+
+    <string name="txt_top_headline_news_home">Top Headline News</string>
+    <string name="txt_everything_news_home">Berita Dalam Negeri</string>
+    <string name="txt_banner_home">Banner Home</string>
     <string name="txt_show_all_list">Show All</string>
-    <string name="txt_category_sport_home">Category Sport</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_type_latest_home">Home</string>
+    <string name="txt_type_latest_away">Away</string>
+    <string name="txt_date_publish_home">2 days ago</string>
+    <string name="txt_live_match_home">Live Match</string>
+    <string name="txt_teams_league_home">Teams League</string>
+    <string name="txt_since_home">Since</string>
+    <string name="txt_source_news_detail">Source</string>
+    <string name="txt_author_news_detail">Author</string>
 </resources>

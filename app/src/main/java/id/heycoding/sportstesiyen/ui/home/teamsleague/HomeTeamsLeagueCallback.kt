@@ -1,12 +1,13 @@
-package id.heycoding.sportstesiyen.ui.home.sportcategory
+package id.heycoding.sportstesiyen.ui.home.teamsleague
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
 import id.heycoding.sportstesiyen.data.remote.response.SportsItem
+import id.heycoding.sportstesiyen.data.remote.response.Team
 
-class HomeSportCategoryCallback(
-    private val oldList: List<SportsItem>,
-    private val newList: List<SportsItem>
+class HomeTeamsLeagueCallback(
+    private val oldList: List<Team>,
+    private val newList: List<Team>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
     override fun getNewListSize(): Int = newList.size
