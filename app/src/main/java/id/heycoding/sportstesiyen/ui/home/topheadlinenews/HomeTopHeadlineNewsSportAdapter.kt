@@ -11,7 +11,8 @@ import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.Helper
 
-class HomeTopHeadlineNewsSportAdapter(private val callback: HomeFragmentCallback) : RecyclerView.Adapter<HomeTopHeadlineNewsSportAdapter.ViewHolder>() {
+class HomeTopHeadlineNewsSportAdapter(private val callback: HomeFragmentCallback) :
+    RecyclerView.Adapter<HomeTopHeadlineNewsSportAdapter.ViewHolder>() {
     private val listTopHeadlineNewsSportData = ArrayList<ArticlesTopHeadline>()
 
     inner class ViewHolder(private val binding: ItemNewsSportHomeBinding) :
@@ -23,13 +24,18 @@ class HomeTopHeadlineNewsSportAdapter(private val callback: HomeFragmentCallback
                 tvDateNewsHome.text = Helper.timeAgo(topHeadlineNewsSport.publishedAt)
                 tvSourceNewsHome.text = topHeadlineNewsSport.source?.name
 
-                itemView.setOnClickListener { callback.onDetailNewsTopHeadlineNews(topHeadlineNewsSport) }
+                itemView.setOnClickListener {
+                    callback.onDetailNewsTopHeadlineNews(
+                        topHeadlineNewsSport
+                    )
+                }
             }
         }
     }
 
     fun setTopHeadlineNewsSportData(topHeadlineNewsSport: List<ArticlesTopHeadline>) {
-        val diffCallback = HomeTopHeadlineNewsSportCallback(listTopHeadlineNewsSportData, topHeadlineNewsSport)
+        val diffCallback =
+            HomeTopHeadlineNewsSportCallback(listTopHeadlineNewsSportData, topHeadlineNewsSport)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         listTopHeadlineNewsSportData.clear()
         listTopHeadlineNewsSportData.addAll(topHeadlineNewsSport)

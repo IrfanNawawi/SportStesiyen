@@ -14,7 +14,6 @@ import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.auth.register.RegisterFragment
-import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class LoginFragment : Fragment() {
 

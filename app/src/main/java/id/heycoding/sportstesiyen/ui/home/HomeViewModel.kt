@@ -1,6 +1,5 @@
 package id.heycoding.sportstesiyen.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +11,7 @@ import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_
 import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_THESPORTDB
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
+import id.heycoding.sportstesiyen.data.remote.response.Event
 import id.heycoding.sportstesiyen.data.remote.response.Team
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.utils.DataDummy
@@ -22,6 +22,9 @@ class HomeViewModel : ViewModel() {
 
     private val _listTeamLeagueData = MutableLiveData<List<Team>>()
     val listTeamsLeagueData: LiveData<List<Team>> = _listTeamLeagueData
+
+    private val _listEventLeagueData = MutableLiveData<List<Event>>()
+    val listEventLeagueData: LiveData<List<Event>> = _listEventLeagueData
 
     private val _listTopHeadlineNewsSportData = MutableLiveData<List<ArticlesTopHeadline>>()
     val listTopHeadlineNewsSportData: LiveData<List<ArticlesTopHeadline>> =
@@ -34,8 +37,8 @@ class HomeViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isError = MutableLiveData<Boolean>()
-    val isError: LiveData<Boolean> = _isError
+    private val _isError = MutableLiveData<String>()
+    val isError: LiveData<String> = _isError
 
     private val _isValidate = MutableLiveData<Boolean>()
     val isValidate: LiveData<Boolean> = _isValidate
@@ -62,6 +65,29 @@ class HomeViewModel : ViewModel() {
 
     fun getBannerData(): List<BannerData> = DataDummy.generateDummyBanner()
 
+    fun getAllEventLeagueData() {
+        servicesTheSportDB.getAllEventLeague(
+            MainWebServices.EndPoint.ID_LEAGUE_THESPORTDB,
+            MainWebServices.EndPoint.YEAR_SEASON_LEAGUE_THESPORTDB
+        )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                _isLoading.value = true
+            }
+            .doOnError {
+                _isLoading.value = false
+                _isError.postValue(it.message)
+            }
+            .subscribe({
+                _isLoading.value = false
+                _listEventLeagueData.postValue(it.events)
+            }, {
+                _isLoading.value = false
+                _isError.postValue(it.message)
+            })
+    }
+
     fun getAllTeamsData(league: String) {
         servicesTheSportDB.getAllTeamsLeague(league)
             .subscribeOn(Schedulers.io())
@@ -71,15 +97,14 @@ class HomeViewModel : ViewModel() {
             }
             .doOnError {
                 _isLoading.value = false
-                _isError.value = true
+                _isError.postValue(it.message)
             }
             .subscribe({
                 _isLoading.value = false
-                Log.d("dapet coy", "$it")
                 _listTeamLeagueData.postValue(it.teams)
             }, {
                 _isLoading.value = false
-                _isError.value = true
+                _isError.postValue(it.message)
             })
     }
 
@@ -96,13 +121,14 @@ class HomeViewModel : ViewModel() {
             }
             .doOnError {
                 _isLoading.value = false
+                _isError.postValue(it.message)
             }
             .subscribe({
                 _isLoading.value = false
                 _listTopHeadlineNewsSportData.postValue(it.articles)
             }, {
                 _isLoading.value = false
-                _isError.value = true
+                _isError.postValue(it.message)
             })
     }
 
@@ -122,13 +148,14 @@ class HomeViewModel : ViewModel() {
             }
             .doOnError {
                 _isLoading.value = false
+                _isError.postValue(it.message)
             }
             .subscribe({
                 _isLoading.value = false
                 _listEverythingNewsSportData.postValue(it.articles)
             }, {
                 _isLoading.value = false
-                _isError.value = true
+                _isError.postValue(it.message)
             })
     }
 }

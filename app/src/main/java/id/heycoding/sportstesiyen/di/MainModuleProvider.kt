@@ -1,4 +1,3 @@
 package id.heycoding.sportstesiyen.di
 
-object MainModuleProvider {
-}
+object MainModuleProvider

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,11 +27,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
+import id.heycoding.sportstesiyen.data.remote.response.Event
 import id.heycoding.sportstesiyen.data.remote.response.Team
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
+import id.heycoding.sportstesiyen.ui.home.eventsleague.HomeEventsLeagueAdapter
 import id.heycoding.sportstesiyen.ui.home.everything.HomeEverythingNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.teamsleague.HomeTeamsLeagueAdapter
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportAdapter
@@ -45,11 +48,13 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
     private var _fragmentHomeBinding: FragmentHomeBinding? = null
     private val fragmentHomeBinding get() = _fragmentHomeBinding
     private val homeViewModel: HomeViewModel by activityViewModels()
+    private lateinit var homeEventsLeagueAdapter: HomeEventsLeagueAdapter
     private lateinit var homeTeamsLeagueAdapter: HomeTeamsLeagueAdapter
     private lateinit var homeTopHeadlineNewsSportAdapter: HomeTopHeadlineNewsSportAdapter
     private lateinit var homeEverythingNewsSportAdapter: HomeEverythingNewsSportAdapter
     private lateinit var bannerAdapter: BannerAdapter
     private val listSportBannerData = ArrayList<BannerData>()
+    private val listEventsLeague: MutableList<Event> = mutableListOf()
     private val listTeamsLeague: MutableList<Team> = mutableListOf()
     private val listNewsEverything: MutableList<ArticlesEverything> = mutableListOf()
     private val listNewsTopHeadline: MutableList<ArticlesTopHeadline> = mutableListOf()
@@ -66,10 +71,12 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        homeEventsLeagueAdapter = HomeEventsLeagueAdapter(this)
         homeTeamsLeagueAdapter = HomeTeamsLeagueAdapter(this)
         homeTopHeadlineNewsSportAdapter = HomeTopHeadlineNewsSportAdapter(this)
         homeEverythingNewsSportAdapter = HomeEverythingNewsSportAdapter(this)
-        bannerAdapter = BannerAdapter(fragmentHomeBinding?.vpSportHome, listSportBannerData)
+        bannerAdapter = BannerAdapter(fragmentHomeBinding?.vpBannerHome, listSportBannerData)
 
         if (isOnline(requireContext())) {
             initViewModel()
@@ -77,7 +84,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             setupIndicator()
             setCurrectIndicator(0)
         } else {
-            showError()
+            showErrorConnection()
         }
     }
 
@@ -106,6 +113,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
             // fetch API
             doCheckingUser()
+            getAllEventLeagueData()
             getAllTeamsData("English Premier League")
             getTopHeadlineNewsSportData()
             getEverythingNewsSportData()
@@ -113,6 +121,13 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             // observe ViewModel
             val onBannerData = getBannerData()
             bannerAdapter.setBannerData(onBannerData)
+
+            listEventLeagueData.observe(viewLifecycleOwner) { listEventsData ->
+                listEventsLeague.clear()
+                listEventsLeague.addAll(listEventsData)
+                homeEventsLeagueAdapter.notifyDataSetChanged()
+                homeEventsLeagueAdapter.setEventsLeagueData(listEventsData)
+            }
 
             listTeamsLeagueData.observe(viewLifecycleOwner) { listTeamsData ->
                 listTeamsLeague.clear()
@@ -136,6 +151,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             }
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
+            isError.observe(viewLifecycleOwner) { showMessage(it) }
             isCheckingAccount.observe(viewLifecycleOwner) {
                 if (it != null) {
                     _fragmentHomeBinding?.tvUsernameHome?.text = it
@@ -148,7 +164,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
     private fun initViews() {
         fragmentHomeBinding?.apply {
             // init ViewPager Banner
-            vpSportHome.apply {
+            vpBannerHome.apply {
                 adapter = bannerAdapter
 
                 offscreenPageLimit = 3
@@ -164,7 +180,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
                 setPageTransformer(compositePageTransformer)
 
-                fragmentHomeBinding?.vpSportHome?.registerOnPageChangeCallback(object :
+                fragmentHomeBinding?.vpBannerHome?.registerOnPageChangeCallback(object :
                     ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
@@ -176,8 +192,16 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
                 getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             }
 
+            rvEventsLeagueHome.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                adapter = homeEventsLeagueAdapter
+                clipToPadding = false
+                clipChildren = false
+            }
+
             // init List Sport Category
-            rvSportHome.apply {
+            rvTeamsLeagueHome.apply {
                 layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
@@ -268,14 +292,17 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
     }
 
     private val sliderRunnable = Runnable {
-        fragmentHomeBinding?.vpSportHome?.currentItem =
-            fragmentHomeBinding?.vpSportHome?.currentItem?.plus(1)!!
+        fragmentHomeBinding?.vpBannerHome?.currentItem =
+            fragmentHomeBinding?.vpBannerHome?.currentItem?.plus(1)!!
     }
 
     private fun showLoading(it: Boolean?) {
         if (it == true) {
             fragmentHomeBinding?.pgShimmerBannerHome?.startShimmer()
             fragmentHomeBinding?.pgShimmerBannerHome?.visibility = View.VISIBLE
+
+            fragmentHomeBinding?.pgShimmerEventLeagueHome?.startShimmer()
+            fragmentHomeBinding?.pgShimmerEventLeagueHome?.visibility = View.VISIBLE
 
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.startShimmer()
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.visibility = View.VISIBLE
@@ -289,6 +316,9 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             fragmentHomeBinding?.pgShimmerBannerHome?.stopShimmer()
             fragmentHomeBinding?.pgShimmerBannerHome?.visibility = View.GONE
 
+            fragmentHomeBinding?.pgShimmerEventLeagueHome?.stopShimmer()
+            fragmentHomeBinding?.pgShimmerEventLeagueHome?.visibility = View.GONE
+
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.stopShimmer()
             fragmentHomeBinding?.pgShimmerSportCategoryHome?.visibility = View.GONE
 
@@ -300,12 +330,26 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         }
     }
 
-    private fun showError() {
+    private fun showMessage(message: String?) {
         val view = layoutInflater.inflate(R.layout.popup_error_fetch, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(view)
+
+        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_fetch_home)
+        tvErrorFetch.text = message
+
+        dialog.show()
+    }
+
+    private fun showErrorConnection() {
+        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
         dialog.show()
         dialog.setCancelable(false)
+
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
     private fun showSignOut() {

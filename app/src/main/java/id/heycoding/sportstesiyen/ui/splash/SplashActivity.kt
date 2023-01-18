@@ -1,14 +1,11 @@
 package id.heycoding.sportstesiyen.ui.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import id.heycoding.sportstesiyen.R
+import androidx.appcompat.app.AppCompatActivity
 import id.heycoding.sportstesiyen.databinding.ActivitySplashBinding
-import id.heycoding.sportstesiyen.ui.MainActivity
-import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingActivity
 
 class SplashActivity : AppCompatActivity() {

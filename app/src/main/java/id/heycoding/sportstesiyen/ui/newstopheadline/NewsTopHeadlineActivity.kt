@@ -6,7 +6,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
 import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
 import id.heycoding.sportstesiyen.databinding.ActivityNewsTopheadlineBinding
 import id.heycoding.sportstesiyen.utils.ConstNews
@@ -27,7 +26,8 @@ class NewsTopHeadlineActivity : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null) {
-            val getData = extras.getParcelable<ArticlesTopHeadline>(ConstNews.EXTRA_NEWS_TOPHEADLINE)
+            val getData =
+                extras.getParcelable<ArticlesTopHeadline>(ConstNews.EXTRA_NEWS_TOPHEADLINE)
 
             activityNewsTopheadlineBinding?.apply {
                 contentNewsDetail.tvTitleNewsDetail.text = getData?.title

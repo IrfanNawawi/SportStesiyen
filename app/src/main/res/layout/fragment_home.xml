@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_username_home">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_sport_home"
+                android:id="@+id/vp_banner_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="24dp" />
@@ -130,22 +130,22 @@
                 app:layout_constraintTop_toBottomOf="@id/ll_latest_sport_home">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_latest_sport_home"
+                    android:id="@+id/rv_events_league_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_latest_sport_home" />
+                    tools:listitem="@layout/item_event_league_home" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/pg_shimmer_sport_latest_home"
+                    android:id="@+id/pg_shimmer_event_league_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:visibility="gone"
                     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-                    <include layout="@layout/item_sport_shimmer_home" />
+                    <include layout="@layout/item_event_league_shimmer_home" />
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
             </FrameLayout>
@@ -250,7 +250,7 @@
                 app:layout_constraintTop_toBottomOf="@id/ll_teams_home">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_sport_home"
+                    android:id="@+id/rv_teams_league_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

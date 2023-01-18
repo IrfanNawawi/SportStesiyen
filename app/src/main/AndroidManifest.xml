@@ -42,7 +42,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.category.CategoryActivity"
+            android:name=".ui.teamsleague.TeamsLeagueActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.SportStesiyen.NoActionBar">

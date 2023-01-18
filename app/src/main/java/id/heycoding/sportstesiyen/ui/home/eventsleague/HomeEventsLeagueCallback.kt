@@ -1,15 +1,17 @@
-package id.heycoding.sportstesiyen.ui.home.teamsleague
+package id.heycoding.sportstesiyen.ui.home.eventsleague
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import id.heycoding.sportstesiyen.data.remote.response.Team
+import id.heycoding.sportstesiyen.data.remote.response.Event
 
-class HomeTeamsLeagueCallback(
-    private val oldList: List<Team>,
-    private val newList: List<Team>
+class HomeEventsLeagueCallback(
+    private val oldList: List<Event>,
+    private val newList: List<Event>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
+
     override fun getNewListSize(): Int = newList.size
+
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition] === newList[newItemPosition]
     }

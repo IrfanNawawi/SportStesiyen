@@ -21,11 +21,11 @@
             android:id="@+id/img_logo_register"
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/svg_sport_signup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/app_name" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_intro_register"

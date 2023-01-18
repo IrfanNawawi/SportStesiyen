@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_height="135dp"
         android:layout_marginVertical="@dimen/activity_margin"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="@dimen/activity_margin"
@@ -43,7 +43,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_height="135dp"
         android:layout_marginVertical="@dimen/activity_margin"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="@dimen/activity_margin"
@@ -79,7 +79,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_height="135dp"
         android:layout_marginVertical="@dimen/activity_margin"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="@dimen/activity_margin"

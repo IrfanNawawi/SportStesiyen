@@ -20,7 +20,7 @@ class HomeTeamsLeagueAdapter(private val callback: HomeFragmentCallback) :
             binding.apply {
                 Glide.with(itemView.context)
 
-                    .load(teams.strTeamBadge+"/tiny")
+                    .load(teams.strTeamBadge + "/tiny")
                     .into(imgSportHome)
 
                 tvSportHome.text = teams.strTeam
