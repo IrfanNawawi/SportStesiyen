@@ -4,32 +4,32 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import id.heycoding.sportstesiyen.data.remote.response.Event
+import id.heycoding.sportstesiyen.data.entity.EventLeague
 import id.heycoding.sportstesiyen.databinding.ItemEventLeagueHomeBinding
 import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
-import id.heycoding.sportstesiyen.utils.Helper
 
 class HomeEventsLeagueAdapter(private val callback: HomeFragmentCallback) :
     RecyclerView.Adapter<HomeEventsLeagueAdapter.ViewHolder>() {
-    private val listEventsLeagueData = ArrayList<Event>()
+    private val listEventsLeagueData = ArrayList<EventLeague>()
 
     inner class ViewHolder(private val binding: ItemEventLeagueHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(eventLeague: Event) {
+        fun bind(eventLeague: EventLeague) {
             binding.apply {
-                tvLeagueLatestHome.text = eventLeague.strLeague
-                tvDateLatestHome.text = eventLeague.dateEvent
-                tvHomeLatest.text = eventLeague.strHomeTeam
-                tvAwayLatest.text = eventLeague.strAwayTeam
-                tvHomeScore.text = eventLeague.intHomeScore
-                tvAwayScore.text = eventLeague.intAwayScore
+                tvVenueEvent.text = "${eventLeague.strVenue}, "
+                tvCountryEvent.text = eventLeague.strCountry
+                tvHomeEvent.text = eventLeague.strHomeTeam
+                tvAwayEvent.text = eventLeague.strAwayTeam
+                tvHomeScoreEvent.text = eventLeague.intHomeScore
+                tvAwayScoreEvent.text = eventLeague.intAwayScore
+
+                itemView.setOnClickListener { callback.onDetailEventLeague(eventLeague) }
             }
         }
     }
 
-    fun setEventsLeagueData(eventLeague: List<Event>) {
+    fun setEventsLeagueData(eventLeague: List<EventLeague>) {
         val diffCallback = HomeEventsLeagueCallback(listEventsLeagueData, eventLeague)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         listEventsLeagueData.clear()

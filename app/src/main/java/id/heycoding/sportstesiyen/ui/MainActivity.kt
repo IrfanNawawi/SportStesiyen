@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.ActivityMainBinding
 
+
 class MainActivity : AppCompatActivity() {
 
     private var _activityMainBinding: ActivityMainBinding? = null
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding?.root)
         supportActionBar?.title = ""
 
-        val navView: BottomNavigationView = activityMainBinding?.navView!!
+        val navView: BottomNavigationView = activityMainBinding?.navViewMain!!
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)

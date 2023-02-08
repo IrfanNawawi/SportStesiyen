@@ -2,7 +2,7 @@
     <string name="app_name">SportStesiyen</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_favorite">Favorite</string>
+    <string name="title_statistic">Statistic</string>
     <string name="title_account">Account</string>
     <string name="txt_dummy">Dummy</string>
     <string name="txt_error_fetch">Error Fetch</string>
@@ -19,25 +19,25 @@
     <string name="txt_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="txt_started_onboarding">Get Started</string>
 
-    <string name="txt_login_intro">Halo,\nSilahkan login di sini</string>
-    <string name="txt_register_intro">Halo,\nSilahkan register di sini</string>
+    <string name="txt_login_intro">Hello,\nPlease Login Here</string>
+    <string name="txt_register_intro">Halo,\nPlease Register Here</string>
     <string name="txt_username">Username</string>
     <string name="txt_email">Email</string>
-    <string name="txt_email_invalid">Email Tidak Valid</string>
+    <string name="txt_email_invalid">Email Invalid</string>
     <string name="txt_password">Password</string>
-    <string name="txt_username_not_blank">Username tidak boleh kosong</string>
-    <string name="txt_email_not_blank">Email tidak boleh kosong</string>
-    <string name="txt_password_invalid">Email Tidak Valid</string>
-    <string name="txt_password_not_blank">Password tidak boleh kosong</string>
-    <string name="txt_password_limit">Password harus 6 karakter</string>
-    <string name="txt_login_new_register">Belum punya akun ? </string>
-    <string name="txt_login_new_register_click">klik disini</string>
+    <string name="txt_username_not_blank">Username is Not Empty</string>
+    <string name="txt_email_not_blank">Email is Not Empty</string>
+    <string name="txt_password_invalid">Password Invalid</string>
+    <string name="txt_password_not_blank">Password is Not Empty</string>
+    <string name="txt_password_limit">Password must be 6 characters</string>
+    <string name="txt_login_new_register">Dont have account yet ? </string>
+    <string name="txt_login_new_register_click">Click Here</string>
     <string name="txt_login">Login</string>
     <string name="txt_register">Register</string>
     <string name="txt_welcome">Welcome </string>
 
     <string name="txt_top_headline_news_home">Top Headline News</string>
-    <string name="txt_everything_news_home">Berita Dalam Negeri</string>
+    <string name="txt_everything_news_home">Domestic News sport</string>
     <string name="txt_banner_home">Banner Home</string>
     <string name="txt_show_all_list">Show All</string>
     <string name="txt_type_latest_home">Home</string>
@@ -48,4 +48,17 @@
     <string name="txt_since_home">Since</string>
     <string name="txt_source_news_detail">Source</string>
     <string name="txt_author_news_detail">Author</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_otp_verification">OTP Verification</string>
+    <string name="txt_desc_input_otp">We will send you an\nOne Time Password on this phone number</string>
+    <string name="txt_phone_invalid">Phone Number Invalid</string>
+    <string name="txt_phone_number">Phone Number</string>
+    <string name="txt_get_otp">Get OTP</string>
+    <string name="txt_otp_verify"><![CDATA[Verify & Proceed]]></string>
+    <string name="txt_desc_verify_otp">Enter the OTP sent to</string>
+    <string name="txt_dummy_phone">081234567890</string>
+    <string name="txt_resend_otp">Resend OTP</string>
+    <string name="txt_error_verification_otp">Didn\'t receive the OTP ?</string>
+
+    <string name="media_url_mp4">https://storage.googleapis.com/exoplayer-test-media-0/play.mp3</string>
 </resources>

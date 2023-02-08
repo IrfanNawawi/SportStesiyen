@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -29,12 +29,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:fontFamily="@font/mulish_bold_700"
+            android:text="@string/app_name"
             android:textColor="@color/teal_700"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_welcome_home"
-            tools:text="@string/app_name" />
+            app:layout_constraintTop_toBottomOf="@id/tv_welcome_home" />
 
         <ImageView
             android:id="@+id/img_search_home"
@@ -270,73 +270,15 @@
                 </com.facebook.shimmer.ShimmerFrameLayout>
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_everything_news_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fm_list_sport_teams">
-
-                <TextView
-                    android:id="@+id/tv_everything_news_home"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/mulish_semibold_600"
-                    android:text="@string/txt_everything_news_home"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_show_everything_news_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/mulish_medium_500"
-                    android:text="@string/txt_show_all_list"
-                    android:textColor="@color/teal_700"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/fm_list_everything_news_sport"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ll_everything_news_home">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_everything_news_sport_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_news_sport_home" />
-
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/pg_shimmer_everything_news_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-
-                    <include layout="@layout/item_news_sport_shimmer_home" />
-
-                </com.facebook.shimmer.ShimmerFrameLayout>
-            </FrameLayout>
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fm_list_everything_news_sport" />
+                app:layout_constraintTop_toBottomOf="@id/fm_list_top_headline_news_sport" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

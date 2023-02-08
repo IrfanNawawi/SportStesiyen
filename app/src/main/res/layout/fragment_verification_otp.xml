@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.otp.inputotp.InputOtpFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/btn_verify_otp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_logo_verification_otp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/svg_sport_verification_otp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_intro_verification_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_extrabold_800"
+            android:text="@string/txt_otp_verification"
+            android:textColor="@color/teal_200"
+            android:textSize="26sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_logo_verification_otp" />
+
+        <TextView
+            android:id="@+id/tv_desc_verification_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_semibold_600"
+            android:text="@string/txt_desc_verify_otp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_intro_verification_otp" />
+
+        <TextView
+            android:id="@+id/tv_phone_verification_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_bold_700"
+            android:text="@string/txt_dummy_phone"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc_verification_otp" />
+
+        <LinearLayout
+            android:id="@+id/ll_otp_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_phone_verification_otp">
+
+            <EditText
+                android:id="@+id/edt_otp_phone_1"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:background="@drawable/bg_outline_black"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="18sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields,TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/edt_otp_phone_2"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_outline_black"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="18sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields,TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/edt_otp_phone_3"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_outline_black"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="18sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields,TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/edt_otp_phone_4"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_outline_black"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="18sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields,TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/edt_otp_phone_5"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_outline_black"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="18sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields,TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/edt_otp_phone_6"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_outline_black"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="18sp"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields,TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_error_verification_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/mulish_semibold_600"
+            android:text="@string/txt_error_verification_otp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_otp_phone" />
+
+        <TextView
+            android:id="@+id/tv_resend_verification_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/mulish_bold_700"
+            android:text="@string/txt_resend_otp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_verification_otp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/btn_verify_otp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_primary"
+        android:fontFamily="@font/mulish_bold_700"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/txt_otp_verify"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

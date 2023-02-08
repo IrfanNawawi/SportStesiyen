@@ -14,6 +14,7 @@ import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.auth.register.RegisterFragment
+import id.heycoding.sportstesiyen.ui.otp.OtpActivity
 
 class LoginFragment : Fragment() {
 
@@ -26,18 +27,17 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        doCheckingAccount()
         return fragmentLoginBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AuthActivity).supportActionBar?.hide()
-        initView()
+        initViews()
+        initViewModel()
     }
 
-    private fun initView() {
+    private fun initViews() {
         fragmentLoginBinding?.apply {
             btnLogin.setOnClickListener {
                 validateAndLogin()
@@ -48,23 +48,19 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun doCheckingAccount() {
-        authViewModel.doCheckingUser()
-        authViewModel.isCheckingAccount.observe(viewLifecycleOwner) {
-            if (it == true) {
-                reload()
-            }
+    private fun initViewModel() {
+        authViewModel.apply {
+            isCheckingUser.observe(viewLifecycleOwner) { showCheckingUser(it) }
         }
-
     }
 
     private fun validateAndLogin() {
-        if (fragmentLoginBinding?.edtLoginEmail?.text!!.isBlank()) {
+        if (fragmentLoginBinding?.edtLoginEmail?.text?.isBlank() == true) {
             fragmentLoginBinding?.edtLoginEmail?.error =
                 context?.getString(R.string.txt_email_not_blank)
             return
-        } else if (fragmentLoginBinding?.edtLoginPassword?.text!!.isBlank()) {
-            fragmentLoginBinding?.edtLoginPassword!!.error =
+        } else if (fragmentLoginBinding?.edtLoginPassword?.text?.isBlank() == true) {
+            fragmentLoginBinding?.edtLoginPassword?.error =
                 context?.getString(R.string.txt_password_not_blank)
             return
         } else {
@@ -78,29 +74,39 @@ class LoginFragment : Fragment() {
 
         authViewModel.apply {
             doLogin(userEmail, userPassword)
-            isSuccess.observe(viewLifecycleOwner) { reload() }
-            isMessage.observe(viewLifecycleOwner) { showMessage(it) }
+
+            isSuccess.observe(viewLifecycleOwner) { moveToOtp() }
+            isError.observe(viewLifecycleOwner) { showMessage(it) }
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
 
     }
 
+    private fun showCheckingUser(it: Boolean?) {
+        if (it == true) {
+            moveToMain()
+        }
+    }
+
     private fun showLoading(isLoading: Boolean) {
-        fragmentLoginBinding?.pgLogin!!.visibility = if (isLoading) View.VISIBLE else View.GONE
+        fragmentLoginBinding?.pgLogin?.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showMessage(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        doCheckingAccount()
+    private fun moveToOtp() {
+        startActivity(Intent(activity, OtpActivity::class.java))
     }
 
-    private fun reload() {
+    private fun moveToMain() {
         startActivity(Intent(activity, MainActivity::class.java))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        authViewModel.doCheckingUser()
     }
 
     override fun onDestroyView() {

@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentRegisterBinding
-import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
+import id.heycoding.sportstesiyen.ui.otp.OtpActivity
 
 class RegisterFragment : Fragment() {
 
@@ -25,17 +25,16 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentRegisterBinding = FragmentRegisterBinding.inflate(inflater, container, false)
-        doCheckingAccount()
         return fragmentRegisterBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AuthActivity).supportActionBar?.hide()
-        initView()
+        initViews()
     }
 
-    private fun initView() {
+    private fun initViews() {
         fragmentRegisterBinding?.apply {
             btnRegister.setOnClickListener {
                 validateAndRegister()
@@ -43,36 +42,27 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun doCheckingAccount() {
-        authViewModel.doCheckingUser()
-        authViewModel.isCheckingAccount.observe(viewLifecycleOwner) {
-            if (it == true) {
-                reload()
-            }
-        }
-    }
-
     private fun validateAndRegister() {
-        if (fragmentRegisterBinding?.edtRegisterUsername?.text!!.isBlank()) {
-            fragmentRegisterBinding?.edtRegisterUsername!!.error =
+        if (fragmentRegisterBinding?.edtRegisterUsername?.text?.isBlank() == true) {
+            fragmentRegisterBinding?.edtRegisterUsername?.error =
                 context?.getString(R.string.txt_username_not_blank)
             return
         } else if (
-            fragmentRegisterBinding?.edtRegisterEmail?.text!!.isBlank()) {
-            fragmentRegisterBinding?.edtRegisterEmail!!.error =
+            fragmentRegisterBinding?.edtRegisterEmail?.text?.isBlank() == true) {
+            fragmentRegisterBinding?.edtRegisterEmail?.error =
                 context?.getString(R.string.txt_email_not_blank)
             return
         } else if (
-            fragmentRegisterBinding?.edtRegisterPassword?.text!!.isBlank()) {
-            fragmentRegisterBinding?.edtRegisterPassword!!.error =
+            fragmentRegisterBinding?.edtRegisterPassword?.text?.isBlank() == true) {
+            fragmentRegisterBinding?.edtRegisterPassword?.error =
                 context?.getString(R.string.txt_password_not_blank)
             return
         } else {
-            doRegister()
+            doSignUpAccount()
         }
     }
 
-    private fun doRegister() {
+    private fun doSignUpAccount() {
         val userName = fragmentRegisterBinding?.edtRegisterUsername?.text.toString().trim()
         val userEmail = fragmentRegisterBinding?.edtRegisterEmail?.text.toString().trim()
         val userPassword = fragmentRegisterBinding?.edtRegisterPassword?.text.toString().trim()
@@ -81,14 +71,14 @@ class RegisterFragment : Fragment() {
 
             doRegister(userName, userEmail, userPassword)
 
-            isSuccess.observe(viewLifecycleOwner) { reload() }
-            isMessage.observe(viewLifecycleOwner) { showMessage(it) }
+            isSuccess.observe(viewLifecycleOwner) { moveToOtp() }
+            isError.observe(viewLifecycleOwner) { showMessage(it) }
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
-        fragmentRegisterBinding?.pgRegister!!.visibility =
+        fragmentRegisterBinding?.pgRegister?.visibility =
             if (isLoading) View.VISIBLE else View.GONE
     }
 
@@ -96,14 +86,8 @@ class RegisterFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        doCheckingAccount()
-    }
-
-    private fun reload() {
-        startActivity(Intent(activity, MainActivity::class.java))
+    private fun moveToOtp() {
+        startActivity(Intent(activity, OtpActivity::class.java))
     }
 
 

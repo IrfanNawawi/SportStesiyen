@@ -2,11 +2,11 @@ package id.heycoding.sportstesiyen.ui.home.eventsleague
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import id.heycoding.sportstesiyen.data.remote.response.Event
+import id.heycoding.sportstesiyen.data.entity.EventLeague
 
 class HomeEventsLeagueCallback(
-    private val oldList: List<Event>,
-    private val newList: List<Event>
+    private val oldList: List<EventLeague>,
+    private val newList: List<EventLeague>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

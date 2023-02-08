@@ -3,36 +3,38 @@ package id.heycoding.sportstesiyen.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import id.heycoding.sportstesiyen.data.remote.MainWebServices
-import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_NEWSAPI
-import id.heycoding.sportstesiyen.data.remote.MainWebServices.EndPoint.BASE_URL_THESPORTDB
-import id.heycoding.sportstesiyen.data.remote.response.ArticlesEverything
-import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
-import id.heycoding.sportstesiyen.data.remote.response.Event
-import id.heycoding.sportstesiyen.data.remote.response.Team
+import id.heycoding.sportstesiyen.data.entity.*
+import id.heycoding.sportstesiyen.domain.usecase.NewsUseCase
+import id.heycoding.sportstesiyen.domain.usecase.SoccerUseCase
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
+import id.heycoding.sportstesiyen.utils.Const
+import id.heycoding.sportstesiyen.utils.ConstNews
 import id.heycoding.sportstesiyen.utils.DataDummy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import id.heycoding.sportstesiyen.utils.ResultState
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val soccerUseCase: SoccerUseCase,
+    private val newsUseCase: NewsUseCase
+) : ViewModel() {
 
-    private val _listTeamLeagueData = MutableLiveData<List<Team>>()
-    val listTeamsLeagueData: LiveData<List<Team>> = _listTeamLeagueData
+    private val _listTeamsLeagueDataLeague = MutableLiveData<List<TeamsLeague>>()
+    val listTeamsLeagueData: LiveData<List<TeamsLeague>> = _listTeamsLeagueDataLeague
 
-    private val _listEventLeagueData = MutableLiveData<List<Event>>()
-    val listEventLeagueData: LiveData<List<Event>> = _listEventLeagueData
+    private val _listEventLeagueDataLeague = MutableLiveData<List<EventLeague>>()
+    val listEventLeagueDataLeague: LiveData<List<EventLeague>> = _listEventLeagueDataLeague
 
-    private val _listTopHeadlineNewsSportData = MutableLiveData<List<ArticlesTopHeadline>>()
-    val listTopHeadlineNewsSportData: LiveData<List<ArticlesTopHeadline>> =
+    private val _listTopHeadlineNewsSportData = MutableLiveData<List<Articles>>()
+    val listTopHeadlineNewsSportData: LiveData<List<Articles>> =
         _listTopHeadlineNewsSportData
-
-    private val _listEverythingNewsSportData = MutableLiveData<List<ArticlesEverything>>()
-    val listEverythingNewsSportData: LiveData<List<ArticlesEverything>> =
-        _listEverythingNewsSportData
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -46,15 +48,12 @@ class HomeViewModel : ViewModel() {
     private val _isCheckingAccount = MutableLiveData<String>()
     val isCheckingAccount: LiveData<String> = _isCheckingAccount
 
-    private val servicesTheSportDB = MainWebServices(BASE_URL_THESPORTDB)
-    private val servicesNewsAPI = MainWebServices(BASE_URL_NEWSAPI)
-
     private var auth: FirebaseAuth = Firebase.auth
 
     fun doCheckingUser() {
         val user = auth.currentUser
         if (user != null) {
-            _isCheckingAccount.value = user.displayName
+            _isCheckingAccount.value = user.displayName.toString()
         }
     }
 
@@ -65,97 +64,82 @@ class HomeViewModel : ViewModel() {
 
     fun getBannerData(): List<BannerData> = DataDummy.generateDummyBanner()
 
-    fun getAllEventLeagueData() {
-        servicesTheSportDB.getAllEventLeague(
-            MainWebServices.EndPoint.ID_LEAGUE_THESPORTDB,
-            MainWebServices.EndPoint.YEAR_SEASON_LEAGUE_THESPORTDB
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
+    fun getEventLeagueData() {
+        viewModelScope.launch {
+            soccerUseCase.getEventLeagueUseCase(
+                idLeague = Const.ID_LEAGUE_THESPORTDB,
+                seasonLeague = Const.YEAR_SEASON_LEAGUE_THESPORTDB
+            ).onStart {
                 _isLoading.value = true
+            }.onCompletion {
+                _isLoading.value = false
+            }.catch { throwable ->
+                _isError.postValue(throwable.message)
+            }.collectLatest { dataEvent ->
+                when (dataEvent) {
+                    is ResultState.Success -> {
+                        val response = dataEvent.data as EventLeagueResponse
+                        _listEventLeagueDataLeague.postValue(response.eventLeagues)
+                    }
+
+                    is ResultState.Message -> {
+                        _isError.postValue(dataEvent.message)
+                    }
+                }
             }
-            .doOnError {
-                _isLoading.value = false
-                _isError.postValue(it.message)
-            }
-            .subscribe({
-                _isLoading.value = false
-                _listEventLeagueData.postValue(it.events)
-            }, {
-                _isLoading.value = false
-                _isError.postValue(it.message)
-            })
+        }
     }
 
-    fun getAllTeamsData(league: String) {
-        servicesTheSportDB.getAllTeamsLeague(league)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
+    fun getTeamsData() {
+        viewModelScope.launch {
+            soccerUseCase.getTeamsLeagueUseCase(
+                league = Const.LEAGUE_THESPORTDB
+            ).onStart {
                 _isLoading.value = true
+            }.onCompletion {
+                _isLoading.value = false
+            }.catch { throwable ->
+                _isError.postValue(throwable.message)
+            }.collectLatest { dataTeams ->
+                when (dataTeams) {
+                    is ResultState.Success -> {
+                        val response = dataTeams.data as TeamsLeagueResponse
+                        _listTeamsLeagueDataLeague.postValue(response.teamsLeagues)
+                    }
+
+                    is ResultState.Message -> {
+                        _isError.postValue(dataTeams.message)
+                    }
+                }
             }
-            .doOnError {
-                _isLoading.value = false
-                _isError.postValue(it.message)
-            }
-            .subscribe({
-                _isLoading.value = false
-                _listTeamLeagueData.postValue(it.teams)
-            }, {
-                _isLoading.value = false
-                _isError.postValue(it.message)
-            })
+        }
     }
 
     fun getTopHeadlineNewsSportData() {
-        servicesNewsAPI.getTopHeadlineNewsSport(
-            MainWebServices.EndPoint.COUNTRY_US_NEWSAPI,
-            MainWebServices.EndPoint.CATEGORY_NEWSAPI,
-            MainWebServices.EndPoint.API_KEY_NEWSAPI
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
+        viewModelScope.launch {
+            newsUseCase.getTopHeadlineNewsSportDataUseCase(
+                url = Const.BASE_URL_NEWSAPI + ConstNews.GET_TOP_HEADLINES_NEWS_SPORT,
+                country = Const.COUNTRY_US_NEWSAPI,
+                category = Const.CATEGORY_NEWSAPI,
+                apiKey = Const.API_KEY_NEWSAPI
+            ).onStart {
                 _isLoading.value = true
-            }
-            .doOnError {
+            }.onCompletion {
                 _isLoading.value = false
-                _isError.postValue(it.message)
-            }
-            .subscribe({
-                _isLoading.value = false
-                _listTopHeadlineNewsSportData.postValue(it.articles)
-            }, {
-                _isLoading.value = false
-                _isError.postValue(it.message)
-            })
-    }
+            }.catch { throwable ->
+                _isError.postValue(throwable.message)
+            }.collectLatest { dataTopHeadline ->
+                when (dataTopHeadline) {
+                    is ResultState.Success -> {
+                        val response = dataTopHeadline.data as NewsSportResponse
+                        _listTopHeadlineNewsSportData.postValue(response.articles)
+                    }
 
-    fun getEverythingNewsSportData() {
-        servicesNewsAPI.getEverythingNewsSport(
-            MainWebServices.EndPoint.CATEGORY_NEWSAPI,
-            MainWebServices.EndPoint.COUNTRY_ID_NEWSAPI,
-            MainWebServices.EndPoint.FROM_NEWSAPI,
-            MainWebServices.EndPoint.TO_NEWSAPI,
-            MainWebServices.EndPoint.SORT_NEWSAPI,
-            MainWebServices.EndPoint.API_KEY_NEWSAPI
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                _isLoading.value = true
+                    is ResultState.Message -> {
+                        _isError.postValue(dataTopHeadline.message)
+                    }
+                }
             }
-            .doOnError {
-                _isLoading.value = false
-                _isError.postValue(it.message)
-            }
-            .subscribe({
-                _isLoading.value = false
-                _listEverythingNewsSportData.postValue(it.articles)
-            }, {
-                _isLoading.value = false
-                _isError.postValue(it.message)
-            })
+        }
     }
 }

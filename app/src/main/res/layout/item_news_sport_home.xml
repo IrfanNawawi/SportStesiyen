@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/newsLayoutRoot"
+    android:id="@+id/eventLayoutRoot"
     android:layout_width="180dp"
     android:layout_height="205dp"
     android:layout_marginVertical="@dimen/activity_margin"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:contentDescription="@string/txt_top_headline_news_home"
-                android:src="@drawable/more"
+                android:src="@drawable/ic_more"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

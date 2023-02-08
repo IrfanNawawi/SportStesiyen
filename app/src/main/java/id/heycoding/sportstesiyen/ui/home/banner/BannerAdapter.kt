@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.databinding.ItemSliderSportHomeBinding
 
 class BannerAdapter(
-    private val viewPager2: ViewPager2?,
     private val listSportBannerData: ArrayList<BannerData>
 ) :
     RecyclerView.Adapter<BannerAdapter.ViewHolder>() {

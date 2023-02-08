@@ -2,11 +2,11 @@ package id.heycoding.sportstesiyen.ui.home.topheadlinenews
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import id.heycoding.sportstesiyen.data.remote.response.ArticlesTopHeadline
+import id.heycoding.sportstesiyen.data.entity.Articles
 
 class HomeTopHeadlineNewsSportCallback(
-    private val oldList: List<ArticlesTopHeadline>,
-    private val newList: List<ArticlesTopHeadline>
+    private val oldList: List<Articles>,
+    private val newList: List<Articles>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
     override fun getNewListSize(): Int = newList.size

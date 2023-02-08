@@ -16,9 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SportStesiyen"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.newseverything.NewsEverythingActivity"
+            android:name=".ui.otp.OtpActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.home.everything.detaileverything.DetailNewsEverythingActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.SportStesiyen.NoActionBar">
@@ -30,7 +38,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.newstopheadline.NewsTopHeadlineActivity"
+            android:name=".ui.home.topheadlinenews.detailtopheadlinenews.DetailNewsTopHeadlineActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.SportStesiyen.NoActionBar">
@@ -42,7 +50,20 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.teamsleague.TeamsLeagueActivity"
+            android:name=".ui.home.eventsleague.detaileventsleague.DetailEventsLeagueActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.SportStesiyen.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.home.teamsleague.detailteamsleague.DetailTeamsLeagueActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.SportStesiyen.NoActionBar">

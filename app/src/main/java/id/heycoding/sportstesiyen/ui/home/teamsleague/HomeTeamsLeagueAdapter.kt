@@ -5,37 +5,36 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.heycoding.sportstesiyen.data.remote.response.Team
+import id.heycoding.sportstesiyen.data.entity.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.ItemSportHomeBinding
 import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 
 class HomeTeamsLeagueAdapter(private val callback: HomeFragmentCallback) :
     RecyclerView.Adapter<HomeTeamsLeagueAdapter.ViewHolder>() {
-    private val listTeamsLeagueData = ArrayList<Team>()
+    private val listTeamsLeagueData = ArrayList<TeamsLeague>()
 
     inner class ViewHolder(private val binding: ItemSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(teams: Team) {
+        fun bind(teams: TeamsLeague) {
             binding.apply {
                 Glide.with(itemView.context)
-
                     .load(teams.strTeamBadge + "/tiny")
                     .into(imgSportHome)
 
                 tvSportHome.text = teams.strTeam
                 tvSportFormatHome.text = teams.intFormedYear
 
-                itemView.setOnClickListener { callback.onDetailCategory(teams, adapterPosition) }
+                itemView.setOnClickListener { callback.onDetailTeamsLeague(teams) }
             }
         }
     }
 
-    fun setSportData(teams: List<Team>) {
-        val diffCallback = HomeTeamsLeagueCallback(listTeamsLeagueData, teams)
+    fun setSportData(teamsLeagues: List<TeamsLeague>) {
+        val diffCallback = HomeTeamsLeagueCallback(listTeamsLeagueData, teamsLeagues)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         listTeamsLeagueData.clear()
-        listTeamsLeagueData.addAll(teams)
+        listTeamsLeagueData.addAll(teamsLeagues)
         diffResult.dispatchUpdatesTo(this)
     }
 

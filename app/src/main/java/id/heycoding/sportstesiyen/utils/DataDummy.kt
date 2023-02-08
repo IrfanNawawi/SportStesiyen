@@ -2,6 +2,7 @@ package id.heycoding.sportstesiyen.utils
 
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
+import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailteamsmenu.DetailTeamsMenu
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingItem
 
 object DataDummy {
@@ -35,35 +36,55 @@ object DataDummy {
         val banner = ArrayList<BannerData>()
         banner.add(
             BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+                imgUrl = "https://www.thesportsdb.com/images/media/event/fanart/92ria11659788060.jpg"
             )
         )
         banner.add(
             BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+                imgUrl = "https://www.thesportsdb.com/images/media/event/fanart/ta54141659813047.jpg"
             )
         )
         banner.add(
             BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
-            )
-        )
-        banner.add(
-            BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
-            )
-        )
-        banner.add(
-            BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
-            )
-        )
-        banner.add(
-            BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
+                imgUrl = "https://www.thesportsdb.com/images/media/event/fanart/tya5ts1659813253.jpg"
             )
         )
         return banner
+    }
+
+    fun generateDummyDetailTeamsMenu(): ArrayList<DetailTeamsMenu> {
+        val detailTeamsMenu = ArrayList<DetailTeamsMenu>()
+        detailTeamsMenu.add(
+            DetailTeamsMenu(
+                menuDetailTeams = "Description"
+            )
+        )
+        detailTeamsMenu.add(
+            DetailTeamsMenu(
+                menuDetailTeams = "Stadium"
+            )
+        )
+        detailTeamsMenu.add(
+            DetailTeamsMenu(
+                menuDetailTeams = "Jersey"
+            )
+        )
+        detailTeamsMenu.add(
+            DetailTeamsMenu(
+                menuDetailTeams = "League"
+            )
+        )
+        detailTeamsMenu.add(
+            DetailTeamsMenu(
+                menuDetailTeams = "News"
+            )
+        )
+        detailTeamsMenu.add(
+            DetailTeamsMenu(
+                menuDetailTeams = "Contact"
+            )
+        )
+        return detailTeamsMenu
     }
 
 }
