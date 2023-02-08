@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_gradient_primary"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_position_statistic"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:fontFamily="@font/mulish_medium_500"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Pos" />
+
+    <TextView
+        android:id="@+id/tv_teams_statistic"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:fontFamily="@font/mulish_medium_500"
+        app:layout_constraintStart_toEndOf="@id/tv_position_statistic"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Club"
+        />
+
+    <TextView
+        android:id="@+id/tv_played_statistic"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:fontFamily="@font/mulish_medium_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="P" />
+
+    <TextView
+        android:id="@+id/tv_win_statistic"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:textColor="@color/white"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:fontFamily="@font/mulish_medium_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="W" />
+
+    <TextView
+        android:id="@+id/tv_draw_statistic"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:fontFamily="@font/mulish_medium_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="D" />
+
+    <TextView
+        android:id="@+id/tv_lose_statistic"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:textColor="@color/white"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:fontFamily="@font/mulish_medium_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="L" />
+
+    <TextView
+        android:id="@+id/tv_goal_different_statistic"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:fontFamily="@font/mulish_medium_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="GD" />
+
+    <TextView
+        android:id="@+id/tv_point_statistic"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:fontFamily="@font/mulish_medium_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Pts" />
+</LinearLayout>

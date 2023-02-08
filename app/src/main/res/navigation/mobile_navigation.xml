@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="id.heycoding.sportstesiyen.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_favorite"
+            app:destination="@id/navigation_favorite" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_account"
+            app:destination="@id/navigation_account" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="id.heycoding.sportstesiyen.ui.statistic.StatisticFragment"
+        android:label="@string/title_statistic"
+        tools:layout="@layout/fragment_statistic">
+        <action
+            android:id="@+id/action_navigation_favorite_to_navigation_account"
+            app:destination="@id/navigation_account" />
+        <action
+            android:id="@+id/action_navigation_favorite_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="id.heycoding.sportstesiyen.ui.account.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account">
+        <action
+            android:id="@+id/action_navigation_account_to_navigation_favorite"
+            app:destination="@id/navigation_favorite" />
+        <action
+            android:id="@+id/action_navigation_account_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+</navigation>

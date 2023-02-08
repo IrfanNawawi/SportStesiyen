@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.teamsleague.detailteamsleague.detailteamsmenu.description.DescriptionFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_desc_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_bold_700"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Description" />
+
+        <TextView
+            android:id="@+id/tv_desc_teams_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_semibold_600"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc_detail"
+            tools:text="@string/txt_ipsum" />
+
+        <TextView
+            android:id="@+id/tv_league_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_bold_700"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc_teams_detail"
+            android:text="League" />
+
+        <LinearLayout
+            android:id="@+id/ll_league_teams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_league_detail">
+            <TextView
+                android:id="@+id/tv_league_teams_detail_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:textSize="14sp"
+                android:text="League" />
+
+            <TextView
+                android:id="@+id/tv_league_teams_detail_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:textSize="14sp"
+                android:text="League" />
+
+            <TextView
+                android:id="@+id/tv_league_teams_detail_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mulish_semibold_600"
+                android:textSize="14sp"
+                android:text="League" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_teams_kit_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mulish_bold_700"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_league_teams"
+            android:text="Team Kit" />
+
+        <LinearLayout
+            android:id="@+id/ll_teams_kit_teams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_teams_kit_detail">
+            <FrameLayout
+                android:id="@+id/fm_teams_kit_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+                <ImageView
+                    android:id="@+id/img_teams_kit_one"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <ImageView
+                    android:id="@+id/img_teams_kit_blank_one"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_outline_kit_black"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fm_teams_kit_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/img_teams_kit_second"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <ImageView
+                    android:id="@+id/img_teams_kit_blank_second"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_outline_kit_black"/>
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
