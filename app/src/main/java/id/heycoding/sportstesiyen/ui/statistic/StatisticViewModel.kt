@@ -33,11 +33,11 @@ class StatisticViewModel(private val soccerUseCase: SoccerUseCase) : ViewModel()
     private val _isError = MutableLiveData<String>()
     val isError: LiveData<String> = _isError
 
-    fun getStatisticLeagueData() {
+    fun getStatisticLeagueData(idLeague: String, season: String) {
         viewModelScope.launch {
             soccerUseCase.getStatisticUseCase(
-                idLeague = ID_LEAGUE_THESPORTDB,
-                seasonLeague = YEAR_SEASON_LEAGUE_THESPORTDB
+                idLeague = idLeague,
+                seasonLeague = season
             ).onStart {
                 _isLoading.value = true
             }.onCompletion {
@@ -84,10 +84,10 @@ class StatisticViewModel(private val soccerUseCase: SoccerUseCase) : ViewModel()
         }
     }
 
-    fun getSeasonData() {
+    fun getSeasonData(idLeague: String) {
         viewModelScope.launch {
             soccerUseCase.getSeasonUseCase(
-                idLeague = Const.ID_LEAGUE_THESPORTDB
+                idLeague = idLeague
             ).onStart {
                 _isLoading.value = true
             }.onCompletion {
