@@ -2,7 +2,7 @@ package id.heycoding.sportstesiyen.ui.statistic
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import id.heycoding.sportstesiyen.data.entity.Table
+import id.heycoding.sportstesiyen.data.source.response.Table
 
 class StatisticCallback(
     private val oldList: List<Table>,

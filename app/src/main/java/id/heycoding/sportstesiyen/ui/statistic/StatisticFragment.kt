@@ -1,27 +1,24 @@
 package id.heycoding.sportstesiyen.ui.statistic
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.entity.Table
+import id.heycoding.sportstesiyen.data.source.response.Table
 import id.heycoding.sportstesiyen.databinding.FragmentStatisticBinding
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+
 
 class StatisticFragment : Fragment() {
 
@@ -30,10 +27,10 @@ class StatisticFragment : Fragment() {
     private val statisticViewModel: StatisticViewModel by activityViewModel()
     private lateinit var statisticAdapter: StatisticAdapter
     private val listStatisticLeague: MutableList<Table> = mutableListOf()
+
     private val listIdLeague: MutableList<String> = mutableListOf()
     private val listLeague: MutableList<String> = mutableListOf()
     private val listSeason: MutableList<String> = mutableListOf()
-    private var leagueSet = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,12 +46,10 @@ class StatisticFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         statisticViewModel.apply {
-            getStatisticLeagueData()
             getLeagueData()
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,28 +63,27 @@ class StatisticFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                return true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                //for other device how are able to connect with Ethernet
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                //for check internet over Bluetooth
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
             }
+        } else {
+            val nwInfo = connectivityManager.activeNetworkInfo ?: return false
+            return nwInfo.isConnected
         }
-        return false
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun initViewModel() {
         statisticViewModel.apply {
             listStatisticData.observe(viewLifecycleOwner) { listStatisticData ->
@@ -99,22 +93,39 @@ class StatisticFragment : Fragment() {
                 statisticAdapter.setStatisticData(listStatisticData)
             }
 
-            listLeagueData.observe(viewLifecycleOwner) {
-                listLeague.clear()
+            listLeagueData.observe(viewLifecycleOwner) { league ->
                 listIdLeague.clear()
+                listLeague.clear()
+//                listLeague.add(0, "Select a league")
 
-                listLeague.add("Pilih League")
-                listIdLeague.add("0")
-
-                it.map { league ->
-                    listLeague.add(league.strLeague)
-                    listIdLeague.add(league.idLeague)
+                league.map {
+                    listIdLeague.add(it.idLeague)
+                    listLeague.add(it.strLeague)
                 }
+
+                val adapterLeague = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    listLeague
+                )
+                adapterLeague.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                fragmentStatisticBinding?.spinnerLeague?.adapter = adapterLeague
             }
 
-            listSeasonData.observe(viewLifecycleOwner) {
+            listSeasonData.observe(viewLifecycleOwner) { season ->
                 listSeason.clear()
-                listSeason.add("Pilih Season")
+//                listSeason.add(0, "Select a season")
+                season.map {
+                    listSeason.add(it.strSeason)
+                }
+
+                val adapterSeason = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    listSeason
+                )
+                adapterSeason.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                fragmentStatisticBinding?.spinnerSeason?.adapter = adapterSeason
             }
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
@@ -132,61 +143,49 @@ class StatisticFragment : Fragment() {
                 clipChildren = false
             }
 
-            val adapterLeague = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                listLeague
-            )
-            spinnerLeague.adapter = adapterLeague
-            spinnerLeague.count.minus(1)
-            spinnerLeague.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View,
-                        position: Int,
-                        id: Long
-                    ) {
-                        leagueSet = parent.getItemAtPosition(position).toString()
-                        Log.d("DAPET YA", "Dapet dong $leagueSet")
-                        Toast.makeText(requireContext(), "Pilih $leagueSet", Toast.LENGTH_SHORT)
-                            .show()
+            spinnerLeague.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-                        if (parent.selectedItem == spinnerLeague.selectedItem) {
-                            statisticViewModel.getSeasonData()
-                        }
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    parent?.getItemAtPosition(position).toString()
+                    if (parent?.selectedItem == spinnerLeague.selectedItem) {
+                        statisticViewModel.getSeasonData(listIdLeague[position])
                     }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
+            }
 
-            val adapterSeason = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                listSeason
-            )
-            spinnerSeason.adapter = adapterSeason
-            spinnerSeason.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View,
-                        position: Int,
-                        id: Long
-                    ) {
-                        parent.getItemAtPosition(position).toString()
+            spinnerSeason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    parent?.getItemAtPosition(position).toString()
+                    if (parent?.selectedItem == spinnerSeason.selectedItem) {
+                        statisticViewModel.getStatisticLeagueData(listIdLeague[position], listSeason[position])
                     }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
+            }
         }
     }
 
     private fun showLoading(it: Boolean?) {
         if (it == true) {
+            fragmentStatisticBinding?.llEmptyData?.visibility = View.VISIBLE
+            fragmentStatisticBinding?.fmListStatistic?.visibility = View.INVISIBLE
             fragmentStatisticBinding?.pgShimmerStatistic?.startShimmer()
             fragmentStatisticBinding?.pgShimmerStatistic?.visibility = View.VISIBLE
         } else {
+            fragmentStatisticBinding?.llEmptyData?.visibility = View.INVISIBLE
+            fragmentStatisticBinding?.fmListStatistic?.visibility = View.VISIBLE
             fragmentStatisticBinding?.pgShimmerStatistic?.stopShimmer()
             fragmentStatisticBinding?.pgShimmerStatistic?.visibility = View.GONE
         }

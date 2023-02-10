@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import id.heycoding.sportstesiyen.data.entity.TeamsLeague
+import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailteamsmenu.description.DescriptionFragment
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailteamsmenu.jersey.JerseyFragment
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailteamsmenu.news.NewsFragment

@@ -1,15 +1,22 @@
 package id.heycoding.sportstesiyen.ui.auth.register
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentRegisterBinding
+import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.otp.OtpActivity
@@ -31,7 +38,45 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AuthActivity).supportActionBar?.hide()
-        initViews()
+
+        if (isOnline(requireContext())) {
+            initViewModel()
+            initViews()
+        } else {
+            showErrorConnection()
+        }
+    }
+
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                //for other device how are able to connect with Ethernet
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                //for check internet over Bluetooth
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
+            }
+        } else {
+            val nwInfo = connectivityManager.activeNetworkInfo ?: return false
+            return nwInfo.isConnected
+        }
+    }
+
+    private fun showErrorConnection() {
+        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(view)
+        dialog.show()
+        dialog.setCancelable(false)
+
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
     private fun initViews() {
@@ -39,6 +84,12 @@ class RegisterFragment : Fragment() {
             btnRegister.setOnClickListener {
                 validateAndRegister()
             }
+        }
+    }
+
+    private fun initViewModel() {
+        authViewModel.apply {
+            isCheckingUser.observe(viewLifecycleOwner) { showCheckingUser(it) }
         }
     }
 
@@ -77,6 +128,12 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun showCheckingUser(it: Boolean?) {
+        if (it == true) {
+            moveToMain()
+        }
+    }
+
     private fun showLoading(isLoading: Boolean) {
         fragmentRegisterBinding?.pgRegister?.visibility =
             if (isLoading) View.VISIBLE else View.GONE
@@ -90,6 +147,9 @@ class RegisterFragment : Fragment() {
         startActivity(Intent(activity, OtpActivity::class.java))
     }
 
+    private fun moveToMain() {
+        startActivity(Intent(activity, MainActivity::class.java))
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

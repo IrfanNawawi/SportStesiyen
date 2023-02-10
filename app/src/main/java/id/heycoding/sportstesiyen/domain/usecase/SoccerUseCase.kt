@@ -1,81 +1,48 @@
 package id.heycoding.sportstesiyen.domain.usecase
 
-import id.buaja.news.untils.fetchError
-import id.heycoding.sportstesiyen.data.repository.SoccerRepository
-import id.heycoding.sportstesiyen.utils.ResultState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import id.heycoding.sportstesiyen.domain.model.*
+import id.heycoding.sportstesiyen.domain.repository.SoccerRepository
+import kotlinx.coroutines.flow.Flow
 
 class SoccerUseCase(private val soccerRepository: SoccerRepository) {
-    suspend fun getEventLeagueUseCase(
+    fun getEventLeagueUseCase(
         idLeague: String,
         seasonLeague: String
-    ) = flow {
-        val response =
-            soccerRepository.getEventLeague(idLeague = idLeague, seasonLeague = seasonLeague)
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
-    }.flowOn(Dispatchers.IO)
+    ): Flow<List<Event>> {
+        return soccerRepository.getEventLeague(idLeague = idLeague, seasonLeague = seasonLeague)
+    }
 
-    suspend fun getTeamsLeagueUseCase(
+    fun getTeamsLeagueUseCase(
         league: String
-    ) = flow {
-        val response = soccerRepository.getTeamsLeague(
+    ): Flow<List<Teams>> {
+        return soccerRepository.getTeamsLeague(
             league = league
         )
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
-    }.flowOn(Dispatchers.IO)
 
-    suspend fun getJerseyTeamUseCase(
+    }
+
+    fun getJerseyTeamUseCase(
         idTeam: String
-    ) = flow {
-        val response = soccerRepository.getJerseyTeamsDetail(
+    ): Flow<List<Jersey>> {
+        return soccerRepository.getJerseyTeamsDetail(
             idTeam = idTeam
         )
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
-    }.flowOn(Dispatchers.IO)
+    }
 
-    suspend fun getStatisticUseCase(
+    fun getStatisticUseCase(
         idLeague: String, seasonLeague: String
-    ) = flow {
-        val response = soccerRepository.getStatisticTableLeague(
+    ): Flow<List<Statistic>> {
+        return soccerRepository.getStatisticTableLeague(
             idLeague = idLeague,
             seasonLeague = seasonLeague
         )
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
-    }.flowOn(Dispatchers.IO)
-
-    suspend fun getLeagueUseCase() = flow {
-        val response = soccerRepository.getLeague()
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
     }
 
-    suspend fun getSeasonUseCase(idLeague: String) = flow {
-        val response = soccerRepository.getSeasonLeague(idLeague = idLeague)
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
+    fun getLeagueUseCase(): Flow<List<Leagues>> {
+        return soccerRepository.getLeague()
+    }
+
+    fun getSeasonUseCase(idLeague: String): Flow<List<Seasons>> {
+        return soccerRepository.getSeasonLeague(idLeague = idLeague)
     }
 }

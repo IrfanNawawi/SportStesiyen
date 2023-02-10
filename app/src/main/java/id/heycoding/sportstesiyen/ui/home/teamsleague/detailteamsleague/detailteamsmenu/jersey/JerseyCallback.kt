@@ -2,7 +2,7 @@ package id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailt
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import id.heycoding.sportstesiyen.data.entity.Equipment
+import id.heycoding.sportstesiyen.data.source.response.Equipment
 
 class JerseyCallback(
     private val oldList: List<Equipment>,

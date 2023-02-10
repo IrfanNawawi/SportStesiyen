@@ -1,15 +1,21 @@
 package id.heycoding.sportstesiyen.ui.onboarding
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.ActivityOnboardingBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
@@ -30,12 +36,47 @@ class OnBoardingActivity : AppCompatActivity() {
         supportActionBar?.title = ""
         onBoardingAdapter = OnBoardingAdapter(listOnBoardingData)
 
-        initViewModel()
-        initViews()
-        setupIndicator()
-        setCurrectIndicator(0)
+        if (isOnline(this)) {
+            initViewModel()
+            initViews()
+            setupIndicator()
+            setCurrectIndicator(0)
+        } else {
+            showErrorConnection()
+        }
     }
 
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                //for other device how are able to connect with Ethernet
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                //for check internet over Bluetooth
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
+            }
+        } else {
+            val nwInfo = connectivityManager.activeNetworkInfo ?: return false
+            return nwInfo.isConnected
+        }
+    }
+
+    private fun showErrorConnection() {
+        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(view)
+        dialog.show()
+        dialog.setCancelable(false)
+
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
+    }
     private fun initViewModel() {
         onBoardingViewModel.apply {
             val onBoarding = getOnBoarding()

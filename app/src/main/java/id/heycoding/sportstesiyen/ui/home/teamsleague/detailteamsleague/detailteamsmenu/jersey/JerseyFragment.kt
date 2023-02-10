@@ -16,8 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.entity.Equipment
-import id.heycoding.sportstesiyen.data.entity.TeamsLeague
+import id.heycoding.sportstesiyen.data.source.response.Equipment
+import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentJerseyBinding
 import id.heycoding.sportstesiyen.utils.ConstSports
 import org.koin.androidx.viewmodel.ext.android.activityViewModel

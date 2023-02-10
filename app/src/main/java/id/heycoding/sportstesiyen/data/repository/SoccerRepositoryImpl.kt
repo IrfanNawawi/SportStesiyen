@@ -1,39 +1,75 @@
 package id.heycoding.sportstesiyen.data.repository
 
-import id.heycoding.sportstesiyen.data.entity.*
-import id.heycoding.sportstesiyen.data.service.SoccerServices
-import retrofit2.Response
+import id.heycoding.sportstesiyen.data.*
+import id.heycoding.sportstesiyen.data.source.SoccerDataSource
+import id.heycoding.sportstesiyen.domain.model.*
+import id.heycoding.sportstesiyen.domain.repository.SoccerRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class SoccerRepositoryImpl(
-    private val soccerServices: SoccerServices
+    private val soccerDataSource: SoccerDataSource,
+    private val dispatcher: CoroutineDispatcher,
 ) : SoccerRepository {
-    override suspend fun getEventLeague(
-        idLeague: String,
-        seasonLeague: String
-    ): Response<EventLeagueResponse> {
-        return soccerServices.getEventLeague(idLeague = idLeague, seasonLeague = seasonLeague)
+    override suspend fun getEventLeague(idLeague: String, seasonLeague: String): Flow<List<Event>> {
+        return flow {
+            emit(
+                soccerDataSource.getEventLeague(
+                    idLeague = idLeague,
+                    seasonLeague = seasonLeague
+                ).eventLeagues.mappingEventLeagueToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
 
-    override suspend fun getTeamsLeague(league: String): Response<TeamsLeagueResponse> {
-        return soccerServices.getTeamsLeague(league = league)
+    override suspend fun getTeamsLeague(league: String): Flow<List<Teams>> {
+        return flow {
+            emit(
+                soccerDataSource.getTeamsLeague(
+                    league = league
+                ).teamsLeagues.mappingTeamsToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
 
-    override suspend fun getJerseyTeamsDetail(idTeam: String): Response<JerseyTeamResponse> {
-        return soccerServices.getJerseyTeamsDetail(idTeam = idTeam)
+    override suspend fun getJerseyTeamsDetail(idTeam: String): Flow<List<Jersey>> {
+        return flow {
+            emit(
+                soccerDataSource.getJerseyTeamsDetail(idTeam = idTeam).equipment.mappingJerseyToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
 
-    override suspend fun getLeague(): Response<LeagueResponse> {
-        return soccerServices.getAllLeague()
+    override suspend fun getLeague(): Flow<List<Leagues>> {
+        return flow {
+            emit(
+                soccerDataSource.getLeague().leagues.mappingLeagueToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
 
-    override suspend fun getSeasonLeague(idLeague: String): Response<SeasonResponse> {
-        return soccerServices.getAllSeason(idLeague = idLeague)
+    override suspend fun getSeasonLeague(idLeague: String): Flow<List<Seasons>> {
+        return flow {
+            emit(
+                soccerDataSource.getSeasonLeague(idLeague = idLeague).seasons.mappingSeasonToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
 
     override suspend fun getStatisticTableLeague(
         idLeague: String,
         seasonLeague: String
-    ): Response<StatisticTableResponse> {
-        return soccerServices.getStatisticTableLeague(idLeague = idLeague, seasonLeague = seasonLeague)
+    ): Flow<List<Statistic>> {
+        return flow {
+            emit(
+                soccerDataSource.getStatisticTableLeague(
+                    idLeague = idLeague,
+                    seasonLeague = seasonLeague
+                ).table.mappingStatisticToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
+
 }

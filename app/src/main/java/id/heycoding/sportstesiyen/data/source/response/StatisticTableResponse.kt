@@ -1,4 +1,4 @@
-package id.heycoding.sportstesiyen.data.entity
+package id.heycoding.sportstesiyen.data.source.response
 
 
 import com.google.gson.annotations.SerializedName
@@ -10,41 +10,41 @@ data class StatisticTableResponse(
 
 data class Table(
     @SerializedName("dateUpdated")
-    val dateUpdated: String? = null,
+    val dateUpdated: String,
     @SerializedName("idLeague")
-    val idLeague: String? = null,
+    val idLeague: String,
     @SerializedName("idStanding")
-    val idStanding: String? = null,
+    val idStanding: String,
     @SerializedName("idTeam")
-    val idTeam: String? = null,
+    val idTeam: String,
     @SerializedName("intDraw")
-    val intDraw: String? = null,
+    val intDraw: String,
     @SerializedName("intGoalDifference")
-    val intGoalDifference: String? = null,
+    val intGoalDifference: String,
     @SerializedName("intGoalsAgainst")
-    val intGoalsAgainst: String? = null,
+    val intGoalsAgainst: String,
     @SerializedName("intGoalsFor")
-    val intGoalsFor: String? = null,
+    val intGoalsFor: String,
     @SerializedName("intLoss")
-    val intLoss: String? = null,
+    val intLoss: String,
     @SerializedName("intPlayed")
-    val intPlayed: String? = null,
+    val intPlayed: String,
     @SerializedName("intPoints")
-    val intPoints: String? = null,
+    val intPoints: String,
     @SerializedName("intRank")
-    val intRank: String? = null,
+    val intRank: String,
     @SerializedName("intWin")
-    val intWin: String? = null,
+    val intWin: String,
     @SerializedName("strDescription")
-    val strDescription: String? = null,
+    val strDescription: String,
     @SerializedName("strForm")
-    val strForm: String? = null,
+    val strForm: String,
     @SerializedName("strLeague")
-    val strLeague: String? = null,
+    val strLeague: String,
     @SerializedName("strSeason")
-    val strSeason: String? = null,
+    val strSeason: String,
     @SerializedName("strTeam")
-    val strTeam: String? = null,
+    val strTeam: String,
     @SerializedName("strTeamBadge")
-    val strTeamBadge: String? = null
+    val strTeamBadge: String
 )

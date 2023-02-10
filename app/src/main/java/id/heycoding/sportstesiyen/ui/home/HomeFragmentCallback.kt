@@ -1,8 +1,8 @@
 package id.heycoding.sportstesiyen.ui.home
 
-import id.heycoding.sportstesiyen.data.entity.Articles
-import id.heycoding.sportstesiyen.data.entity.EventLeague
-import id.heycoding.sportstesiyen.data.entity.TeamsLeague
+import id.heycoding.sportstesiyen.data.source.response.Articles
+import id.heycoding.sportstesiyen.data.source.response.EventLeague
+import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 
 interface HomeFragmentCallback {
     fun onDetailTeamsLeague(teamsList: TeamsLeague)

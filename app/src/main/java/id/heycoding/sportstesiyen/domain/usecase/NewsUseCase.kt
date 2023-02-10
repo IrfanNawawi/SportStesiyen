@@ -1,34 +1,27 @@
 package id.heycoding.sportstesiyen.domain.usecase
 
-import id.buaja.news.untils.fetchError
-import id.heycoding.sportstesiyen.data.repository.NewsRepository
-import id.heycoding.sportstesiyen.utils.ResultState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import id.heycoding.sportstesiyen.domain.model.News
+import id.heycoding.sportstesiyen.domain.model.Teams
+import id.heycoding.sportstesiyen.domain.repository.NewsRepository
+import id.heycoding.sportstesiyen.domain.repository.SoccerRepository
+import kotlinx.coroutines.flow.Flow
 
 class NewsUseCase(private val newsRepository: NewsRepository) {
-    suspend fun getTopHeadlineNewsSportDataUseCase(
+    fun getTopHeadlineNewsSportDataUseCase(
         url: String,
         country: String,
         category: String,
         apiKey: String
-    ) = flow {
-        val response =
-            newsRepository.getTopHeadlineNews(
-                url = url,
-                country = country,
-                category = category,
-                apiKey = apiKey
-            )
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
-    }.flowOn(Dispatchers.IO)
+    ): Flow<List<News>> {
+        return newsRepository.getTopHeadlineNews(
+            url = url,
+            country = country,
+            category = category,
+            apiKey = apiKey
+        )
+    }
 
-    suspend fun getEverythingTeamsNewsSportDataUseCase(
+    fun getEverythingTeamsNewsSportDataUseCase(
         url: String,
         query: String,
         language: String,
@@ -36,17 +29,12 @@ class NewsUseCase(private val newsRepository: NewsRepository) {
         to: String,
         sortBy: String,
         apiKey: String
-    ) = flow {
-        val response = newsRepository.getEverythingTeamsNews(
+    ): Flow<List<News>> {
+        return newsRepository.getEverythingTeamsNews(
             url = url,
             query = query,
             language = language,
             from = from, to = to, sortBy = sortBy, apiKey = apiKey
         )
-        if (response.isSuccessful) {
-            emit(ResultState.Success(response.body()))
-        } else {
-            emit(fetchError(response))
-        }
-    }.flowOn(Dispatchers.IO)
+    }
 }

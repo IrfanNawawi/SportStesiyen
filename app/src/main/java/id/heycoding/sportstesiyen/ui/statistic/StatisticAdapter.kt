@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.heycoding.sportstesiyen.data.entity.Table
+import id.heycoding.sportstesiyen.data.source.response.Table
 import id.heycoding.sportstesiyen.databinding.ItemHeaderStatisticBinding
 import id.heycoding.sportstesiyen.databinding.ItemStatisticBinding
 

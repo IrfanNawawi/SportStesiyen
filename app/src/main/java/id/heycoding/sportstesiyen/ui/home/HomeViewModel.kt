@@ -7,18 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import id.heycoding.sportstesiyen.data.entity.*
+import id.heycoding.sportstesiyen.data.response.*
+import id.heycoding.sportstesiyen.data.source.response.*
 import id.heycoding.sportstesiyen.domain.usecase.NewsUseCase
 import id.heycoding.sportstesiyen.domain.usecase.SoccerUseCase
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.ConstNews
 import id.heycoding.sportstesiyen.utils.DataDummy
-import id.heycoding.sportstesiyen.utils.ResultState
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import id.heycoding.sportstesiyen.utils.UiState
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -50,6 +48,10 @@ class HomeViewModel(
 
     private var auth: FirebaseAuth = Firebase.auth
 
+    private val _uiState = MutableStateFlow<UiState<List<ApiUser>>>(UiState.Loading)
+
+    val uiState: StateFlow<UiState<List<ApiUser>>> = _uiState
+
     fun doCheckingUser() {
         val user = auth.currentUser
         if (user != null) {
@@ -77,12 +79,12 @@ class HomeViewModel(
                 _isError.postValue(throwable.message)
             }.collectLatest { dataEvent ->
                 when (dataEvent) {
-                    is ResultState.Success -> {
+                    is UiState.Success -> {
                         val response = dataEvent.data as EventLeagueResponse
                         _listEventLeagueDataLeague.postValue(response.eventLeagues)
                     }
 
-                    is ResultState.Message -> {
+                    is UiState.Error -> {
                         _isError.postValue(dataEvent.message)
                     }
                 }
@@ -102,12 +104,12 @@ class HomeViewModel(
                 _isError.postValue(throwable.message)
             }.collectLatest { dataTeams ->
                 when (dataTeams) {
-                    is ResultState.Success -> {
+                    is UiState.Success -> {
                         val response = dataTeams.data as TeamsLeagueResponse
                         _listTeamsLeagueDataLeague.postValue(response.teamsLeagues)
                     }
 
-                    is ResultState.Message -> {
+                    is UiState.Error -> {
                         _isError.postValue(dataTeams.message)
                     }
                 }
@@ -130,12 +132,12 @@ class HomeViewModel(
                 _isError.postValue(throwable.message)
             }.collectLatest { dataTopHeadline ->
                 when (dataTopHeadline) {
-                    is ResultState.Success -> {
+                    is UiState.Success -> {
                         val response = dataTopHeadline.data as NewsSportResponse
                         _listTopHeadlineNewsSportData.postValue(response.articles)
                     }
 
-                    is ResultState.Message -> {
+                    is UiState.Error -> {
                         _isError.postValue(dataTopHeadline.message)
                     }
                 }

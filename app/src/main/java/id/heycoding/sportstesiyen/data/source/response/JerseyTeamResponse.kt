@@ -1,4 +1,4 @@
-package id.heycoding.sportstesiyen.data.entity
+package id.heycoding.sportstesiyen.data.source.response
 
 
 import com.google.gson.annotations.SerializedName
@@ -10,17 +10,17 @@ data class JerseyTeamResponse(
 
 data class Equipment(
     @SerializedName("date")
-    val date: String? = null,
+    val date: String,
     @SerializedName("idEquipment")
-    val idEquipment: String? = null,
+    val idEquipment: String,
     @SerializedName("idTeam")
-    val idTeam: String? = null,
+    val idTeam: String,
     @SerializedName("strEquipment")
-    val strEquipment: String? = null,
+    val strEquipment: String,
     @SerializedName("strSeason")
-    val strSeason: String? = null,
+    val strSeason: String,
     @SerializedName("strType")
-    val strType: String? = null,
+    val strType: String,
     @SerializedName("strUsername")
-    val strUsername: String? = null
+    val strUsername: String
 )

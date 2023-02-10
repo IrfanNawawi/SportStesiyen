@@ -1,6 +1,6 @@
-package id.heycoding.sportstesiyen.data.service
+package id.heycoding.sportstesiyen.data.source.service
 
-import id.heycoding.sportstesiyen.data.entity.NewsSportResponse
+import id.heycoding.sportstesiyen.data.source.response.NewsSportResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,7 +13,7 @@ interface NewsServices {
         @Query("country") country: String,
         @Query("category") category: String,
         @Query("apiKey") apiKey: String
-    ): Response<NewsSportResponse>
+    ): NewsSportResponse
 
     @GET
     suspend fun getEverythingTeamsNewsSport(
@@ -24,5 +24,5 @@ interface NewsServices {
         @Query("to") to: String,
         @Query("sortBy") sortBy: String,
         @Query("apiKey") apiKey: String
-    ): Response<NewsSportResponse>
+    ): NewsSportResponse
 }

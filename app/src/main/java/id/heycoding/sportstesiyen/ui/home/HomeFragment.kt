@@ -8,7 +8,6 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,9 +24,9 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.entity.Articles
-import id.heycoding.sportstesiyen.data.entity.EventLeague
-import id.heycoding.sportstesiyen.data.entity.TeamsLeague
+import id.heycoding.sportstesiyen.data.source.response.Articles
+import id.heycoding.sportstesiyen.data.source.response.EventLeague
+import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
@@ -97,25 +96,36 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                return true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                //for other device how are able to connect with Ethernet
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                //for check internet over Bluetooth
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
             }
+        } else {
+            val nwInfo = connectivityManager.activeNetworkInfo ?: return false
+            return nwInfo.isConnected
         }
-        return false
+    }
+
+    private fun showErrorConnection() {
+        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(view)
+        dialog.show()
+        dialog.setCancelable(false)
+
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -317,18 +327,6 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         tvErrorFetch.text = message
 
         dialog.show()
-    }
-
-    @SuppressLint("InflateParams")
-    private fun showErrorConnection() {
-        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(view)
-        dialog.show()
-        dialog.setCancelable(false)
-
-        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
-        tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
     private fun showSignOut() {

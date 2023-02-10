@@ -1,24 +1,34 @@
 package id.heycoding.sportstesiyen.data.repository
 
-import id.heycoding.sportstesiyen.data.entity.NewsSportResponse
-import id.heycoding.sportstesiyen.data.service.NewsServices
-import retrofit2.Response
+import id.heycoding.sportstesiyen.data.mappingNewsToUseCaseEntity
+import id.heycoding.sportstesiyen.data.source.NewsDataSource
+import id.heycoding.sportstesiyen.domain.model.News
+import id.heycoding.sportstesiyen.domain.repository.NewsRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class NewsRepositoryImpl(
-    private val newsServices: NewsServices
+    private val newsDataSource: NewsDataSource,
+    private val dispatcher: CoroutineDispatcher,
 ) : NewsRepository {
     override suspend fun getTopHeadlineNews(
         url: String,
         country: String,
         category: String,
         apiKey: String
-    ): Response<NewsSportResponse> {
-        return newsServices.getTopHeadlineNewsSport(
-            newsUrl = url,
-            country = country,
-            category = category,
-            apiKey = apiKey
-        )
+    ): Flow<List<News>> {
+        return flow {
+            emit(
+                newsDataSource.getTopHeadlineNews(
+                    url = url,
+                    country = country,
+                    category = category,
+                    apiKey = apiKey
+                ).articles.mappingNewsToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
 
     override suspend fun getEverythingTeamsNews(
@@ -29,16 +39,19 @@ class NewsRepositoryImpl(
         to: String,
         sortBy: String,
         apiKey: String
-    ): Response<NewsSportResponse> {
-        return newsServices.getEverythingTeamsNewsSport(
-            newsUrl = url,
-            q = query,
-            lang = language,
-            fr = from,
-            to = to,
-            sortBy = sortBy,
-            apiKey = apiKey
-        )
+    ): Flow<List<News>> {
+        return flow {
+            emit(
+                newsDataSource.getEverythingTeamsNews(
+                    url = url,
+                    query = query,
+                    language = language,
+                    from = from,
+                    to = to,
+                    sortBy = sortBy,
+                    apiKey = apiKey
+                ).articles.mappingNewsToUseCaseEntity()
+            )
+        }.flowOn(dispatcher)
     }
-
 }

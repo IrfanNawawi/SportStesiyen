@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import id.heycoding.sportstesiyen.data.entity.EventLeague
+import id.heycoding.sportstesiyen.data.source.response.EventLeague
 import id.heycoding.sportstesiyen.databinding.ItemEventLeagueHomeBinding
 import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const

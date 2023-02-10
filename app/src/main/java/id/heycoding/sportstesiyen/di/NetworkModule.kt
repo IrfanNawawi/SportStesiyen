@@ -1,7 +1,7 @@
 package id.heycoding.sportstesiyen.di
 
-import id.heycoding.sportstesiyen.data.service.NewsServices
-import id.heycoding.sportstesiyen.data.service.SoccerServices
+import id.heycoding.sportstesiyen.data.source.service.NewsServices
+import id.heycoding.sportstesiyen.data.source.service.SoccerServices
 import id.heycoding.sportstesiyen.utils.Const
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

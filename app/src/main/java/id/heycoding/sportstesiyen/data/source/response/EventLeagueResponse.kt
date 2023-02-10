@@ -1,4 +1,4 @@
-package id.heycoding.sportstesiyen.data.entity
+package id.heycoding.sportstesiyen.data.source.response
 
 
 import android.os.Parcelable
@@ -13,93 +13,93 @@ data class EventLeagueResponse(
 @Parcelize
 data class EventLeague(
     @SerializedName("dateEvent")
-    val dateEvent: String? = null,
+    val dateEvent: String,
     @SerializedName("dateEventLocal")
-    val dateEventLocal: String? = null,
+    val dateEventLocal: String,
     @SerializedName("idAPIfootball")
-    val idAPIfootball: String? = null,
+    val idAPIfootball: String,
     @SerializedName("idAwayTeam")
-    val idAwayTeam: String? = null,
+    val idAwayTeam: String,
     @SerializedName("idEvent")
-    val idEvent: String? = null,
+    val idEvent: String,
     @SerializedName("idHomeTeam")
-    val idHomeTeam: String? = null,
+    val idHomeTeam: String,
     @SerializedName("idLeague")
-    val idLeague: String? = null,
+    val idLeague: String,
     @SerializedName("idSoccerXML")
-    val idSoccerXML: String? = null,
+    val idSoccerXML: String,
     @SerializedName("intAwayScore")
-    val intAwayScore: String? = null,
+    val intAwayScore: String,
     @SerializedName("intHomeScore")
-    val intHomeScore: String? = null,
+    val intHomeScore: String,
     @SerializedName("intRound")
-    val intRound: String? = null,
+    val intRound: String,
     @SerializedName("intScore")
-    val intScore: String? = null,
+    val intScore: String,
     @SerializedName("intScoreVotes")
-    val intScoreVotes: String? = null,
+    val intScoreVotes: String,
     @SerializedName("intSpectators")
-    val intSpectators: String? = null,
+    val intSpectators: String,
     @SerializedName("strAwayTeam")
-    val strAwayTeam: String? = null,
+    val strAwayTeam: String,
     @SerializedName("strBanner")
-    val strBanner: String? = null,
+    val strBanner: String,
     @SerializedName("strCity")
-    val strCity: String? = null,
+    val strCity: String,
     @SerializedName("strCountry")
-    val strCountry: String? = null,
+    val strCountry: String,
     @SerializedName("strDescriptionEN")
-    val strDescriptionEN: String? = null,
+    val strDescriptionEN: String,
     @SerializedName("strEvent")
-    val strEvent: String? = null,
+    val strEvent: String,
     @SerializedName("strEventAlternate")
-    val strEventAlternate: String? = null,
+    val strEventAlternate: String,
     @SerializedName("strFanart")
-    val strFanart: String? = null,
+    val strFanart: String,
     @SerializedName("strFilename")
-    val strFilename: String? = null,
+    val strFilename: String,
     @SerializedName("strHomeTeam")
-    val strHomeTeam: String? = null,
+    val strHomeTeam: String,
     @SerializedName("strLeague")
-    val strLeague: String? = null,
+    val strLeague: String,
     @SerializedName("strLocked")
-    val strLocked: String? = null,
+    val strLocked: String,
     @SerializedName("strMap")
-    val strMap: String? = null,
+    val strMap: String,
     @SerializedName("strOfficial")
-    val strOfficial: String? = null,
+    val strOfficial: String,
     @SerializedName("strPoster")
-    val strPoster: String? = null,
+    val strPoster: String,
     @SerializedName("strPostponed")
-    val strPostponed: String? = null,
+    val strPostponed: String,
     @SerializedName("strResult")
-    val strResult: String? = null,
+    val strResult: String,
     @SerializedName("strSeason")
-    val strSeason: String? = null,
+    val strSeason: String,
     @SerializedName("strSport")
-    val strSport: String? = null,
+    val strSport: String,
     @SerializedName("strSquare")
-    val strSquare: String? = null,
+    val strSquare: String,
     @SerializedName("strStatus")
-    val strStatus: String? = null,
+    val strStatus: String,
     @SerializedName("strTVStation")
-    val strTVStation: String? = null,
+    val strTVStation: String,
     @SerializedName("strThumb")
-    val strThumb: String? = null,
+    val strThumb: String,
     @SerializedName("strTime")
-    val strTime: String? = null,
+    val strTime: String,
     @SerializedName("strTimeLocal")
-    val strTimeLocal: String? = null,
+    val strTimeLocal: String,
     @SerializedName("strTimestamp")
-    val strTimestamp: String? = null,
+    val strTimestamp: String,
     @SerializedName("strTweet1")
-    val strTweet1: String? = null,
+    val strTweet1: String,
     @SerializedName("strTweet2")
-    val strTweet2: String? = null,
+    val strTweet2: String,
     @SerializedName("strTweet3")
-    val strTweet3: String? = null,
+    val strTweet3: String,
     @SerializedName("strVenue")
-    val strVenue: String? = null,
+    val strVenue: String,
     @SerializedName("strVideo")
-    val strVideo: String? = null
+    val strVideo: String
 ) : Parcelable

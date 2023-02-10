@@ -1,15 +1,15 @@
-package id.heycoding.sportstesiyen.data.repository
+package id.heycoding.sportstesiyen.data.source
 
-import id.heycoding.sportstesiyen.data.entity.NewsSportResponse
-import retrofit2.Response
+import id.heycoding.sportstesiyen.data.source.response.NewsSportResponse
+import kotlinx.coroutines.flow.Flow
 
-interface NewsRepository {
+interface NewsDataSource {
     suspend fun getTopHeadlineNews(
         url: String,
         country: String,
         category: String,
         apiKey: String
-    ): Response<NewsSportResponse>
+    ): NewsSportResponse
 
     suspend fun getEverythingTeamsNews(
         url: String,
@@ -19,5 +19,5 @@ interface NewsRepository {
         to: String,
         sortBy: String,
         apiKey: String
-    ): Response<NewsSportResponse>
+    ): NewsSportResponse
 }

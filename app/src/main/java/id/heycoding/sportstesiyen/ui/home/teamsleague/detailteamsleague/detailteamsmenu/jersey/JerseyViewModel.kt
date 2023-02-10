@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.heycoding.sportstesiyen.data.entity.Equipment
-import id.heycoding.sportstesiyen.data.entity.JerseyTeamResponse
+import id.heycoding.sportstesiyen.data.source.response.Equipment
+import id.heycoding.sportstesiyen.data.source.response.JerseyTeamResponse
 import id.heycoding.sportstesiyen.domain.usecase.SoccerUseCase
-import id.heycoding.sportstesiyen.utils.ResultState
+import id.heycoding.sportstesiyen.utils.UiState
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
@@ -37,12 +37,12 @@ class JerseyViewModel(private val soccerUseCase: SoccerUseCase) : ViewModel() {
                 _isError.postValue(throwable.message)
             }.collectLatest { dataJersey ->
                 when (dataJersey) {
-                    is ResultState.Success -> {
+                    is UiState.Success -> {
                         val response = dataJersey.data as JerseyTeamResponse
                         _listJerseyData.postValue(response.equipment)
                     }
 
-                    is ResultState.Message -> {
+                    is UiState.Error -> {
                         _isError.postValue(dataJersey.message)
                     }
                 }

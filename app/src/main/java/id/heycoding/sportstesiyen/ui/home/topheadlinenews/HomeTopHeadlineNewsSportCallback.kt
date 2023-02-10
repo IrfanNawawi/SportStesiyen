@@ -2,7 +2,7 @@ package id.heycoding.sportstesiyen.ui.home.topheadlinenews
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import id.heycoding.sportstesiyen.data.entity.Articles
+import id.heycoding.sportstesiyen.data.source.response.Articles
 
 class HomeTopHeadlineNewsSportCallback(
     private val oldList: List<Articles>,

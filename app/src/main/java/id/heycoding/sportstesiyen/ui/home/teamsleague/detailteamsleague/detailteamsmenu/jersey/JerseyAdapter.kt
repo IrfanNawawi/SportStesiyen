@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.heycoding.sportstesiyen.data.entity.Equipment
+import id.heycoding.sportstesiyen.data.source.response.Equipment
 import id.heycoding.sportstesiyen.databinding.ItemTeamsJerseyBinding
 
 class JerseyAdapter : RecyclerView.Adapter<JerseyAdapter.ViewHolder>() {

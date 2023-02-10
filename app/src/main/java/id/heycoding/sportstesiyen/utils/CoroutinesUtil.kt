@@ -1,28 +1,28 @@
 package id.buaja.news.untils
 
-import id.heycoding.sportstesiyen.utils.ResultState
+import id.heycoding.sportstesiyen.utils.UiState
 import retrofit2.Response
 
 /**
  * Created By Julsapargi Nursam 6/3/20
  */
 
-fun <T : Any> fetchError(response: Response<T>): ResultState.Message {
+fun <T : Any> fetchError(response: Response<T>): UiState.Error {
     return when (response.code()) {
         404 -> {
-            ResultState.Message("Not Found")
+            UiState.Error("Not Found")
         }
 
         401 -> {
-            ResultState.Message("Auth")
+            UiState.Error("Auth")
         }
 
         in 500..599 -> {
-            ResultState.Message("Server Kami Sedang Bermasalah")
+            UiState.Error("Server Kami Sedang Bermasalah")
         }
 
         else -> {
-            ResultState.Message(response.message())
+            UiState.Error(response.message())
         }
     }
 }
