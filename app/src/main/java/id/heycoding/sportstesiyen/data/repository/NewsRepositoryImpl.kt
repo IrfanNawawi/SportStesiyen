@@ -13,7 +13,7 @@ class NewsRepositoryImpl(
     private val newsDataSource: NewsDataSource,
     private val dispatcher: CoroutineDispatcher,
 ) : NewsRepository {
-    override suspend fun getTopHeadlineNews(
+    override fun getTopHeadlineNews(
         url: String,
         country: String,
         category: String,
@@ -31,7 +31,7 @@ class NewsRepositoryImpl(
         }.flowOn(dispatcher)
     }
 
-    override suspend fun getEverythingTeamsNews(
+    override fun getEverythingTeamsNews(
         url: String,
         query: String,
         language: String,

@@ -1,7 +1,5 @@
 package id.heycoding.sportstesiyen.ui.auth
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,15 +20,12 @@ class AuthViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isCheckingUser = MutableLiveData<Boolean>()
-    val isCheckingUser: LiveData<Boolean> = _isCheckingUser
-
     private var auth: FirebaseAuth = Firebase.auth
 
     fun doCheckingUser() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            _isCheckingUser.value = true
+            _isSuccess.value = true
         }
     }
 

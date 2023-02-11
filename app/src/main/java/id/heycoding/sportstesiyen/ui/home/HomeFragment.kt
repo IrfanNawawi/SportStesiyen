@@ -70,7 +70,6 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         super.onCreate(savedInstanceState)
 
         homeViewModel.apply {
-            doCheckingUser()
             getEventLeagueData()
             getTeamsData()
             getTopHeadlineNewsSportData()
@@ -374,5 +373,10 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             )
                 .putExtra(ConstNews.EXTRA_NEWS_TOPHEADLINE, topHeadlineList)
         )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        homeViewModel.doCheckingUser()
     }
 }

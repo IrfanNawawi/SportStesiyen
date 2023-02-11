@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import id.heycoding.sportstesiyen.data.response.*
 import id.heycoding.sportstesiyen.data.source.response.*
 import id.heycoding.sportstesiyen.domain.usecase.NewsUseCase
 import id.heycoding.sportstesiyen.domain.usecase.SoccerUseCase
@@ -16,7 +15,10 @@ import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.ConstNews
 import id.heycoding.sportstesiyen.utils.DataDummy
 import id.heycoding.sportstesiyen.utils.UiState
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -47,10 +49,6 @@ class HomeViewModel(
     val isCheckingAccount: LiveData<String> = _isCheckingAccount
 
     private var auth: FirebaseAuth = Firebase.auth
-
-    private val _uiState = MutableStateFlow<UiState<List<ApiUser>>>(UiState.Loading)
-
-    val uiState: StateFlow<UiState<List<ApiUser>>> = _uiState
 
     fun doCheckingUser() {
         val user = auth.currentUser

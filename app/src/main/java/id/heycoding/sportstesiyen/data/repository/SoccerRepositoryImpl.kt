@@ -13,7 +13,7 @@ class SoccerRepositoryImpl(
     private val soccerDataSource: SoccerDataSource,
     private val dispatcher: CoroutineDispatcher,
 ) : SoccerRepository {
-    override suspend fun getEventLeague(idLeague: String, seasonLeague: String): Flow<List<Event>> {
+    override fun getEventLeague(idLeague: String, seasonLeague: String): Flow<List<Event>> {
         return flow {
             emit(
                 soccerDataSource.getEventLeague(
@@ -24,7 +24,7 @@ class SoccerRepositoryImpl(
         }.flowOn(dispatcher)
     }
 
-    override suspend fun getTeamsLeague(league: String): Flow<List<Teams>> {
+    override fun getTeamsLeague(league: String): Flow<List<Teams>> {
         return flow {
             emit(
                 soccerDataSource.getTeamsLeague(
@@ -34,7 +34,7 @@ class SoccerRepositoryImpl(
         }.flowOn(dispatcher)
     }
 
-    override suspend fun getJerseyTeamsDetail(idTeam: String): Flow<List<Jersey>> {
+    override fun getJerseyTeamsDetail(idTeam: String): Flow<List<Jersey>> {
         return flow {
             emit(
                 soccerDataSource.getJerseyTeamsDetail(idTeam = idTeam).equipment.mappingJerseyToUseCaseEntity()
@@ -42,7 +42,7 @@ class SoccerRepositoryImpl(
         }.flowOn(dispatcher)
     }
 
-    override suspend fun getLeague(): Flow<List<Leagues>> {
+    override fun getLeague(): Flow<List<Leagues>> {
         return flow {
             emit(
                 soccerDataSource.getLeague().leagues.mappingLeagueToUseCaseEntity()
@@ -50,7 +50,7 @@ class SoccerRepositoryImpl(
         }.flowOn(dispatcher)
     }
 
-    override suspend fun getSeasonLeague(idLeague: String): Flow<List<Seasons>> {
+    override fun getSeasonLeague(idLeague: String): Flow<List<Seasons>> {
         return flow {
             emit(
                 soccerDataSource.getSeasonLeague(idLeague = idLeague).seasons.mappingSeasonToUseCaseEntity()
@@ -58,7 +58,7 @@ class SoccerRepositoryImpl(
         }.flowOn(dispatcher)
     }
 
-    override suspend fun getStatisticTableLeague(
+    override fun getStatisticTableLeague(
         idLeague: String,
         seasonLeague: String
     ): Flow<List<Statistic>> {
