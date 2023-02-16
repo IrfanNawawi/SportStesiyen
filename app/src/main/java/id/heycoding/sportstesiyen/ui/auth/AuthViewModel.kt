@@ -1,7 +1,6 @@
 package id.heycoding.sportstesiyen.ui.auth
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,8 +12,8 @@ import com.google.firebase.ktx.Firebase
 
 class AuthViewModel : ViewModel() {
 
-    private val _isSuccess = MutableLiveData<Boolean>()
-    val isSuccess: LiveData<Boolean> = _isSuccess
+    private val _isSuccess = MutableLiveData<String>()
+    val isSuccess: LiveData<String> = _isSuccess
 
     private val _isError = MutableLiveData<String>()
     val isError: LiveData<String> = _isError
@@ -22,15 +21,12 @@ class AuthViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isCheckingUser = MutableLiveData<Boolean>()
-    val isCheckingUser: LiveData<Boolean> = _isCheckingUser
-
     private var auth: FirebaseAuth = Firebase.auth
 
     fun doCheckingUser() {
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            _isCheckingUser.value = true
+        val user = auth.currentUser
+        if (user != null) {
+            _isSuccess.value = user.displayName.toString()
         }
     }
 
@@ -41,7 +37,7 @@ class AuthViewModel : ViewModel() {
                 _isLoading.value = false
                 val user = taskLogin.result.user
                 if (user != null) {
-                    _isSuccess.value = true
+                    _isSuccess.value = user.displayName.toString()
                 } else {
                     _isError.value = taskLogin.exception?.localizedMessage
                 }
@@ -66,7 +62,7 @@ class AuthViewModel : ViewModel() {
                         }
                         user.updateProfile(profileUpdates).addOnCompleteListener { taskRegister ->
                             if (taskRegister.isSuccessful) {
-                                _isSuccess.value = true
+                                _isSuccess.value = username
                             }
                         }
                     } else {

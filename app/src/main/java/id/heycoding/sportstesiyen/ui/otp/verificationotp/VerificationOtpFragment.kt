@@ -29,6 +29,7 @@ class VerificationOtpFragment : Fragment() {
     private val otpViewModel: OtpViewModel by activityViewModels()
     private var auth: FirebaseAuth = Firebase.auth
     private var phoneNumber: String? = null
+    private var userAccount: String? = null
     private var verificationId: String? = null
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     private lateinit var code: String
@@ -46,6 +47,7 @@ class VerificationOtpFragment : Fragment() {
 
     private fun getDataArguments() {
         phoneNumber = arguments?.getString(Const.EXTRA_PHONE_NUMBER, "")
+        userAccount = arguments?.getString(Const.EXTRA_USER_ACCOUNT, "")
         verificationId = arguments?.getString(Const.EXTRA_OTP_NUMBER, "")
         fragmentVerificationOtpBinding?.tvPhoneVerificationOtp?.text = phoneNumber
     }
@@ -204,7 +206,7 @@ class VerificationOtpFragment : Fragment() {
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("VERIFICATION OTP", "signInWithCredential:success")
-                task.result?.user?.let { moveToMain(it) }
+                task.result?.user?.let { moveToMain() }
             } else {
                 // Sign in failed, display a message and update the UI
                 Log.w("VERIFICATION OTP", "signInWithCredential:failure", task.exception)
@@ -220,12 +222,12 @@ class VerificationOtpFragment : Fragment() {
         }
     }
 
-    private fun moveToMain(user: FirebaseUser) {
+    private fun moveToMain() {
         startActivity(
             Intent(
                 activity,
                 MainActivity::class.java
-            )
+            ).putExtra(Const.EXTRA_USER_ACCOUNT, userAccount)
         )
     }
 

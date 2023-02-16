@@ -2,6 +2,7 @@ package id.heycoding.sportstesiyen.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.auth.register.RegisterFragment
 import id.heycoding.sportstesiyen.ui.otp.OtpActivity
+import id.heycoding.sportstesiyen.utils.Const
 
 class LoginFragment : Fragment() {
 
@@ -50,7 +52,7 @@ class LoginFragment : Fragment() {
 
     private fun initViewModel() {
         authViewModel.apply {
-            isCheckingUser.observe(viewLifecycleOwner) { showCheckingUser(it) }
+            isSuccess.observe(viewLifecycleOwner) { showCheckingUser(it) }
         }
     }
 
@@ -75,16 +77,16 @@ class LoginFragment : Fragment() {
         authViewModel.apply {
             doLogin(userEmail, userPassword)
 
-            isSuccess.observe(viewLifecycleOwner) { moveToOtp() }
+            isSuccess.observe(viewLifecycleOwner) { moveToOtp(it) }
             isError.observe(viewLifecycleOwner) { showMessage(it) }
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
 
     }
 
-    private fun showCheckingUser(it: Boolean?) {
-        if (it == true) {
-            moveToMain()
+    private fun showCheckingUser(user: String) {
+        if (user.isNotEmpty()) {
+            moveToMain(user)
         }
     }
 
@@ -96,12 +98,26 @@ class LoginFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun moveToOtp() {
-        startActivity(Intent(activity, OtpActivity::class.java))
+    private fun moveToOtp(user: String) {
+        if (user.isNotEmpty()) {
+            startActivity(
+                Intent(activity, OtpActivity::class.java).putExtra(
+                    Const.EXTRA_USER_ACCOUNT,
+                    user
+                )
+            )
+        }
     }
 
-    private fun moveToMain() {
-        startActivity(Intent(activity, MainActivity::class.java))
+    private fun moveToMain(user: String) {
+        if (user.isNotEmpty()) {
+            startActivity(
+                Intent(activity, MainActivity::class.java).putExtra(
+                    Const.EXTRA_USER_ACCOUNT,
+                    user
+                )
+            )
+        }
     }
 
     override fun onStart() {

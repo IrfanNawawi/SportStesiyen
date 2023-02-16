@@ -46,18 +46,7 @@ class HomeViewModel(
     private val _isValidate = MutableLiveData<Boolean>()
     val isValidate: LiveData<Boolean> = _isValidate
 
-    private val _isCheckingAccount = MutableLiveData<String>()
-    val isCheckingAccount: LiveData<String> = _isCheckingAccount
-
     private var auth: FirebaseAuth = Firebase.auth
-
-    fun doCheckingUser() {
-        val user = auth.currentUser
-        if (user != null) {
-            _isCheckingAccount.value = user.displayName.toString()
-            Log.d("DAPET ACCOUNT", "testing ${user.displayName}")
-        }
-    }
 
     fun doSignOut() {
         auth.signOut()

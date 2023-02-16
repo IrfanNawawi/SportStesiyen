@@ -38,6 +38,7 @@ import id.heycoding.sportstesiyen.ui.home.teamsleague.HomeTeamsLeagueAdapter
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.DetailTeamsLeagueActivity
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.detailtopheadlinenews.DetailNewsTopHeadlineActivity
+import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.ConstNews
 import id.heycoding.sportstesiyen.utils.ConstSports
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -64,14 +65,19 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        getDataArguments()
         return fragmentHomeBinding?.root
+    }
+
+    private fun getDataArguments() {
+        val userAccount = activity?.intent?.getStringExtra(Const.EXTRA_USER_ACCOUNT)
+        fragmentHomeBinding?.tvUsernameHome?.text = userAccount
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         homeViewModel.apply {
-            doCheckingUser()
             getEventLeagueData()
             getTeamsData()
             getTopHeadlineNewsSportData()
@@ -147,11 +153,6 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
             isError.observe(viewLifecycleOwner) { showMessage(it) }
-            isCheckingAccount.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    fragmentHomeBinding?.tvUsernameHome?.text = it
-                }
-            }
             isValidate.observe(viewLifecycleOwner) { showSignOut() }
         }
     }
