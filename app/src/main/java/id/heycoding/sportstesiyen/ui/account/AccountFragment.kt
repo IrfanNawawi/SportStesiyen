@@ -24,11 +24,6 @@ class AccountFragment : Fragment() {
 
         _fragmentAccountBinding = FragmentAccountBinding.inflate(inflater, container, false)
         val root: View = fragmentAccountBinding?.root!!
-
-        val textView: TextView = fragmentAccountBinding?.textAccount!!
-        accountViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 

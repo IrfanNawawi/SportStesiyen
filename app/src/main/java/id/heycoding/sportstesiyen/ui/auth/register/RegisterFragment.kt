@@ -13,13 +13,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentRegisterBinding
 import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
+import id.heycoding.sportstesiyen.ui.auth.AuthUiState
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.otp.OtpActivity
+import id.heycoding.sportstesiyen.utils.Const
 
 class RegisterFragment : Fragment() {
 
@@ -40,8 +43,8 @@ class RegisterFragment : Fragment() {
         (activity as AuthActivity).supportActionBar?.hide()
 
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
+            setupObserver()
+            setupUI()
         } else {
             showErrorConnection()
         }
@@ -79,7 +82,7 @@ class RegisterFragment : Fragment() {
         tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentRegisterBinding?.apply {
             btnRegister.setOnClickListener {
                 validateAndRegister()
@@ -87,9 +90,28 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun initViewModel() {
-        authViewModel.apply {
-            isCheckingUser.observe(viewLifecycleOwner) { showCheckingUser(it) }
+    private fun setupObserver() {
+        lifecycleScope.launchWhenStarted {
+            authViewModel.authUiState.collect {
+                when (it) {
+                    is AuthUiState.ValidateUser -> {
+                        moveToMain(it.status)
+                        showLoading(false)
+                    }
+                    is AuthUiState.Success -> {
+                        moveToOtp(it.status)
+                        showLoading(false)
+                    }
+                    is AuthUiState.Error -> {
+                        showMessage(it.message)
+                        showLoading(false)
+                    }
+                    is AuthUiState.Loading -> {
+                        showLoading(true)
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 
@@ -118,20 +140,7 @@ class RegisterFragment : Fragment() {
         val userEmail = fragmentRegisterBinding?.edtRegisterEmail?.text.toString().trim()
         val userPassword = fragmentRegisterBinding?.edtRegisterPassword?.text.toString().trim()
 
-        authViewModel.apply {
-
-            doRegister(userName, userEmail, userPassword)
-
-            isSuccess.observe(viewLifecycleOwner) { moveToOtp() }
-            isError.observe(viewLifecycleOwner) { showMessage(it) }
-            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-        }
-    }
-
-    private fun showCheckingUser(it: Boolean?) {
-        if (it == true) {
-            moveToMain()
-        }
+        authViewModel.doRegister(userName, userEmail, userPassword)
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -143,12 +152,26 @@ class RegisterFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun moveToOtp() {
-        startActivity(Intent(activity, OtpActivity::class.java))
+    private fun moveToOtp(user: String) {
+        if (user.isNotEmpty()) {
+            startActivity(
+                Intent(activity, OtpActivity::class.java).putExtra(
+                    Const.EXTRA_USER_ACCOUNT,
+                    user
+                )
+            )
+        }
     }
 
-    private fun moveToMain() {
-        startActivity(Intent(activity, MainActivity::class.java))
+    private fun moveToMain(user: String) {
+        if (user.isNotEmpty()) {
+            startActivity(
+                Intent(activity, MainActivity::class.java).putExtra(
+                    Const.EXTRA_USER_ACCOUNT,
+                    user
+                )
+            )
+        }
     }
 
     override fun onDestroyView() {

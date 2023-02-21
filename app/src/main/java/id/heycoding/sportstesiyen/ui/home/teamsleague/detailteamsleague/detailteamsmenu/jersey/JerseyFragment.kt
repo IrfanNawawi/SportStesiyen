@@ -13,12 +13,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.source.response.Equipment
 import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentJerseyBinding
+import id.heycoding.sportstesiyen.domain.model.Jersey
 import id.heycoding.sportstesiyen.utils.ConstSports
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -45,9 +47,9 @@ class JerseyFragment : Fragment() {
 
         jerseyAdapter = JerseyAdapter()
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
-            getDataArguments()
+            setupObserver()
+            setupUI()
+            setupArguments()
         } else {
             showErrorConnection()
         }
@@ -74,7 +76,7 @@ class JerseyFragment : Fragment() {
         return false
     }
 
-    private fun getDataArguments() {
+    private fun setupArguments() {
         val bundle = this.arguments
         if (bundle != null) {
             val dataTeams = bundle.getParcelable<TeamsLeague>(ConstSports.EXTRA_DATA_TEAMS)
@@ -86,7 +88,6 @@ class JerseyFragment : Fragment() {
         }
     }
 
-    @SuppressLint("InflateParams")
     private fun showErrorConnection() {
         val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
         val dialog = BottomSheetDialog(requireContext())
@@ -98,22 +99,28 @@ class JerseyFragment : Fragment() {
         tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun initViewModel() {
-        jerseyViewModel.apply {
-            listJerseyData.observe(viewLifecycleOwner) { listJerseyData ->
-                listJersey.clear()
-                listJersey.addAll(listJerseyData)
-                jerseyAdapter.notifyDataSetChanged()
-                jerseyAdapter.setJerseyData(listJerseyData)
+    private fun setupObserver() {
+        lifecycleScope.launchWhenStarted {
+            jerseyViewModel.jerseyUiState.collect {
+                when (it) {
+                    is JerseyUiState.Success -> {
+                        renderListJersey(it.data)
+                        showLoading(false)
+                    }
+                    is JerseyUiState.Error -> {
+                        showMessage(it.message)
+                        showLoading(false)
+                    }
+                    is JerseyUiState.Loading -> {
+                        showLoading(true)
+                    }
+                    else -> Unit
+                }
             }
-
-            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-            isError.observe(viewLifecycleOwner) { showMessage(it) }
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentJerseyBinding?.apply {
             rvJersey.apply {
                 layoutManager =
@@ -124,6 +131,13 @@ class JerseyFragment : Fragment() {
                 clipChildren = false
             }
         }
+    }
+
+    private fun renderListJersey(listJerseyData: List<Jersey>) {
+        listJersey.clear()
+        listJersey.addAll(listJerseyData)
+        jerseyAdapter.notifyDataSetChanged()
+        jerseyAdapter.setJerseyData(listJerseyData)
     }
 
     private fun showLoading(it: Boolean?) {

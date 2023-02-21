@@ -8,11 +8,13 @@ import id.heycoding.sportstesiyen.di.useCaseModule
 import id.heycoding.sportstesiyen.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.annotation.KoinReflectAPI
 import org.koin.core.context.startKoin
 
 class MyApp : Application() {
     private var appContext: Context? = null
 
+    @OptIn(KoinReflectAPI::class)
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
@@ -28,9 +30,5 @@ class MyApp : Application() {
                 )
             )
         }
-    }
-
-    fun getAppContext(): Context? {
-        return appContext
     }
 }

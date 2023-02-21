@@ -36,17 +36,12 @@ object DataDummy {
         val banner = ArrayList<BannerData>()
         banner.add(
             BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/media/event/fanart/92ria11659788060.jpg"
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
             )
         )
         banner.add(
             BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/media/event/fanart/ta54141659813047.jpg"
-            )
-        )
-        banner.add(
-            BannerData(
-                imgUrl = "https://www.thesportsdb.com/images/media/event/fanart/tya5ts1659813253.jpg"
+                imgUrl = "https://www.thesportsdb.com/images/sports/soccer.jpg"
             )
         )
         return banner

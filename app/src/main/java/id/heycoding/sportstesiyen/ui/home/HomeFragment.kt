@@ -37,6 +37,7 @@ import id.heycoding.sportstesiyen.ui.home.teamsleague.HomeTeamsLeagueAdapter
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.DetailTeamsLeagueActivity
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.detailtopheadlinenews.DetailNewsTopHeadlineActivity
+import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.ConstNews
 import id.heycoding.sportstesiyen.utils.ConstSports
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -63,7 +64,13 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        getDataArguments()
         return fragmentHomeBinding?.root
+    }
+
+    private fun getDataArguments() {
+        val userAccount = activity?.intent?.getStringExtra(Const.EXTRA_USER_ACCOUNT)
+        fragmentHomeBinding?.tvUsernameHome?.text = userAccount
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,8 +93,8 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         bannerAdapter = BannerAdapter(listSportBannerData)
 
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
+            setupObserver()
+            setupUI()
             setupIndicator()
             setCurrectIndicator(0)
         } else {
@@ -128,7 +135,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initViewModel() {
+    private fun setupObserver() {
         homeViewModel.apply {
             val onBannerData = getBannerData()
             bannerAdapter.setBannerData(onBannerData)
@@ -156,16 +163,11 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
             isError.observe(viewLifecycleOwner) { showMessage(it) }
-            isCheckingAccount.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    fragmentHomeBinding?.tvUsernameHome?.text = it
-                }
-            }
             isValidate.observe(viewLifecycleOwner) { showSignOut() }
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentHomeBinding?.apply {
             // init ViewPager Banner
             vpBannerHome.apply {

@@ -15,10 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.source.response.Table
+import id.heycoding.sportstesiyen.data.entity.Table
 import id.heycoding.sportstesiyen.databinding.FragmentStatisticBinding
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-
 
 class StatisticFragment : Fragment() {
 
@@ -170,7 +169,10 @@ class StatisticFragment : Fragment() {
                 ) {
                     parent?.getItemAtPosition(position).toString()
                     if (parent?.selectedItem == spinnerSeason.selectedItem) {
-                        statisticViewModel.getStatisticLeagueData(listIdLeague[position], listSeason[position])
+                        statisticViewModel.getStatisticLeagueData(
+                            listIdLeague[position],
+                            listSeason[position]
+                        )
                     }
                 }
             }

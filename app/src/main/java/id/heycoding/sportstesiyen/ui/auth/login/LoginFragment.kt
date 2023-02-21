@@ -13,14 +13,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentLoginBinding
 import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
+import id.heycoding.sportstesiyen.ui.auth.AuthUiState
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.auth.register.RegisterFragment
 import id.heycoding.sportstesiyen.ui.otp.OtpActivity
+import id.heycoding.sportstesiyen.utils.Const
 
 class LoginFragment : Fragment() {
 
@@ -41,17 +44,18 @@ class LoginFragment : Fragment() {
         (activity as AuthActivity).supportActionBar?.hide()
 
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
+            setupObserver()
+            setupUI()
         } else {
             showErrorConnection()
         }
     }
 
     private fun isOnline(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val nw      = connectivityManager.activeNetwork ?: return false
+            val nw = connectivityManager.activeNetwork ?: return false
             val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
             return when {
                 actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -79,7 +83,7 @@ class LoginFragment : Fragment() {
         tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentLoginBinding?.apply {
             btnLogin.setOnClickListener {
                 validateAndLogin()
@@ -90,9 +94,28 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun initViewModel() {
-        authViewModel.apply {
-            isCheckingUser.observe(viewLifecycleOwner) { showCheckingUser(it) }
+    private fun setupObserver() {
+        lifecycleScope.launchWhenStarted {
+            authViewModel.authUiState.collect {
+                when (it) {
+                    is AuthUiState.ValidateUser -> {
+                        moveToMain(it.status)
+                        showLoading(false)
+                    }
+                    is AuthUiState.Success -> {
+                        moveToOtp(it.status)
+                        showLoading(false)
+                    }
+                    is AuthUiState.Error -> {
+                        showMessage(it.message)
+                        showLoading(false)
+                    }
+                    is AuthUiState.Loading -> {
+                        showLoading(true)
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 
@@ -114,20 +137,7 @@ class LoginFragment : Fragment() {
         val userEmail = fragmentLoginBinding?.edtLoginEmail?.text.toString().trim()
         val userPassword = fragmentLoginBinding?.edtLoginPassword?.text.toString().trim()
 
-        authViewModel.apply {
-            doLogin(userEmail, userPassword)
-
-            isSuccess.observe(viewLifecycleOwner) { moveToOtp() }
-            isError.observe(viewLifecycleOwner) { showMessage(it) }
-            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-        }
-
-    }
-
-    private fun showCheckingUser(it: Boolean?) {
-        if (it == true) {
-            moveToMain()
-        }
+        authViewModel.doLogin(userEmail, userPassword)
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -138,12 +148,26 @@ class LoginFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun moveToOtp() {
-        startActivity(Intent(activity, OtpActivity::class.java))
+    private fun moveToOtp(user: String) {
+        if (user.isNotEmpty()) {
+            startActivity(
+                Intent(activity, OtpActivity::class.java).putExtra(
+                    Const.EXTRA_USER_ACCOUNT,
+                    user
+                )
+            )
+        }
     }
 
-    private fun moveToMain() {
-        startActivity(Intent(activity, MainActivity::class.java))
+    private fun moveToMain(user: String) {
+        if (user.isNotEmpty()) {
+            startActivity(
+                Intent(activity, MainActivity::class.java).putExtra(
+                    Const.EXTRA_USER_ACCOUNT,
+                    user
+                )
+            )
+        }
     }
 
     override fun onStart() {

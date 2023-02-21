@@ -1,10 +1,6 @@
 package id.heycoding.sportstesiyen.ui.otp.verificationotp
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,16 +8,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentVerificationOtpBinding
 import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.otp.OtpActivity
@@ -36,6 +29,7 @@ class VerificationOtpFragment : Fragment() {
     private val otpViewModel: OtpViewModel by activityViewModels()
     private var auth: FirebaseAuth = Firebase.auth
     private var phoneNumber: String? = null
+    private var userAccount: String? = null
     private var verificationId: String? = null
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     private lateinit var code: String
@@ -47,58 +41,25 @@ class VerificationOtpFragment : Fragment() {
     ): View? {
         _fragmentVerificationOtpBinding =
             FragmentVerificationOtpBinding.inflate(layoutInflater, container, false)
+        getDataArguments()
         return fragmentVerificationOtpBinding?.root
+    }
+
+    private fun getDataArguments() {
+        phoneNumber = arguments?.getString(Const.EXTRA_PHONE_NUMBER, "")
+        userAccount = arguments?.getString(Const.EXTRA_USER_ACCOUNT, "")
+        verificationId = arguments?.getString(Const.EXTRA_OTP_NUMBER, "")
+        fragmentVerificationOtpBinding?.tvPhoneVerificationOtp?.text = phoneNumber
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as OtpActivity).supportActionBar?.hide()
-
-        if (isOnline(requireContext())) {
-            initViews()
-        } else {
-            showErrorConnection()
-        }
+        initView()
     }
 
-    private fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val nw = connectivityManager.activeNetwork ?: return false
-            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
-            return when {
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                //for other device how are able to connect with Ethernet
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                //for check internet over Bluetooth
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
-                else -> false
-            }
-        } else {
-            val nwInfo = connectivityManager.activeNetworkInfo ?: return false
-            return nwInfo.isConnected
-        }
-    }
-
-    private fun showErrorConnection() {
-        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(view)
-        dialog.show()
-        dialog.setCancelable(false)
-
-        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
-        tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
-    }
-
-    private fun initViews() {
+    private fun initView() {
         fragmentVerificationOtpBinding?.apply {
-            phoneNumber = arguments?.getString(Const.EXTRA_PHONE_NUMBER, "")
-            verificationId = arguments?.getString(Const.EXTRA_OTP_NUMBER, "")
-            fragmentVerificationOtpBinding?.tvPhoneVerificationOtp?.text = phoneNumber
-
             edtOtpPhone1.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -245,7 +206,7 @@ class VerificationOtpFragment : Fragment() {
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("VERIFICATION OTP", "signInWithCredential:success")
-                task.result?.user?.let { moveToMain(it) }
+                task.result?.user?.let { moveToMain() }
             } else {
                 // Sign in failed, display a message and update the UI
                 Log.w("VERIFICATION OTP", "signInWithCredential:failure", task.exception)
@@ -261,12 +222,12 @@ class VerificationOtpFragment : Fragment() {
         }
     }
 
-    private fun moveToMain(user: FirebaseUser) {
+    private fun moveToMain() {
         startActivity(
             Intent(
                 activity,
                 MainActivity::class.java
-            )
+            ).putExtra(Const.EXTRA_USER_ACCOUNT, userAccount)
         )
     }
 

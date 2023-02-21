@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,8 @@ class InputOtpFragment : Fragment() {
     private var _fragmentInputOtpBinding: FragmentInputOtpBinding? = null
     private val fragmentInputOtpBinding get() = _fragmentInputOtpBinding
     private var auth: FirebaseAuth = Firebase.auth
-    private lateinit var phoneNumber: String
+    private var phoneNumber: String? = null
+    private var userAccount: String? = null
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     override fun onCreateView(
@@ -42,7 +44,12 @@ class InputOtpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentInputOtpBinding = FragmentInputOtpBinding.inflate(layoutInflater, container, false)
+        getDataArguments()
         return fragmentInputOtpBinding?.root
+    }
+
+    private fun getDataArguments() {
+        userAccount = activity?.intent?.getStringExtra(Const.EXTRA_USER_ACCOUNT)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -167,6 +174,7 @@ class InputOtpFragment : Fragment() {
         val fragment = VerificationOtpFragment()
         val bundle = Bundle()
         bundle.putString(Const.EXTRA_PHONE_NUMBER, phoneNumber)
+        bundle.putString(Const.EXTRA_USER_ACCOUNT, userAccount)
         bundle.putString(Const.EXTRA_OTP_NUMBER, token)
         fragment.arguments = bundle
         (activity as OtpActivity).moveToFragment(fragment)
