@@ -20,7 +20,7 @@ class StatisticViewModel(private val soccerUseCase: SoccerUseCase) : ViewModel()
         }.catch { throwable ->
             _statisticUiState.value = StatisticUiState.Error(throwable.message)
         }.collectLatest { dataStatistic ->
-            _statisticUiState.value = StatisticUiState.Success(dataStatistic)
+            _statisticUiState.value = StatisticUiState.SuccessStatistic(dataStatistic)
         }
     }
 
@@ -30,7 +30,7 @@ class StatisticViewModel(private val soccerUseCase: SoccerUseCase) : ViewModel()
             .catch { throwable ->
                 _statisticUiState.value = StatisticUiState.Error(throwable.message)
             }.collectLatest { dataLeague ->
-                _statisticUiState.value = StatisticUiState.Success(dataLeague)
+                _statisticUiState.value = StatisticUiState.SuccessLeague(dataLeague)
             }
     }
 
@@ -40,7 +40,7 @@ class StatisticViewModel(private val soccerUseCase: SoccerUseCase) : ViewModel()
         ).catch { throwable ->
             _statisticUiState.value = StatisticUiState.Error(throwable.message)
         }.collectLatest { dataSeason ->
-            _statisticUiState.value = StatisticUiState.Success(dataSeason)
+            _statisticUiState.value = StatisticUiState.SuccessSeasons(dataSeason)
 
         }
     }

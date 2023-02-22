@@ -15,6 +15,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +29,10 @@ import id.heycoding.sportstesiyen.data.source.response.Articles
 import id.heycoding.sportstesiyen.data.source.response.EventLeague
 import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
+import id.heycoding.sportstesiyen.domain.model.Event
+import id.heycoding.sportstesiyen.domain.model.Jersey
+import id.heycoding.sportstesiyen.domain.model.News
+import id.heycoding.sportstesiyen.domain.model.Teams
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
@@ -35,6 +40,7 @@ import id.heycoding.sportstesiyen.ui.home.eventsleague.HomeEventsLeagueAdapter
 import id.heycoding.sportstesiyen.ui.home.eventsleague.detaileventsleague.DetailEventsLeagueActivity
 import id.heycoding.sportstesiyen.ui.home.teamsleague.HomeTeamsLeagueAdapter
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.DetailTeamsLeagueActivity
+import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailteamsmenu.jersey.JerseyUiState
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportAdapter
 import id.heycoding.sportstesiyen.ui.home.topheadlinenews.detailtopheadlinenews.DetailNewsTopHeadlineActivity
 import id.heycoding.sportstesiyen.utils.Const
@@ -53,9 +59,9 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
     private lateinit var homeTopHeadlineNewsSportAdapter: HomeTopHeadlineNewsSportAdapter
     private lateinit var bannerAdapter: BannerAdapter
     private val listSportBannerData = ArrayList<BannerData>()
-    private val listEventsLeague: MutableList<EventLeague> = mutableListOf()
-    private val listTeamsLeague: MutableList<TeamsLeague> = mutableListOf()
-    private val listNewsTopHeadline: MutableList<Articles> = mutableListOf()
+    private val listEventsLeague: MutableList<Event> = mutableListOf()
+    private val listTeamsLeague: MutableList<Teams> = mutableListOf()
+    private val listNewsTopHeadline: MutableList<News> = mutableListOf()
     private var sliderhandler = Handler()
 
     override fun onCreateView(
@@ -64,11 +70,11 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-        getDataArguments()
+        setupArguments()
         return fragmentHomeBinding?.root
     }
 
-    private fun getDataArguments() {
+    private fun setupArguments() {
         val userAccount = activity?.intent?.getStringExtra(Const.EXTRA_USER_ACCOUNT)
         fragmentHomeBinding?.tvUsernameHome?.text = userAccount
     }
@@ -136,38 +142,38 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setupObserver() {
-        homeViewModel.apply {
-            val onBannerData = getBannerData()
-            bannerAdapter.setBannerData(onBannerData)
-
-            listEventLeagueDataLeague.observe(viewLifecycleOwner) { listEventsData ->
-                listEventsLeague.clear()
-                listEventsLeague.addAll(listEventsData)
-                homeEventsLeagueAdapter.notifyDataSetChanged()
-                homeEventsLeagueAdapter.setEventsLeagueData(listEventsData)
+        lifecycleScope.launchWhenStarted {
+            homeViewModel.homeUiState.collect {
+                when (it) {
+                    is HomeUiState.SuccessEvents -> {
+                        renderListEventLeague(it.data)
+                        showLoading(false)
+                    }
+                    is HomeUiState.SuccessNews -> {
+                        renderListNews(it.data)
+                        showLoading(false)
+                    }
+                    is HomeUiState.SuccessTeams -> {
+                        renderListTeamsLeague(it.data)
+                        showLoading(false)
+                    }
+                    is HomeUiState.Error -> {
+                        showMessage(it.message)
+                        showLoading(false)
+                    }
+                    is HomeUiState.Loading -> {
+                        showLoading(true)
+                    }
+                    else -> Unit
+                }
             }
-
-            listTeamsLeagueData.observe(viewLifecycleOwner) { listTeamsData ->
-                listTeamsLeague.clear()
-                listTeamsLeague.addAll(listTeamsData)
-                homeTeamsLeagueAdapter.notifyDataSetChanged()
-                homeTeamsLeagueAdapter.setSportData(listTeamsData)
-            }
-
-            listTopHeadlineNewsSportData.observe(viewLifecycleOwner) { listNewsTopHeadlineData ->
-                listNewsTopHeadline.clear()
-                listNewsTopHeadline.addAll(listNewsTopHeadlineData)
-                homeTopHeadlineNewsSportAdapter.notifyDataSetChanged()
-                homeTopHeadlineNewsSportAdapter.setTopHeadlineNewsSportData(listNewsTopHeadlineData)
-            }
-
-            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-            isError.observe(viewLifecycleOwner) { showMessage(it) }
-            isValidate.observe(viewLifecycleOwner) { showSignOut() }
         }
     }
 
     private fun setupUI() {
+        val onBannerData = homeViewModel.getBannerData()
+        bannerAdapter.setBannerData(onBannerData)
+
         fragmentHomeBinding?.apply {
             // init ViewPager Banner
             vpBannerHome.apply {
@@ -233,6 +239,27 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
                 homeViewModel.doSignOut()
             }
         }
+    }
+
+    private fun renderListEventLeague(listEventsData: List<Event>) {
+        listEventsLeague.clear()
+        listEventsLeague.addAll(listEventsData)
+        homeEventsLeagueAdapter.notifyDataSetChanged()
+        homeEventsLeagueAdapter.setEventsLeagueData(listEventsData)
+    }
+
+    private fun renderListNews(listNewsData: List<News>) {
+        listNewsTopHeadline.clear()
+        listNewsTopHeadline.addAll(listNewsData)
+        homeTopHeadlineNewsSportAdapter.notifyDataSetChanged()
+        homeTopHeadlineNewsSportAdapter.setTopHeadlineNewsSportData(listNewsData)
+    }
+
+    private fun renderListTeamsLeague(listTeamsData: List<Teams>) {
+        listTeamsLeague.clear()
+        listTeamsLeague.addAll(listTeamsData)
+        homeTeamsLeagueAdapter.notifyDataSetChanged()
+        homeTeamsLeagueAdapter.setSportData(listTeamsData)
     }
 
     private fun setupIndicator() {
@@ -349,36 +376,35 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         _fragmentHomeBinding = null
     }
 
-    override fun onDetailTeamsLeague(teams: TeamsLeague) {
-        val bundle = Bundle()
-        bundle.putParcelable(ConstSports.EXTRA_TEAMS, teams)
+    override fun onDetailTeamsLeague(teams: Teams) {
+//        val bundle = Bundle()
+//        bundle.putParcelable(ConstSports.EXTRA_TEAMS, teams)
 
-        val intent = Intent(context, DetailTeamsLeagueActivity::class.java)
-        intent.putExtras(bundle)
-        startActivity(intent)
+//        val intent = Intent(context, DetailTeamsLeagueActivity::class.java)
+//        intent.putExtras(bundle)
+//        startActivity(intent)
     }
 
-    override fun onDetailEventLeague(eventList: EventLeague) {
-        startActivity(
-            Intent(
-                context,
-                DetailEventsLeagueActivity::class.java
-            ).putExtra(ConstSports.EXTRA_EVENT, eventList)
-        )
+    override fun onDetailEventLeague(eventList: Event) {
+//        startActivity(
+//            Intent(
+//                context,
+//                DetailEventsLeagueActivity::class.java
+//            ).putExtra(ConstSports.EXTRA_EVENT, eventList)
+//        )
     }
 
-    override fun onDetailNewsTopHeadlineNews(topHeadlineList: Articles) {
-        startActivity(
-            Intent(
-                context,
-                DetailNewsTopHeadlineActivity::class.java
-            )
-                .putExtra(ConstNews.EXTRA_NEWS_TOPHEADLINE, topHeadlineList)
-        )
+    override fun onDetailNewsTopHeadlineNews(topHeadlineList: News) {
+//        startActivity(
+//            Intent(
+//                context,
+//                DetailNewsTopHeadlineActivity::class.java
+//            )
+//                .putExtra(ConstNews.EXTRA_NEWS_TOPHEADLINE, topHeadlineList)
+//        )
     }
 
     override fun onStart() {
         super.onStart()
-        homeViewModel.doCheckingUser()
     }
 }

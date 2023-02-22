@@ -13,12 +13,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.source.response.Articles
 import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentNewsBinding
+import id.heycoding.sportstesiyen.domain.model.News
 import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.ConstSports
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -33,7 +34,7 @@ class NewsFragment : Fragment() {
     private val newsViewModel: NewsViewModel by activityViewModel()
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var dataNewsTeams: String
-    private val listNewsEverything: MutableList<Articles> = mutableListOf()
+    private val listNewsEverything: MutableList<News> = mutableListOf()
 
 
     override fun onCreateView(
@@ -50,9 +51,9 @@ class NewsFragment : Fragment() {
 
         newsAdapter = NewsAdapter()
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
-            getDataArguments()
+            setupObserver()
+            setupUI()
+            setupArguments()
         } else {
             showErrorConnection()
         }
@@ -79,7 +80,7 @@ class NewsFragment : Fragment() {
         return false
     }
 
-    private fun getDataArguments() {
+    private fun setupArguments() {
         val bundle = this.arguments
         if (bundle != null) {
             val dataTeams = bundle.getParcelable<TeamsLeague>(ConstSports.EXTRA_DATA_TEAMS)
@@ -107,21 +108,28 @@ class NewsFragment : Fragment() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initViewModel() {
-        newsViewModel.apply {
-            listEverythingNewsSportData.observe(viewLifecycleOwner) { listNewsData ->
-                listNewsEverything.clear()
-                listNewsEverything.addAll(listNewsData)
-                newsAdapter.notifyDataSetChanged()
-                newsAdapter.setEverythingNewsSportData(listNewsData)
+    private fun setupObserver() {
+        lifecycleScope.launchWhenStarted {
+            newsViewModel.newsUiState.collect {
+                when (it) {
+                    is NewsUiState.Success -> {
+                        renderListNews(it.data)
+                        showLoading(false)
+                    }
+                    is NewsUiState.Error -> {
+                        showMessage(it.message)
+                        showLoading(false)
+                    }
+                    is NewsUiState.Loading -> {
+                        showLoading(true)
+                    }
+                    else -> Unit
+                }
             }
-
-            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-            isError.observe(viewLifecycleOwner) { showMessage(it) }
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentNewsBinding?.apply {
             rvNews.apply {
                 layoutManager =
@@ -132,6 +140,13 @@ class NewsFragment : Fragment() {
                 clipChildren = false
             }
         }
+    }
+
+    private fun renderListNews(listNewsData: List<News>) {
+        listNewsEverything.clear()
+        listNewsEverything.addAll(listNewsData)
+        newsAdapter.notifyDataSetChanged()
+        newsAdapter.setEverythingNewsSportData(listNewsData)
     }
 
     private fun showLoading(it: Boolean?) {

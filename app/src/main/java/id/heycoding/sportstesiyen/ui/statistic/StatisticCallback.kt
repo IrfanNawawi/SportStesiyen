@@ -3,10 +3,11 @@ package id.heycoding.sportstesiyen.ui.statistic
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
 import id.heycoding.sportstesiyen.data.source.response.Table
+import id.heycoding.sportstesiyen.domain.model.Statistic
 
 class StatisticCallback(
-    private val oldList: List<Table>,
-    private val newList: List<Table>
+    private val oldList: List<Statistic>,
+    private val newList: List<Statistic>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

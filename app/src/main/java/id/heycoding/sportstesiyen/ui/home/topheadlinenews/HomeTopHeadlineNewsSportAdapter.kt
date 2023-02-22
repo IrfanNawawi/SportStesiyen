@@ -7,22 +7,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.source.response.Articles
 import id.heycoding.sportstesiyen.databinding.ItemNewsSportHomeBinding
+import id.heycoding.sportstesiyen.domain.model.News
 import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.Helper
 
 class HomeTopHeadlineNewsSportAdapter(private val callback: HomeFragmentCallback) :
     RecyclerView.Adapter<HomeTopHeadlineNewsSportAdapter.ViewHolder>() {
-    private val listTopHeadlineNewsSportData = ArrayList<Articles>()
+    private val listTopHeadlineNewsSportData = ArrayList<News>()
 
     inner class ViewHolder(private val binding: ItemNewsSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(topHeadlineNewsSport: Articles) {
+        fun bind(topHeadlineNewsSport: News) {
             binding.apply {
                 Glide.with(itemView.context).load(topHeadlineNewsSport.urlToImage).into(imgNewsHome)
                 tvTitleNewsHome.text = topHeadlineNewsSport.title
                 tvDateNewsHome.text = Helper.timeAgo(topHeadlineNewsSport.publishedAt)
-                tvSourceNewsHome.text = topHeadlineNewsSport.source?.name
+                tvSourceNewsHome.text = topHeadlineNewsSport.source.name
 
                 itemView.setOnClickListener {
                     callback.onDetailNewsTopHeadlineNews(
@@ -33,7 +34,7 @@ class HomeTopHeadlineNewsSportAdapter(private val callback: HomeFragmentCallback
         }
     }
 
-    fun setTopHeadlineNewsSportData(topHeadlineNewsSport: List<Articles>) {
+    fun setTopHeadlineNewsSportData(topHeadlineNewsSport: List<News>) {
         val diffCallback =
             HomeTopHeadlineNewsSportCallback(listTopHeadlineNewsSportData, topHeadlineNewsSport)
         val diffResult = DiffUtil.calculateDiff(diffCallback)

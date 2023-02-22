@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import id.heycoding.sportstesiyen.data.source.response.Table
 import id.heycoding.sportstesiyen.databinding.ItemHeaderStatisticBinding
 import id.heycoding.sportstesiyen.databinding.ItemStatisticBinding
+import id.heycoding.sportstesiyen.domain.model.Statistic
 
 class StatisticAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var TYPE_HEADER = 0
     private var TYPE_ITEM = 1
-    private val listStatisticData = ArrayList<Table>()
+    private val listStatisticData = ArrayList<Statistic>()
 
     class HeaderViewHolder(private val binding: ItemHeaderStatisticBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -32,7 +32,7 @@ class StatisticAdapter :
 
     inner class ViewHolder(private val binding: ItemStatisticBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindItem(statistic: Table) {
+        fun bindItem(statistic: Statistic) {
             binding.apply {
                 Glide.with(itemView.context).load(statistic.strTeamBadge).into(imgTeamsStatistic)
                 tvPositionStatistic.text = statistic.intRank
@@ -46,7 +46,7 @@ class StatisticAdapter :
         }
     }
 
-    fun setStatisticData(statistic: List<Table>) {
+    fun setStatisticData(statistic: List<Statistic>) {
         val diffCallback = StatisticCallback(listStatisticData, statistic)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         listStatisticData.clear()

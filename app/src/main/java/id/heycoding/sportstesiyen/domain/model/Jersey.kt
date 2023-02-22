@@ -1,7 +1,5 @@
 package id.heycoding.sportstesiyen.domain.model
 
-import com.google.gson.annotations.SerializedName
-
 data class Jersey(
     val date: String,
     val idEquipment: String,

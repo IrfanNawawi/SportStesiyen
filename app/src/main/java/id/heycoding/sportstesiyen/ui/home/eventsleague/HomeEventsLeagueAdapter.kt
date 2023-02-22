@@ -6,16 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import id.heycoding.sportstesiyen.data.source.response.EventLeague
 import id.heycoding.sportstesiyen.databinding.ItemEventLeagueHomeBinding
+import id.heycoding.sportstesiyen.domain.model.Event
 import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 
 class HomeEventsLeagueAdapter(private val callback: HomeFragmentCallback) :
     RecyclerView.Adapter<HomeEventsLeagueAdapter.ViewHolder>() {
-    private val listEventsLeagueData = ArrayList<EventLeague>()
+    private val listEventsLeagueData = ArrayList<Event>()
 
     inner class ViewHolder(private val binding: ItemEventLeagueHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(eventLeague: EventLeague) {
+        fun bind(eventLeague: Event) {
             binding.apply {
                 tvVenueEvent.text = "${eventLeague.strVenue}, "
                 tvCountryEvent.text = eventLeague.strCountry
@@ -29,7 +30,7 @@ class HomeEventsLeagueAdapter(private val callback: HomeFragmentCallback) :
         }
     }
 
-    fun setEventsLeagueData(eventLeague: List<EventLeague>) {
+    fun setEventsLeagueData(eventLeague: List<Event>) {
         val diffCallback = HomeEventsLeagueCallback(listEventsLeagueData, eventLeague)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         listEventsLeagueData.clear()

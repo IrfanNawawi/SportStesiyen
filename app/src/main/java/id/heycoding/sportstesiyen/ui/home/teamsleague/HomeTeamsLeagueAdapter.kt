@@ -7,16 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.ItemSportHomeBinding
+import id.heycoding.sportstesiyen.domain.model.Teams
 import id.heycoding.sportstesiyen.ui.home.HomeFragmentCallback
 import id.heycoding.sportstesiyen.utils.Const
 
 class HomeTeamsLeagueAdapter(private val callback: HomeFragmentCallback) :
     RecyclerView.Adapter<HomeTeamsLeagueAdapter.ViewHolder>() {
-    private val listTeamsLeagueData = ArrayList<TeamsLeague>()
+    private val listTeamsLeagueData = ArrayList<Teams>()
 
     inner class ViewHolder(private val binding: ItemSportHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(teams: TeamsLeague) {
+        fun bind(teams: Teams) {
             binding.apply {
                 Glide.with(itemView.context)
                     .load(teams.strTeamBadge + "/tiny")
@@ -30,7 +31,7 @@ class HomeTeamsLeagueAdapter(private val callback: HomeFragmentCallback) :
         }
     }
 
-    fun setSportData(teamsLeagues: List<TeamsLeague>) {
+    fun setSportData(teamsLeagues: List<Teams>) {
         val diffCallback = HomeTeamsLeagueCallback(listTeamsLeagueData, teamsLeagues)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         listTeamsLeagueData.clear()

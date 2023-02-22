@@ -31,7 +31,7 @@ class JerseyFragment : Fragment() {
     private val jerseyViewModel: JerseyViewModel by activityViewModel()
     private lateinit var jerseyAdapter: JerseyAdapter
     private lateinit var dataJerseyTeams: String
-    private val listJersey: MutableList<Equipment> = mutableListOf()
+    private val listJersey: MutableList<Jersey> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

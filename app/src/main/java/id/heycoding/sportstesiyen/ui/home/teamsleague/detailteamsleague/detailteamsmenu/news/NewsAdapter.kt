@@ -7,15 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.source.response.Articles
 import id.heycoding.sportstesiyen.databinding.ItemNewsTeamsDetailBinding
+import id.heycoding.sportstesiyen.domain.model.News
 import id.heycoding.sportstesiyen.utils.Helper
 
 class NewsAdapter :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
-    private val listEverythingNewsSportData = ArrayList<Articles>()
+    private val listEverythingNewsSportData = ArrayList<News>()
 
     inner class ViewHolder(private val binding: ItemNewsTeamsDetailBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(everythingNewsSport: Articles) {
+        fun bind(everythingNewsSport: News) {
             binding.apply {
                 Glide.with(itemView.context).load(everythingNewsSport.urlToImage).into(imgNewsHome)
                 tvTitleNewsHome.text = everythingNewsSport.title
@@ -25,7 +26,7 @@ class NewsAdapter :
         }
     }
 
-    fun setEverythingNewsSportData(everythingNewsSport: List<Articles>) {
+    fun setEverythingNewsSportData(everythingNewsSport: List<News>) {
         val diffCallback =
             NewsCallback(listEverythingNewsSportData, everythingNewsSport)
         val diffResult = DiffUtil.calculateDiff(diffCallback)

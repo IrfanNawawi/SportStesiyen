@@ -40,7 +40,7 @@ class HomeViewModel(
         }.catch { throwable ->
             _homeUiState.value = HomeUiState.Error(throwable.message)
         }.collectLatest { dataEvent ->
-            _homeUiState.value = HomeUiState.Success(dataEvent)
+            _homeUiState.value = HomeUiState.SuccessEvents(dataEvent)
         }
     }
 
@@ -52,7 +52,7 @@ class HomeViewModel(
         }.catch { throwable ->
             _homeUiState.value = HomeUiState.Error(throwable.message)
         }.collectLatest { dataTeams ->
-            _homeUiState.value = HomeUiState.Success(dataTeams)
+            _homeUiState.value = HomeUiState.SuccessTeams(dataTeams)
         }
     }
 
@@ -68,7 +68,7 @@ class HomeViewModel(
         }.catch { throwable ->
             _homeUiState.value = HomeUiState.Error(throwable.message)
         }.collectLatest { dataTopHeadline ->
-            _homeUiState.value = HomeUiState.Success(dataTopHeadline)
+            _homeUiState.value = HomeUiState.SuccessNews(dataTopHeadline)
         }
     }
 }

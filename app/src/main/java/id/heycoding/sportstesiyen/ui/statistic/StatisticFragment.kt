@@ -12,11 +12,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
-import id.heycoding.sportstesiyen.data.entity.Table
 import id.heycoding.sportstesiyen.databinding.FragmentStatisticBinding
+import id.heycoding.sportstesiyen.domain.model.Leagues
+import id.heycoding.sportstesiyen.domain.model.Seasons
+import id.heycoding.sportstesiyen.domain.model.Statistic
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class StatisticFragment : Fragment() {
@@ -25,7 +28,7 @@ class StatisticFragment : Fragment() {
     private val fragmentStatisticBinding get() = _fragmentStatisticBinding
     private val statisticViewModel: StatisticViewModel by activityViewModel()
     private lateinit var statisticAdapter: StatisticAdapter
-    private val listStatisticLeague: MutableList<Table> = mutableListOf()
+    private val listStatisticLeague: MutableList<Statistic> = mutableListOf()
 
     private val listIdLeague: MutableList<String> = mutableListOf()
     private val listLeague: MutableList<String> = mutableListOf()
@@ -55,8 +58,8 @@ class StatisticFragment : Fragment() {
         statisticAdapter = StatisticAdapter()
 
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
+            setupObserver()
+            setupUI()
         } else {
             showErrorConnection()
         }
@@ -83,56 +86,78 @@ class StatisticFragment : Fragment() {
         }
     }
 
-    private fun initViewModel() {
-        statisticViewModel.apply {
-            listStatisticData.observe(viewLifecycleOwner) { listStatisticData ->
-                listStatisticLeague.clear()
-                listStatisticLeague.addAll(listStatisticData)
-                statisticAdapter.notifyDataSetChanged()
-                statisticAdapter.setStatisticData(listStatisticData)
-            }
-
-            listLeagueData.observe(viewLifecycleOwner) { league ->
-                listIdLeague.clear()
-                listLeague.clear()
-//                listLeague.add(0, "Select a league")
-
-                league.map {
-                    listIdLeague.add(it.idLeague)
-                    listLeague.add(it.strLeague)
+    private fun setupObserver() {
+        lifecycleScope.launchWhenStarted {
+            statisticViewModel.statisticUiState.collect {
+                when (it) {
+                    is StatisticUiState.SuccessLeague -> {
+                        renderListLeague(it.data)
+                        showLoading(false)
+                    }
+                    is StatisticUiState.SuccessSeasons -> {
+                        renderListSeason(it.data)
+                        showLoading(false)
+                    }
+                    is StatisticUiState.SuccessStatistic -> {
+                        renderListStatistic(it.data)
+                        showLoading(false)
+                    }
+                    is StatisticUiState.Error -> {
+                        showMessage(it.message)
+                        showLoading(false)
+                    }
+                    is StatisticUiState.Loading -> {
+                        showLoading(true)
+                    }
+                    else -> Unit
                 }
-
-                val adapterLeague = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    listLeague
-                )
-                adapterLeague.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                fragmentStatisticBinding?.spinnerLeague?.adapter = adapterLeague
             }
-
-            listSeasonData.observe(viewLifecycleOwner) { season ->
-                listSeason.clear()
-//                listSeason.add(0, "Select a season")
-                season.map {
-                    listSeason.add(it.strSeason)
-                }
-
-                val adapterSeason = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    listSeason
-                )
-                adapterSeason.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                fragmentStatisticBinding?.spinnerSeason?.adapter = adapterSeason
-            }
-
-            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
-            isError.observe(viewLifecycleOwner) { showMessage(it) }
         }
     }
 
-    private fun initViews() {
+    private fun renderListStatistic(listStatisticData: List<Statistic>) {
+        listStatisticLeague.clear()
+        listStatisticLeague.addAll(listStatisticData)
+        statisticAdapter.notifyDataSetChanged()
+        statisticAdapter.setStatisticData(listStatisticData)
+    }
+
+    private fun renderListSeason(season: List<Seasons>) {
+        listSeason.clear()
+//      listSeason.add(0, "Select a season")
+        season.map {
+            listSeason.add(it.strSeason)
+        }
+
+        val adapterSeason = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            listSeason
+        )
+        adapterSeason.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        fragmentStatisticBinding?.spinnerSeason?.adapter = adapterSeason
+    }
+
+    private fun renderListLeague(league: List<Leagues>) {
+        listIdLeague.clear()
+        listLeague.clear()
+//      listLeague.add(0, "Select a league")
+
+        league.map {
+            listIdLeague.add(it.idLeague)
+            listLeague.add(it.strLeague)
+        }
+
+        val adapterLeague = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            listLeague
+        )
+        adapterLeague.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        fragmentStatisticBinding?.spinnerLeague?.adapter = adapterLeague
+    }
+
+    private fun setupUI() {
         fragmentStatisticBinding?.apply {
             rvStatistic.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

@@ -3,10 +3,11 @@ package id.heycoding.sportstesiyen.ui.home.teamsleague
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
 import id.heycoding.sportstesiyen.data.source.response.TeamsLeague
+import id.heycoding.sportstesiyen.domain.model.Teams
 
 class HomeTeamsLeagueCallback(
-    private val oldList: List<TeamsLeague>,
-    private val newList: List<TeamsLeague>
+    private val oldList: List<Teams>,
+    private val newList: List<Teams>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
     override fun getNewListSize(): Int = newList.size

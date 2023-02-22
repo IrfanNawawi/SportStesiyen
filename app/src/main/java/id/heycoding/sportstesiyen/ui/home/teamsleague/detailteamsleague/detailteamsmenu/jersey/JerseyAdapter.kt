@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.source.response.Equipment
 import id.heycoding.sportstesiyen.databinding.ItemTeamsJerseyBinding
+import id.heycoding.sportstesiyen.domain.model.Jersey
 
 class JerseyAdapter : RecyclerView.Adapter<JerseyAdapter.ViewHolder>() {
-    private val listJerseyData = ArrayList<Equipment>()
+    private val listJerseyData = ArrayList<Jersey>()
 
     inner class ViewHolder(private val binding: ItemTeamsJerseyBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(jersey: Equipment) {
+        fun bind(jersey: Jersey) {
             binding.apply {
                 Glide.with(itemView.context).load(jersey.strEquipment).into(imgJerseyTeam)
                 tvJerseyTeam.text = jersey.strUsername
@@ -23,7 +24,7 @@ class JerseyAdapter : RecyclerView.Adapter<JerseyAdapter.ViewHolder>() {
         }
     }
 
-    fun setJerseyData(jersey: List<Equipment>) {
+    fun setJerseyData(jersey: List<Jersey>) {
         val diffCallback =
             JerseyCallback(listJerseyData, jersey)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
