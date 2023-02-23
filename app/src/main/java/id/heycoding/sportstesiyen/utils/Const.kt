@@ -19,6 +19,7 @@ object Const {
     const val EXTRA_OTP_NUMBER = "otp_number"
     const val EXTRA_USER_ACCOUNT = "user_account"
     const val LIMIT = 5
+    const val REQUEST_CAMERA = 100
 }
 
 object ConstSports {

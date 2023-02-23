@@ -1,5 +1,6 @@
 package id.heycoding.sportstesiyen.di
 
+import id.heycoding.sportstesiyen.ui.account.AccountViewModel
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.home.HomeViewModel
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.DetailTeamsLeagueViewModel
@@ -22,4 +23,5 @@ val viewModelModule = module {
     viewModel<JerseyViewModel>()
     viewModel<NewsViewModel>()
     viewModel<StatisticViewModel>()
+    viewModel<AccountViewModel>()
 }

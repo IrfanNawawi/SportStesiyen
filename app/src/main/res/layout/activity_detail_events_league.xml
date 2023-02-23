@@ -314,7 +314,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/mulish_semibold_600"
-                android:text="Description"
+                android:text="@string/txt_desc_detail_events"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ll_league_event" />
@@ -328,25 +328,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_desc_detail"
                 tools:text="The Premier is back! After a few eternal weeks without club football, the best league in the world is here. Crystal Palace and Arsenal are in charge of kicking off this new season. A high-level match between two Premier League classics!" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                android:focusable="true"
-                android:keepScreenOn="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_desc_detail_event">
-
-                <androidx.media3.ui.PlayerView
-                    android:id="@+id/playerview_detail_event"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

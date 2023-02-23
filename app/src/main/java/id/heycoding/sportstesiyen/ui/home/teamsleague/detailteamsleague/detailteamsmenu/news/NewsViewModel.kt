@@ -27,14 +27,12 @@ class NewsViewModel(private val newsUseCase: NewsUseCase) : ViewModel() {
     private val _isError = MutableLiveData<String>()
     val isError: LiveData<String> = _isError
 
-    fun getEverythingNewsSportData(query: String, date: String) {
+    fun getEverythingNewsSportData(query: String) {
         viewModelScope.launch {
             newsUseCase.getEverythingTeamsNewsSportDataUseCase(
                 url = Const.BASE_URL_NEWSAPI + ConstNews.GET_EVERYTHING_NEWS_SPORT,
                 query = query,
                 language = Const.COUNTRY_ID_NEWSAPI,
-                from = date,
-                to = Const.TO_NEWSAPI,
                 sortBy = Const.SORT_NEWSAPI,
                 apiKey = Const.API_KEY_NEWSAPI
             ).onStart {

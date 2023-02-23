@@ -62,4 +62,18 @@
     <string name="txt_error_verification_otp">Didn\'t receive the OTP ?</string>
 
     <string name="media_url_mp4">https://storage.googleapis.com/exoplayer-test-media-0/play.mp3</string>
+    <string name="txt_desc_detail_events">Description</string>
+    <string name="txt_account">Account</string>
+    <string name="txt_league">League</string>
+    <string name="txt_teams_kit">Team Kit</string>
+    <string name="txt_code_number">+62</string>
+    <string name="txt_statistic">Statistic Table</string>
+    <string name="txt_pos_statistic">Pos</string>
+    <string name="txt_club_statistic">Club</string>
+    <string name="txt_played_statistic">P</string>
+    <string name="txt_win_statistic">W</string>
+    <string name="txt_draw_statistic">D</string>
+    <string name="txt_lose_statistic">L</string>
+    <string name="txt_gd_statistic">GD</string>
+    <string name="txt_point_statistic">Pts</string>
 </resources>

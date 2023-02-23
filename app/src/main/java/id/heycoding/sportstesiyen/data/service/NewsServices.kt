@@ -20,8 +20,6 @@ interface NewsServices {
         @Url newsUrl: String,
         @Query("q") q: String,
         @Query("language") lang: String,
-        @Query("from") fr: String,
-        @Query("to") to: String,
         @Query("sortBy") sortBy: String,
         @Query("apiKey") apiKey: String
     ): Response<NewsSportResponse>

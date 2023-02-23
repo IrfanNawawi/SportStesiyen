@@ -63,7 +63,7 @@
                 android:layout_height="45dp"
                 android:fontFamily="@font/mulish_bold_700"
                 android:gravity="center"
-                android:hint="+62"
+                android:hint="@string/txt_code_number"
                 android:padding="10dp"
                 android:textSize="18sp" />
 

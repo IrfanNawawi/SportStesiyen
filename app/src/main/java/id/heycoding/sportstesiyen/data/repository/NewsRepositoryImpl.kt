@@ -25,8 +25,6 @@ class NewsRepositoryImpl(
         url: String,
         query: String,
         language: String,
-        from: String,
-        to: String,
         sortBy: String,
         apiKey: String
     ): Response<NewsSportResponse> {
@@ -34,8 +32,6 @@ class NewsRepositoryImpl(
             newsUrl = url,
             q = query,
             lang = language,
-            fr = from,
-            to = to,
             sortBy = sortBy,
             apiKey = apiKey
         )

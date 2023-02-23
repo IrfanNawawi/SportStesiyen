@@ -27,9 +27,9 @@ class StatisticFragment : Fragment() {
     private lateinit var statisticAdapter: StatisticAdapter
     private val listStatisticLeague: MutableList<Table> = mutableListOf()
 
-    private val listIdLeague: MutableList<String> = mutableListOf()
-    private val listLeague: MutableList<String> = mutableListOf()
-    private val listSeason: MutableList<String> = mutableListOf()
+//    private val listIdLeague: MutableList<String> = mutableListOf()
+//    private val listLeague: MutableList<String> = mutableListOf()
+//    private val listSeason: MutableList<String> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +45,7 @@ class StatisticFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         statisticViewModel.apply {
-            getLeagueData()
+            getStatisticLeagueData()
         }
     }
 
@@ -92,40 +92,40 @@ class StatisticFragment : Fragment() {
                 statisticAdapter.setStatisticData(listStatisticData)
             }
 
-            listLeagueData.observe(viewLifecycleOwner) { league ->
-                listIdLeague.clear()
-                listLeague.clear()
+//            listLeagueData.observe(viewLifecycleOwner) { league ->
+//                listIdLeague.clear()
+//                listLeague.clear()
 //                listLeague.add(0, "Select a league")
+//
+//                league.map {
+//                    listIdLeague.add(it.idLeague)
+//                    listLeague.add(it.strLeague)
+//                }
+//
+//                val adapterLeague = ArrayAdapter(
+//                    requireContext(),
+//                    android.R.layout.simple_spinner_dropdown_item,
+//                    listLeague
+//                )
+//                adapterLeague.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                fragmentStatisticBinding?.spinnerLeague?.adapter = adapterLeague
+//            }
 
-                league.map {
-                    listIdLeague.add(it.idLeague)
-                    listLeague.add(it.strLeague)
-                }
-
-                val adapterLeague = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    listLeague
-                )
-                adapterLeague.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                fragmentStatisticBinding?.spinnerLeague?.adapter = adapterLeague
-            }
-
-            listSeasonData.observe(viewLifecycleOwner) { season ->
-                listSeason.clear()
+//            listSeasonData.observe(viewLifecycleOwner) { season ->
+//                listSeason.clear()
 //                listSeason.add(0, "Select a season")
-                season.map {
-                    listSeason.add(it.strSeason)
-                }
-
-                val adapterSeason = ArrayAdapter(
-                    requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
-                    listSeason
-                )
-                adapterSeason.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                fragmentStatisticBinding?.spinnerSeason?.adapter = adapterSeason
-            }
+//                season.map {
+//                    listSeason.add(it.strSeason)
+//                }
+//
+//                val adapterSeason = ArrayAdapter(
+//                    requireContext(),
+//                    android.R.layout.simple_spinner_dropdown_item,
+//                    listSeason
+//                )
+//                adapterSeason.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                fragmentStatisticBinding?.spinnerSeason?.adapter = adapterSeason
+//            }
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
             isError.observe(viewLifecycleOwner) { showMessage(it) }
@@ -142,51 +142,51 @@ class StatisticFragment : Fragment() {
                 clipChildren = false
             }
 
-            spinnerLeague.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
+//            spinnerLeague.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                override fun onNothingSelected(parent: AdapterView<*>?) {}
+//
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    parent?.getItemAtPosition(position).toString()
+//                    if (parent?.selectedItem == spinnerLeague.selectedItem) {
+//                        statisticViewModel.getSeasonData(listIdLeague[position])
+//                    }
+//                }
+//            }
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    parent?.getItemAtPosition(position).toString()
-                    if (parent?.selectedItem == spinnerLeague.selectedItem) {
-                        statisticViewModel.getSeasonData(listIdLeague[position])
-                    }
-                }
-            }
-
-            spinnerSeason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    parent?.getItemAtPosition(position).toString()
-                    if (parent?.selectedItem == spinnerSeason.selectedItem) {
-                        statisticViewModel.getStatisticLeagueData(
-                            listIdLeague[position],
-                            listSeason[position]
-                        )
-                    }
-                }
-            }
+//            spinnerSeason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                override fun onNothingSelected(parent: AdapterView<*>?) {}
+//
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    parent?.getItemAtPosition(position).toString()
+//                    if (parent?.selectedItem == spinnerSeason.selectedItem) {
+//                        statisticViewModel.getStatisticLeagueData(
+//                            listIdLeague[position],
+//                            listSeason[position]
+//                        )
+//                    }
+//                }
+//            }
         }
     }
 
     private fun showLoading(it: Boolean?) {
         if (it == true) {
-            fragmentStatisticBinding?.llEmptyData?.visibility = View.VISIBLE
+//            fragmentStatisticBinding?.llEmptyData?.visibility = View.VISIBLE
             fragmentStatisticBinding?.fmListStatistic?.visibility = View.INVISIBLE
             fragmentStatisticBinding?.pgShimmerStatistic?.startShimmer()
             fragmentStatisticBinding?.pgShimmerStatistic?.visibility = View.VISIBLE
         } else {
-            fragmentStatisticBinding?.llEmptyData?.visibility = View.INVISIBLE
+//            fragmentStatisticBinding?.llEmptyData?.visibility = View.INVISIBLE
             fragmentStatisticBinding?.fmListStatistic?.visibility = View.VISIBLE
             fragmentStatisticBinding?.pgShimmerStatistic?.stopShimmer()
             fragmentStatisticBinding?.pgShimmerStatistic?.visibility = View.GONE
@@ -194,11 +194,11 @@ class StatisticFragment : Fragment() {
     }
 
     private fun showMessage(message: String?) {
-        val view = layoutInflater.inflate(R.layout.popup_error_fetch, null)
+        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
 
-        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_fetch_home)
+        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_connection_home)
         tvErrorFetch.text = message
 
         dialog.show()

@@ -32,8 +32,6 @@ class NewsUseCase(private val newsRepository: NewsRepository) {
         url: String,
         query: String,
         language: String,
-        from: String,
-        to: String,
         sortBy: String,
         apiKey: String
     ) = flow {
@@ -41,7 +39,7 @@ class NewsUseCase(private val newsRepository: NewsRepository) {
             url = url,
             query = query,
             language = language,
-            from = from, to = to, sortBy = sortBy, apiKey = apiKey
+            sortBy = sortBy, apiKey = apiKey
         )
         if (response.isSuccessful) {
             emit(ResultState.Success(response.body()))

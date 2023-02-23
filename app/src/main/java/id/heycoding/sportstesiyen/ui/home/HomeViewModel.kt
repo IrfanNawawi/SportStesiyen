@@ -43,16 +43,6 @@ class HomeViewModel(
     private val _isError = MutableLiveData<String>()
     val isError: LiveData<String> = _isError
 
-    private val _isValidate = MutableLiveData<Boolean>()
-    val isValidate: LiveData<Boolean> = _isValidate
-
-    private var auth: FirebaseAuth = Firebase.auth
-
-    fun doSignOut() {
-        auth.signOut()
-        _isValidate.value = true
-    }
-
     fun getBannerData(): List<BannerData> = DataDummy.generateDummyBanner()
 
     fun getEventLeagueData() {

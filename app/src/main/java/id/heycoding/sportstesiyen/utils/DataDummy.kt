@@ -1,6 +1,7 @@
 package id.heycoding.sportstesiyen.utils
 
 import id.heycoding.sportstesiyen.R
+import id.heycoding.sportstesiyen.ui.account.AccountMenu
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailteamsmenu.DetailTeamsMenu
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingItem
@@ -80,6 +81,51 @@ object DataDummy {
             )
         )
         return detailTeamsMenu
+    }
+
+    fun generateAccountMenu(): ArrayList<AccountMenu> {
+        val accountMenu = ArrayList<AccountMenu>()
+        accountMenu.add(
+            AccountMenu(
+                menuAccountId = 1,
+                menuAccountImage = R.drawable.ic_password,
+                menuAccountName = "Change Password",
+                menuAccountSwitch = 0
+            )
+        )
+        accountMenu.add(
+            AccountMenu(
+                menuAccountId = 2,
+                menuAccountImage = R.drawable.ic_dark_mode,
+                menuAccountName = "Enable Dark Mode",
+                menuAccountSwitch = 1
+            )
+        )
+        accountMenu.add(
+            AccountMenu(
+                menuAccountId = 3,
+                menuAccountImage = R.drawable.ic_language,
+                menuAccountName = "Change Language",
+                menuAccountSwitch = 0
+            )
+        )
+        accountMenu.add(
+            AccountMenu(
+                menuAccountId = 4,
+                menuAccountImage = R.drawable.ic_help,
+                menuAccountName = "Help",
+                menuAccountSwitch = 0
+            )
+        )
+        accountMenu.add(
+            AccountMenu(
+                menuAccountId = 5,
+                menuAccountImage = R.drawable.ic_logout,
+                menuAccountName = "Log Out",
+                menuAccountSwitch = 0
+            )
+        )
+        return accountMenu
     }
 
 }

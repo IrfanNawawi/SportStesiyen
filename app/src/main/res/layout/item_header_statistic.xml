@@ -19,7 +19,7 @@
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Pos" />
+        android:text="@string/txt_pos_statistic" />
 
     <TextView
         android:id="@+id/tv_teams_statistic"
@@ -32,7 +32,7 @@
         android:fontFamily="@font/mulish_medium_500"
         app:layout_constraintStart_toEndOf="@id/tv_position_statistic"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Club"
+        android:text="@string/txt_club_statistic"
         />
 
     <TextView
@@ -47,7 +47,7 @@
         android:fontFamily="@font/mulish_medium_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="P" />
+        android:text="@string/txt_played_statistic" />
 
     <TextView
         android:id="@+id/tv_win_statistic"
@@ -61,7 +61,7 @@
         android:fontFamily="@font/mulish_medium_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="W" />
+        android:text="@string/txt_win_statistic" />
 
     <TextView
         android:id="@+id/tv_draw_statistic"
@@ -75,7 +75,7 @@
         android:fontFamily="@font/mulish_medium_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="D" />
+        android:text="@string/txt_draw_statistic" />
 
     <TextView
         android:id="@+id/tv_lose_statistic"
@@ -89,7 +89,7 @@
         android:fontFamily="@font/mulish_medium_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="L" />
+        android:text="@string/txt_lose_statistic" />
 
     <TextView
         android:id="@+id/tv_goal_different_statistic"
@@ -103,7 +103,7 @@
         android:fontFamily="@font/mulish_medium_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="GD" />
+        android:text="@string/txt_gd_statistic" />
 
     <TextView
         android:id="@+id/tv_point_statistic"
@@ -117,5 +117,5 @@
         android:fontFamily="@font/mulish_medium_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Pts" />
+        android:text="@string/txt_point_statistic" />
 </LinearLayout>

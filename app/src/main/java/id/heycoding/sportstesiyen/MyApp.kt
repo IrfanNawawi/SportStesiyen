@@ -2,6 +2,7 @@ package id.heycoding.sportstesiyen
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import id.heycoding.sportstesiyen.di.networkModule
 import id.heycoding.sportstesiyen.di.repositoryModule
 import id.heycoding.sportstesiyen.di.useCaseModule
@@ -15,6 +16,8 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         appContext = applicationContext
         startKoin {
             androidLogger()
@@ -28,9 +31,5 @@ class MyApp : Application() {
                 )
             )
         }
-    }
-
-    fun getAppContext(): Context? {
-        return appContext
     }
 }

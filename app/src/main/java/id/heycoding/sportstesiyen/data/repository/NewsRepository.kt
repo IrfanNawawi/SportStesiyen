@@ -15,8 +15,6 @@ interface NewsRepository {
         url: String,
         query: String,
         language: String,
-        from: String,
-        to: String,
         sortBy: String,
         apiKey: String
     ): Response<NewsSportResponse>

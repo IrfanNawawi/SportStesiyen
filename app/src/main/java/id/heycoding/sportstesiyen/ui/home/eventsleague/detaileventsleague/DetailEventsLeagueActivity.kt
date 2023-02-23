@@ -58,7 +58,7 @@ class DetailEventsLeagueActivity : AppCompatActivity() {
                 tvSeasonDetailEvent.text = getData?.strSeason
                 tvDescDetailEvent.text = getData?.strDescriptionEN
                 urlVideo = getData?.strVideo
-                initializePlayer(ConstSports.DUMMY_VIDEO)
+//                initializePlayer(ConstSports.DUMMY_VIDEO)
 
                 appbarDetailEvent.addOnOffsetChangedListener(object :
                     AppBarLayout.OnOffsetChangedListener {
@@ -83,19 +83,19 @@ class DetailEventsLeagueActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializePlayer(liveUrl: String) {
-        player = ExoPlayer.Builder(this)
-            .build()
-            .also { exoPlayer ->
-                activityDetailEventsLeagueBinding?.playerviewDetailEvent?.player = exoPlayer
-
-                val mediaItem = MediaItem.fromUri(liveUrl)
-                exoPlayer.setMediaItem(mediaItem)
-                exoPlayer.playWhenReady = playWhenReady
-                exoPlayer.seekTo(currentItem, playbackPosition)
-                exoPlayer.prepare()
-            }
-    }
+//    private fun initializePlayer(liveUrl: String) {
+//        player = ExoPlayer.Builder(this)
+//            .build()
+//            .also { exoPlayer ->
+//                activityDetailEventsLeagueBinding?.playerviewDetailEvent?.player = exoPlayer
+//
+//                val mediaItem = MediaItem.fromUri(liveUrl)
+//                exoPlayer.setMediaItem(mediaItem)
+//                exoPlayer.playWhenReady = playWhenReady
+//                exoPlayer.seekTo(currentItem, playbackPosition)
+//                exoPlayer.prepare()
+//            }
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
@@ -113,31 +113,31 @@ class DetailEventsLeagueActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        if (Util.SDK_INT > 24) {
-            initializePlayer(ConstSports.DUMMY_VIDEO)
-        }
+//        if (Util.SDK_INT > 24) {
+//            initializePlayer(ConstSports.DUMMY_VIDEO)
+//        }
     }
 
     public override fun onResume() {
         super.onResume()
-        hideSystemUi()
-        if (Util.SDK_INT <= 24 || player == null) {
-            initializePlayer(ConstSports.DUMMY_VIDEO)
-        }
+//        hideSystemUi()
+//        if (Util.SDK_INT <= 24 || player == null) {
+//            initializePlayer(ConstSports.DUMMY_VIDEO)
+//        }
     }
 
     public override fun onPause() {
         super.onPause()
-        if (Util.SDK_INT <= 24) {
-            releasePlayer()
-        }
+//        if (Util.SDK_INT <= 24) {
+//            releasePlayer()
+//        }
     }
 
     public override fun onStop() {
         super.onStop()
-        if (Util.SDK_INT > 24) {
-            releasePlayer()
-        }
+//        if (Util.SDK_INT > 24) {
+//            releasePlayer()
+//        }
     }
 
     private fun releasePlayer() {
@@ -150,13 +150,13 @@ class DetailEventsLeagueActivity : AppCompatActivity() {
         player = null
     }
 
-    private fun hideSystemUi() {
-        activityDetailEventsLeagueBinding?.playerviewDetailEvent?.systemUiVisibility =
-            (View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-    }
+//    private fun hideSystemUi() {
+//        activityDetailEventsLeagueBinding?.playerviewDetailEvent?.systemUiVisibility =
+//            (View.SYSTEM_UI_FLAG_LOW_PROFILE
+//                    or View.SYSTEM_UI_FLAG_FULLSCREEN
+//                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+//    }
 }

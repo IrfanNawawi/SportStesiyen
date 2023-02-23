@@ -53,6 +53,7 @@
     <string name="txt_desc_input_otp">We will send you an\nOne Time Password on this phone number</string>
     <string name="txt_phone_invalid">Phone Number Invalid</string>
     <string name="txt_phone_number">Phone Number</string>
+    <string name="txt_phone_number_not_blank">Phone is Not Empty</string>
     <string name="txt_get_otp">Get OTP</string>
     <string name="txt_otp_verify"><![CDATA[Verify & Proceed]]></string>
     <string name="txt_desc_verify_otp">Enter the OTP sent to</string>
@@ -61,4 +62,18 @@
     <string name="txt_error_verification_otp">Didn\'t receive the OTP ?</string>
 
     <string name="media_url_mp4">https://storage.googleapis.com/exoplayer-test-media-0/play.mp3</string>
+    <string name="txt_desc_detail_events">Description</string>
+    <string name="txt_account">Account</string>
+    <string name="txt_league">League</string>
+    <string name="txt_teams_kit">Team Kit</string>
+    <string name="txt_code_number">+62</string>
+    <string name="txt_statistic">Statistic Table</string>
+    <string name="txt_pos_statistic">Pos</string>
+    <string name="txt_club_statistic">Club</string>
+    <string name="txt_played_statistic">P</string>
+    <string name="txt_win_statistic">W</string>
+    <string name="txt_draw_statistic">D</string>
+    <string name="txt_lose_statistic">L</string>
+    <string name="txt_gd_statistic">GD</string>
+    <string name="txt_point_statistic">Pts</string>
 </resources>

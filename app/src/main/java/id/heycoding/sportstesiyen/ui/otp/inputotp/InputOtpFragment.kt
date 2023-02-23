@@ -119,11 +119,11 @@ class InputOtpFragment : Fragment() {
     }
 
     private fun showMessage(message: String?) {
-        val view = layoutInflater.inflate(R.layout.popup_error_fetch, null)
+        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
 
-        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_fetch_home)
+        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_connection_home)
         tvErrorFetch.text = message
 
         dialog.show()
