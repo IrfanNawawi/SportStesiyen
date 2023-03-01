@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SportStesiyen</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_statistic">Statistik</string>
+    <string name="title_account">Akun</string>
+    <string name="txt_dummy">Dummy</string>
+    <string name="txt_error_fetch">Data Error</string>
+    <string name="txt_no_internet">Tidak Ada Internet</string>
+    <string name="txt_retry">Ulangi</string>
+    <string name="txt_data_not_found">Data Tidak Ditemukan</string>
+    <string name="txt_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string-array name="menuDetailTeams">
+        <item>Deskripsi</item>
+        <item>Stadium</item>
+        <item>Jersey</item>
+        <item>Liga</item>
+    </string-array>
+
+    <string name="txt_news_onboarding">Berita Olahraga</string>
+    <string name="txt_category_onboarding">Kategori Olahraga</string>
+    <string name="txt_score_onboarding">Skor Olahraga</string>
+    <string name="txt_data_player_onboarding">Data Pemain Olahraga</string>
+    <string name="txt_next_onboarding">Lanjut</string>
+    <string name="txt_back_onboarding">Kembali</string>
+    <string name="txt_skip_onboarding">Lewati</string>
+    <string name="txt_started_onboarding">Memulai</string>
+
+    <string name="txt_login_intro">Halo,\nSilahkan Login Disini</string>
+    <string name="txt_login_new_register_click">Klik Disini</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_register">Register</string>
+    <string name="txt_register_intro">Halo,\nSilahkan Register Disini</string>
+    <string name="txt_username">Username</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_email_invalid">Email Tidak valid</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_username_not_blank">Username Tidak Boleh Kosong</string>
+    <string name="txt_email_not_blank">Email Tidak Boleh Kosong</string>
+    <string name="txt_phone_not_blank">No Telepon Tidak Boleh Kosong</string>
+    <string name="txt_password_invalid">Password Tidak valid</string>
+    <string name="txt_password_not_blank">Password Tidak Boleh Kosong</string>
+    <string name="txt_password_not_same">Konfirm Password Tidak Sama</string>
+    <string name="txt_password_limit">Password Harus 6 Karakter</string>
+    <string name="txt_otp_verification">Verifikasi OTP</string>
+    <string name="txt_desc_input_otp">Kami Akan Mengirimkan Anda Sebuah\nKata Sandi Sekali Pakai di Nomor Telepon ini</string>
+    <string name="txt_phone_invalid">No Telepon Tidak Valid</string>
+    <string name="txt_phone">No Telepon</string>
+    <string name="txt_get_otp">Ambil OTP</string>
+    <string name="txt_otp_verify"><![CDATA[Verifikasi & Proses]]></string>
+    <string name="txt_desc_verify_otp">Masukkan OTP yang Dikirimkan</string>
+    <string name="txt_dummy_phone">081234567890</string>
+    <string name="txt_resend_otp">Kirim Ulang OTP</string>
+    <string name="txt_error_verification_otp">Tidak Mendapatkan OTP ?</string>
+    <string name="txt_login_new_register">Belum Punya Akun ? </string>
+    <string name="txt_welcome">Selamat Datang </string>
+
+    <string name="txt_top_headline_news_home">Berita Utama Olahraga</string>
+    <string name="txt_everything_news_home">Berita Dalam Negri Olahraga</string>
+    <string name="txt_banner_home">Banner Beranda</string>
+    <string name="txt_show_all_list">Tampilkan</string>
+    <string name="txt_type_latest_home">Home</string>
+    <string name="txt_type_latest_away">Away</string>
+    <string name="txt_date_publish_home">2 Hari Lalu</string>
+    <string name="txt_live_match_home">Siaran Langsung</string>
+    <string name="txt_teams_league_home">Tim Liga</string>
+    <string name="txt_since_home">Sejak</string>
+    <string name="txt_source_news_detail">Sumber</string>
+    <string name="txt_author_news_detail">Penulis</string>
+
+    <string name="media_url_mp4">https://storage.googleapis.com/exoplayer-test-media-0/play.mp3</string>
+    <string name="txt_desc_detail_events">Deskripsi</string>
+    <string name="txt_league">Liga</string>
+    <string name="txt_account">Akun</string>
+    <string name="txt_teams_kit">Team Kit</string>
+    <string name="txt_code_number">+62</string>
+    <string name="txt_statistic">Tabel Statistik</string>
+    <string name="txt_pos_statistic">Pos</string>
+    <string name="txt_club_statistic">Club</string>
+    <string name="txt_played_statistic">P</string>
+    <string name="txt_win_statistic">W</string>
+    <string name="txt_draw_statistic">D</string>
+    <string name="txt_lose_statistic">L</string>
+    <string name="txt_gd_statistic">GD</string>
+    <string name="txt_point_statistic">Pts</string>
+
+    <string name="txt_change_password">Ganti Password</string>
+    <string name="txt_old_password">Password Lama</string>
+    <string name="txt_new_password">Password Baru</string>
+    <string name="txt_confirm_password">Konfirm Password</string>
+</resources>

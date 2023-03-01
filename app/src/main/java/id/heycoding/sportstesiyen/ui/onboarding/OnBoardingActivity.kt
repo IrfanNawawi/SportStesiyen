@@ -30,20 +30,20 @@ class OnBoardingActivity : AppCompatActivity() {
         supportActionBar?.title = ""
         onBoardingAdapter = OnBoardingAdapter(listOnBoardingData)
 
-        initViewModel()
-        initViews()
+        setupObserve()
+        setupUI()
         setupIndicator()
         setCurrectIndicator(0)
     }
 
-    private fun initViewModel() {
+    private fun setupObserve() {
         onBoardingViewModel.apply {
             val onBoarding = getOnBoarding()
             onBoardingAdapter.setOnBoardingData(onBoarding)
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         activityOnboardingBinding?.apply {
             vpOnboarding.apply {
                 adapter = onBoardingAdapter

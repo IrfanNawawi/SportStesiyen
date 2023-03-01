@@ -29,7 +29,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:contentDescription="@string/txt_error_fetch"
-            android:src="@drawable/svg_access_denied"
+            android:src="@drawable/svg_sport_not_found"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,29 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin"
             android:fontFamily="@font/mulish_semibold_600"
-            android:text="@string/txt_no_internet"
+            android:text="@string/txt_data_not_found"
             android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_error_popup" />
-
-        <TextView
-            android:id="@+id/tv_retry_connection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:background="@drawable/bg_btn_primary"
-            android:fontFamily="@font/mulish_bold_700"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/txt_retry"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_error_popup" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

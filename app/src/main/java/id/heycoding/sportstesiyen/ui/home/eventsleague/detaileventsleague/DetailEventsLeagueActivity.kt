@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.media3.common.MediaItem
-import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.ExoPlayer
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
@@ -35,10 +33,10 @@ class DetailEventsLeagueActivity : AppCompatActivity() {
             supportActionBar?.title = ""
         }
 
-        initViews()
+        setupUI()
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         val extras = intent.extras
         if (extras != null) {
             val getData = extras.getParcelable<EventLeague>(ConstSports.EXTRA_EVENT)

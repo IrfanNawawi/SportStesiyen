@@ -7,6 +7,7 @@ import id.heycoding.sportstesiyen.di.networkModule
 import id.heycoding.sportstesiyen.di.repositoryModule
 import id.heycoding.sportstesiyen.di.useCaseModule
 import id.heycoding.sportstesiyen.di.viewModelModule
+import id.heycoding.sportstesiyen.utils.PreferencesApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +17,8 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        checkTheme()
 
         appContext = applicationContext
         startKoin {
@@ -30,6 +32,18 @@ class MyApp : Application() {
                     viewModelModule
                 )
             )
+        }
+    }
+
+    private fun checkTheme() {
+        when(PreferencesApp(this).darkMode) {
+            0 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+
+            1 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
         }
     }
 }

@@ -24,7 +24,8 @@ class OtpActivity : AppCompatActivity() {
 
     fun moveToFragment(fragment: Fragment) {
         this.supportFragmentManager.beginTransaction().replace(R.id.frag_container_otp, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
     }
 
     override fun onDestroy() {

@@ -39,18 +39,18 @@ class DetailTeamsLeagueActivity : AppCompatActivity() {
 
         detailTeamsLeagueAdapter = DetailTeamsLeagueAdapter()
 
-        initViewModel()
-        initViews()
+        setupObserve()
+        setupUI()
     }
 
-    private fun initViewModel() {
+    private fun setupObserve() {
         detailTeamsLeagueViewModel.apply {
             val menuDetailTeams = getMenuDetailTeams()
             detailTeamsLeagueAdapter.setMenuDetailTeamsData(menuDetailTeams)
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         val extras = intent.extras
         if (extras != null) {
             val getData = extras.getParcelable<TeamsLeague>(ConstSports.EXTRA_TEAMS)

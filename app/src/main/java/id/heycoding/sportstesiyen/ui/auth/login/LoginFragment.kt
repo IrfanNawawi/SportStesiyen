@@ -2,13 +2,15 @@ package id.heycoding.sportstesiyen.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentLoginBinding
 import id.heycoding.sportstesiyen.ui.MainActivity
@@ -35,11 +37,11 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AuthActivity).supportActionBar?.hide()
-        initViews()
-        initViewModel()
+        setupUI()
+        setupObserve()
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentLoginBinding?.apply {
             btnLogin.setOnClickListener {
                 validateAndLogin()
@@ -50,9 +52,12 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun initViewModel() {
+    private fun setupObserve() {
         authViewModel.apply {
-            isSuccess.observe(viewLifecycleOwner) { showCheckingUser(it) }
+            isValidate.observe(viewLifecycleOwner) { moveToMain(it) }
+            isSuccess.observe(viewLifecycleOwner) { moveToMain(it) }
+            isError.observe(viewLifecycleOwner) { showMessage(it) }
+            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
     }
 
@@ -76,18 +81,8 @@ class LoginFragment : Fragment() {
 
         authViewModel.apply {
             doLogin(userEmail, userPassword)
-
-            isSuccess.observe(viewLifecycleOwner) { moveToOtp(it) }
-            isError.observe(viewLifecycleOwner) { showMessage(it) }
-            isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         }
 
-    }
-
-    private fun showCheckingUser(user: String) {
-        if (user.isNotEmpty()) {
-            moveToMain(user)
-        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -95,7 +90,19 @@ class LoginFragment : Fragment() {
     }
 
     private fun showMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        val view = layoutInflater.inflate(R.layout.popup_data_not_found, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(view)
+        dialog.show()
+        dialog.setCancelable(false)
+
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+        val tvErrorPopup: TextView = view.findViewById(R.id.tv_error_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
+        tvErrorPopup.text = message
     }
 
     private fun moveToOtp(user: String) {
@@ -111,12 +118,7 @@ class LoginFragment : Fragment() {
 
     private fun moveToMain(user: String) {
         if (user.isNotEmpty()) {
-            startActivity(
-                Intent(activity, MainActivity::class.java).putExtra(
-                    Const.EXTRA_USER_ACCOUNT,
-                    user
-                )
-            )
+            startActivity(Intent(activity, MainActivity::class.java))
         }
     }
 

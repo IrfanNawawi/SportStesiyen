@@ -55,10 +55,10 @@ class VerificationOtpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as OtpActivity).supportActionBar?.hide()
-        initView()
+        setupUI()
     }
 
-    private fun initView() {
+    private fun setupUI() {
         fragmentVerificationOtpBinding?.apply {
             edtOtpPhone1.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(

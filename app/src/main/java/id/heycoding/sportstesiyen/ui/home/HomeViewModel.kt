@@ -37,13 +37,25 @@ class HomeViewModel(
     val listTopHeadlineNewsSportData: LiveData<List<Articles>> =
         _listTopHeadlineNewsSportData
 
+    private val _isValidate = MutableLiveData<String>()
+    val isValidate: LiveData<String> = _isValidate
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _isError = MutableLiveData<String>()
     val isError: LiveData<String> = _isError
 
+    private var auth: FirebaseAuth = Firebase.auth
+
     fun getBannerData(): List<BannerData> = DataDummy.generateDummyBanner()
+
+    fun checkDisplayName() {
+        val user = auth.currentUser
+        if (user != null) {
+            _isValidate.value = user.displayName.toString()
+        }
+    }
 
     fun getEventLeagueData() {
         viewModelScope.launch {

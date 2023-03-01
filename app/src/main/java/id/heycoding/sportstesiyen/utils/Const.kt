@@ -33,6 +33,7 @@ object ConstSports {
     const val EXTRA_EVENT = "event"
     const val EXTRA_TEAMS = "teams"
     const val EXTRA_DATA_TEAMS = "data_teams"
+    const val DUMMY_EMAIL = "mockdroid77@gmail.com"
     const val DUMMY_VIDEO =
         "https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd"
 }

@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -19,11 +20,8 @@ import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.entity.Articles
 import id.heycoding.sportstesiyen.data.entity.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentNewsBinding
-import id.heycoding.sportstesiyen.utils.Const
 import id.heycoding.sportstesiyen.utils.ConstSports
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class NewsFragment : Fragment() {
@@ -50,8 +48,8 @@ class NewsFragment : Fragment() {
 
         newsAdapter = NewsAdapter()
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
+            setupObserve()
+            setupUI()
             getDataArguments()
         } else {
             showErrorConnection()
@@ -85,9 +83,6 @@ class NewsFragment : Fragment() {
             val dataTeams = bundle.getParcelable<TeamsLeague>(ConstSports.EXTRA_DATA_TEAMS)
             dataNewsTeams = dataTeams?.strTeam.toString()
 
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val current = LocalDateTime.now().format(formatter)
-
             newsViewModel.apply {
                 getEverythingNewsSportData(dataNewsTeams)
             }
@@ -102,12 +97,12 @@ class NewsFragment : Fragment() {
         dialog.show()
         dialog.setCancelable(false)
 
-        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection)
         tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initViewModel() {
+    private fun setupObserve() {
         newsViewModel.apply {
             listEverythingNewsSportData.observe(viewLifecycleOwner) { listNewsData ->
                 listNewsEverything.clear()
@@ -121,7 +116,7 @@ class NewsFragment : Fragment() {
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentNewsBinding?.apply {
             rvNews.apply {
                 layoutManager =
@@ -146,14 +141,19 @@ class NewsFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun showMessage(message: String?) {
-        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
+        val view = layoutInflater.inflate(R.layout.popup_data_not_found, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
-
-        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_connection_home)
-        tvErrorFetch.text = message
-
         dialog.show()
+        dialog.setCancelable(false)
+
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+        val tvErrorPopup: TextView = view.findViewById(R.id.tv_error_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
+        tvErrorPopup.text = message
     }
 
     override fun onDestroyView() {

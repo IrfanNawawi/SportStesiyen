@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -45,8 +46,8 @@ class JerseyFragment : Fragment() {
 
         jerseyAdapter = JerseyAdapter()
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
+            setupObserve()
+            setupUI()
             getDataArguments()
         } else {
             showErrorConnection()
@@ -94,12 +95,16 @@ class JerseyFragment : Fragment() {
         dialog.show()
         dialog.setCancelable(false)
 
-        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection)
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
         tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun initViewModel() {
+    private fun setupObserve() {
         jerseyViewModel.apply {
             listJerseyData.observe(viewLifecycleOwner) { listJerseyData ->
                 listJersey.clear()
@@ -113,7 +118,7 @@ class JerseyFragment : Fragment() {
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentJerseyBinding?.apply {
             rvJersey.apply {
                 layoutManager =
@@ -138,14 +143,19 @@ class JerseyFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun showMessage(message: String?) {
-        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
+        val view = layoutInflater.inflate(R.layout.popup_data_not_found, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
-
-        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_connection_home)
-        tvErrorFetch.text = message
-
         dialog.show()
+        dialog.setCancelable(false)
+
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+        val tvErrorPopup: TextView = view.findViewById(R.id.tv_error_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
+        tvErrorPopup.text = message
     }
 
     override fun onDestroyView() {

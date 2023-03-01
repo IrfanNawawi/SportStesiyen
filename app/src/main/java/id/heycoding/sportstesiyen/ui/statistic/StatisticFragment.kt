@@ -8,8 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -181,12 +180,10 @@ class StatisticFragment : Fragment() {
 
     private fun showLoading(it: Boolean?) {
         if (it == true) {
-//            fragmentStatisticBinding?.llEmptyData?.visibility = View.VISIBLE
             fragmentStatisticBinding?.fmListStatistic?.visibility = View.INVISIBLE
             fragmentStatisticBinding?.pgShimmerStatistic?.startShimmer()
             fragmentStatisticBinding?.pgShimmerStatistic?.visibility = View.VISIBLE
         } else {
-//            fragmentStatisticBinding?.llEmptyData?.visibility = View.INVISIBLE
             fragmentStatisticBinding?.fmListStatistic?.visibility = View.VISIBLE
             fragmentStatisticBinding?.pgShimmerStatistic?.stopShimmer()
             fragmentStatisticBinding?.pgShimmerStatistic?.visibility = View.GONE
@@ -194,14 +191,19 @@ class StatisticFragment : Fragment() {
     }
 
     private fun showMessage(message: String?) {
-        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
+        val view = layoutInflater.inflate(R.layout.popup_data_not_found, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
-
-        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_connection_home)
-        tvErrorFetch.text = message
-
         dialog.show()
+        dialog.setCancelable(false)
+
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+        val tvErrorPopup: TextView = view.findViewById(R.id.tv_error_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
+        tvErrorPopup.text = message
     }
 
     private fun showErrorConnection() {
@@ -211,8 +213,13 @@ class StatisticFragment : Fragment() {
         dialog.show()
         dialog.setCancelable(false)
 
-        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection)
         tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
     }
 
     override fun onDestroyView() {

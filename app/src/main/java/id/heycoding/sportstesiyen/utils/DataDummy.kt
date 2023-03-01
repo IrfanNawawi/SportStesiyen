@@ -7,8 +7,10 @@ import id.heycoding.sportstesiyen.ui.home.teamsleague.detailteamsleague.detailte
 import id.heycoding.sportstesiyen.ui.onboarding.OnBoardingItem
 
 object DataDummy {
+
     fun generateDummyOnBoarding(): ArrayList<OnBoardingItem> {
         val onBoarding = ArrayList<OnBoardingItem>()
+
         onBoarding.add(
             OnBoardingItem(
                 imageOnBoarding = R.drawable.svg_sport_category_onboarding,

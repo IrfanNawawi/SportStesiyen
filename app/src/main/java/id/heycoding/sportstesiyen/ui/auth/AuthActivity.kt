@@ -24,7 +24,8 @@ class AuthActivity : AppCompatActivity() {
 
     fun moveToFragment(fragment: Fragment) {
         this.supportFragmentManager.beginTransaction().replace(R.id.frag_container_auth, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroy() {

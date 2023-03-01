@@ -1,6 +1,5 @@
 package id.heycoding.sportstesiyen.ui.auth
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +14,9 @@ class AuthViewModel : ViewModel() {
     private val _isSuccess = MutableLiveData<String>()
     val isSuccess: LiveData<String> = _isSuccess
 
+    private val _isValidate = MutableLiveData<String>()
+    val isValidate: LiveData<String> = _isValidate
+
     private val _isError = MutableLiveData<String>()
     val isError: LiveData<String> = _isError
 
@@ -26,7 +28,7 @@ class AuthViewModel : ViewModel() {
     fun doCheckingUser() {
         val user = auth.currentUser
         if (user != null) {
-            _isSuccess.value = user.displayName.toString()
+            _isValidate.value = user.displayName.toString()
         }
     }
 
@@ -62,7 +64,7 @@ class AuthViewModel : ViewModel() {
                         }
                         user.updateProfile(profileUpdates).addOnCompleteListener { taskRegister ->
                             if (taskRegister.isSuccessful) {
-                                _isSuccess.value = username
+                                _isSuccess.value = "User $username success register"
                             }
                         }
                     } else {

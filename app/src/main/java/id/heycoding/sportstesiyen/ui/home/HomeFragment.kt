@@ -29,7 +29,6 @@ import id.heycoding.sportstesiyen.data.entity.Articles
 import id.heycoding.sportstesiyen.data.entity.EventLeague
 import id.heycoding.sportstesiyen.data.entity.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentHomeBinding
-import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.home.banner.BannerAdapter
 import id.heycoding.sportstesiyen.ui.home.banner.BannerData
 import id.heycoding.sportstesiyen.ui.home.eventsleague.HomeEventsLeagueAdapter
@@ -65,23 +64,19 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         _fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-        getDataArguments()
+
+        homeViewModel.apply {
+            checkDisplayName()
+            getEventLeagueData()
+            getTeamsData()
+            getTopHeadlineNewsSportData()
+        }
+
         return fragmentHomeBinding?.root
     }
 
     private fun getDataArguments() {
         val userAccount = activity?.intent?.getStringExtra(Const.EXTRA_USER_ACCOUNT)
-        fragmentHomeBinding?.tvUsernameHome?.text = userAccount
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        homeViewModel.apply {
-            getEventLeagueData()
-            getTeamsData()
-            getTopHeadlineNewsSportData()
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -94,8 +89,8 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         bannerAdapter = BannerAdapter(listSportBannerData)
 
         if (isOnline(requireContext())) {
-            initViewModel()
-            initViews()
+            setupObserve()
+            setupUI()
             setupIndicator()
             setCurrectIndicator(0)
         } else {
@@ -125,7 +120,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initViewModel() {
+    private fun setupObserve() {
         homeViewModel.apply {
             val onBannerData = getBannerData()
             bannerAdapter.setBannerData(onBannerData)
@@ -153,11 +148,13 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
 
             isLoading.observe(viewLifecycleOwner) { showLoading(it) }
             isError.observe(viewLifecycleOwner) { showMessage(it) }
-//            isValidate.observe(viewLifecycleOwner) { showSignOut() }
+            isValidate.observe(viewLifecycleOwner) { displayName ->
+                fragmentHomeBinding?.tvUsernameHome?.text = displayName
+            }
         }
     }
 
-    private fun initViews() {
+    private fun setupUI() {
         fragmentHomeBinding?.apply {
             // init ViewPager Banner
             vpBannerHome.apply {
@@ -218,10 +215,6 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
                 val snapHelper: SnapHelper = LinearSnapHelper()
                 snapHelper.attachToRecyclerView(rvTopHeadlineNewsSportHome)
             }
-
-//            imgSearchHome.setOnClickListener {
-//                homeViewModel.doSignOut()
-//            }
         }
     }
 
@@ -314,10 +307,16 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
 
-        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_connection_home)
+        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_popup)
         tvErrorFetch.text = message
 
         dialog.show()
+
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -328,12 +327,13 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
         dialog.show()
         dialog.setCancelable(false)
 
-        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection_home)
+        val tvRetryConnectionHome: TextView = view.findViewById(R.id.tv_retry_connection)
         tvRetryConnectionHome.setOnClickListener { dialog.cancel() }
-    }
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
 
-    private fun showSignOut() {
-        startActivity(Intent(activity, AuthActivity::class.java))
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
     }
 
     override fun onResume() {
@@ -374,8 +374,7 @@ class HomeFragment : Fragment(), HomeFragmentCallback {
             Intent(
                 context,
                 DetailNewsTopHeadlineActivity::class.java
-            )
-                .putExtra(ConstNews.EXTRA_NEWS_TOPHEADLINE, topHeadlineList)
+            ).putExtra(ConstNews.EXTRA_NEWS_TOPHEADLINE, topHeadlineList)
         )
     }
 }

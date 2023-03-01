@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.databinding.ItemAccountMenuBinding
+import id.heycoding.sportstesiyen.utils.PreferencesApp
 
 
 class AccountAdapter(private val callback: AccountFragmentCallback) :
@@ -30,20 +31,17 @@ class AccountAdapter(private val callback: AccountFragmentCallback) :
                     imgActionAccount.visibility = View.VISIBLE
                 }
 
+                val checkedItem = PreferencesApp(itemView.context).darkMode
+                swActionAccount.isChecked = (checkedItem == 1)
+
                 swActionAccount.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        PreferencesApp(itemView.context).darkMode = 1
                     } else {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        PreferencesApp(itemView.context).darkMode = 0
                     }
-                }
-
-                swActionAccount.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        swActionAccount.parent.requestDisallowInterceptTouchEvent(true)
-                    }
-                    // always return false since we don't care about handling tapping, flinging, etc.
-                    false
                 }
 
                 itemView.setOnClickListener {

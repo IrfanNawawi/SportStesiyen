@@ -30,6 +30,10 @@ class DetailNewsTopHeadlineActivity : AppCompatActivity() {
             supportActionBar?.title = ""
         }
 
+        setupUI()
+    }
+
+    private fun setupUI() {
         val extras = intent.extras
         if (extras != null) {
             val getData =
@@ -96,7 +100,6 @@ class DetailNewsTopHeadlineActivity : AppCompatActivity() {
                     .into(it)
             }
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

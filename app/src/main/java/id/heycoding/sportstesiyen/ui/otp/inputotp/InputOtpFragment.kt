@@ -3,10 +3,10 @@ package id.heycoding.sportstesiyen.ui.otp.inputotp
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -51,10 +51,10 @@ class InputOtpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as OtpActivity).supportActionBar?.hide()
-        initView()
+        setupUI()
     }
 
-    private fun initView() {
+    private fun setupUI() {
         fragmentInputOtpBinding?.apply {
             btnGetOtp.setOnClickListener {
                 validateAndGetOtp()
@@ -83,7 +83,7 @@ class InputOtpFragment : Fragment() {
         })
         if (fragmentInputOtpBinding?.edtOtpPhone?.text?.isBlank() == true) {
             fragmentInputOtpBinding?.edtOtpPhone?.error =
-                context?.getString(R.string.txt_phone_number_not_blank)
+                context?.getString(R.string.txt_phone_not_blank)
             return
         } else {
             doGetOtp()
@@ -119,14 +119,19 @@ class InputOtpFragment : Fragment() {
     }
 
     private fun showMessage(message: String?) {
-        val view = layoutInflater.inflate(R.layout.popup_error_connection, null)
+        val view = layoutInflater.inflate(R.layout.popup_data_not_found, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
-
-        val tvErrorFetch: TextView = view.findViewById(R.id.tv_error_connection_home)
-        tvErrorFetch.text = message
-
         dialog.show()
+        dialog.setCancelable(false)
+
+        val imgClosePopup: ImageView = view.findViewById(R.id.img_close_popup)
+        val tvErrorPopup: TextView = view.findViewById(R.id.tv_error_popup)
+
+        imgClosePopup.setOnClickListener {
+            dialog.cancel()
+        }
+        tvErrorPopup.text = message
     }
 
     fun moveToVerifyOtp(token: String) {
