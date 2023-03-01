@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="SportStesiyen.jpg" width=450/>
+  <img src="SportStesiyen.jpg" style="max-width:100%;"/>
 </p>
 
 # SportStesiyen
