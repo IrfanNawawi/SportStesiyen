@@ -26,8 +26,8 @@ interface SoccerServices {
     ): Response<StatisticTableResponse>
 
     @GET(ConstSports.GET_ALL_LEAGUE)
-    suspend fun getAllLeague() : Response<LeagueResponse>
+    suspend fun getAllLeague(): Response<LeagueResponse>
 
     @GET(ConstSports.GET_ALL_SEASON)
-    suspend fun getAllSeason(@Query("id") idLeague: String) : Response<SeasonResponse>
+    suspend fun getAllSeason(@Query("id") idLeague: String): Response<SeasonResponse>
 }

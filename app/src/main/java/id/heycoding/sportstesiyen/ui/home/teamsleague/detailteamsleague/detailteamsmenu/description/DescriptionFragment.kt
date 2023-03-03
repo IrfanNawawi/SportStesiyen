@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.data.entity.TeamsLeague
 import id.heycoding.sportstesiyen.databinding.FragmentDescriptionBinding
 import id.heycoding.sportstesiyen.utils.ConstSports
@@ -37,7 +36,7 @@ class DescriptionFragment : Fragment() {
         if (bundle != null) {
             val dataTeams = bundle.getParcelable<TeamsLeague>(ConstSports.EXTRA_DATA_TEAMS)
             fragmentDescriptionBinding?.apply {
-                tvDescTeamsDetail.text  = dataTeams?.strDescriptionEN
+                tvDescTeamsDetail.text = dataTeams?.strDescriptionEN
                 tvLeagueTeamsDetailOne.text = "${dataTeams?.strLeague}, "
                 tvLeagueTeamsDetailTwo.text = "${dataTeams?.strLeague2}, "
                 tvLeagueTeamsDetailThree.text = dataTeams?.strLeague3

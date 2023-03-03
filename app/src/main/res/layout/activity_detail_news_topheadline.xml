@@ -60,9 +60,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/mulish_bold_700"
-                    android:textColor="@color/white"
-                    android:maxLines="1"
                     android:maxEms="16"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>

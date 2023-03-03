@@ -34,6 +34,9 @@ class SoccerRepositoryImpl(
         idLeague: String,
         seasonLeague: String
     ): Response<StatisticTableResponse> {
-        return soccerServices.getStatisticTableLeague(idLeague = idLeague, seasonLeague = seasonLeague)
+        return soccerServices.getStatisticTableLeague(
+            idLeague = idLeague,
+            seasonLeague = seasonLeague
+        )
     }
 }

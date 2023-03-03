@@ -1,11 +1,9 @@
 package id.heycoding.sportstesiyen.ui.account
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -62,12 +60,12 @@ class AccountViewModel : ViewModel() {
         user?.reauthenticate(credential)?.addOnCompleteListener { auth ->
             if (auth.isSuccessful) {
                 user.updatePassword(newPassword).addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            _isSuccessUpdated.value = "User Password ${user.displayName} Updated"
-                        } else {
-                            _isError.value = task.exception?.message
-                        }
+                    if (task.isSuccessful) {
+                        _isSuccessUpdated.value = "User Password ${user.displayName} Updated"
+                    } else {
+                        _isError.value = task.exception?.message
                     }
+                }
             } else {
                 _isError.value = auth.exception?.message
             }

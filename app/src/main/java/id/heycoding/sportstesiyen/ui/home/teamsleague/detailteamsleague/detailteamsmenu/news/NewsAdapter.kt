@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.data.entity.Articles
 import id.heycoding.sportstesiyen.databinding.ItemNewsTeamsDetailBinding
-import id.heycoding.sportstesiyen.ui.home.topheadlinenews.HomeTopHeadlineNewsSportCallback
 import id.heycoding.sportstesiyen.utils.Helper
 
 class NewsAdapter :

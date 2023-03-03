@@ -13,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import id.heycoding.sportstesiyen.R
 import id.heycoding.sportstesiyen.databinding.FragmentRegisterBinding
-import id.heycoding.sportstesiyen.ui.MainActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthActivity
 import id.heycoding.sportstesiyen.ui.auth.AuthViewModel
 import id.heycoding.sportstesiyen.ui.otp.OtpActivity
@@ -61,7 +60,7 @@ class RegisterFragment : Fragment() {
             fragmentRegisterBinding?.edtRegisterUsername?.error =
                 context?.getString(R.string.txt_username_not_blank)
             return
-        }  else if (
+        } else if (
             fragmentRegisterBinding?.edtRegisterEmail?.text?.isBlank() == true) {
             fragmentRegisterBinding?.edtRegisterEmail?.error =
                 context?.getString(R.string.txt_email_not_blank)

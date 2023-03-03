@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import id.heycoding.sportstesiyen.data.entity.*
 import id.heycoding.sportstesiyen.domain.usecase.SoccerUseCase
 import id.heycoding.sportstesiyen.utils.Const
-import id.heycoding.sportstesiyen.utils.Const.ID_LEAGUE_THESPORTDB
-import id.heycoding.sportstesiyen.utils.Const.YEAR_SEASON_LEAGUE_THESPORTDB
 import id.heycoding.sportstesiyen.utils.ResultState
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest

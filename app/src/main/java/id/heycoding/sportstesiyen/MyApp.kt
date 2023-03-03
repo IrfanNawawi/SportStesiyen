@@ -36,7 +36,7 @@ class MyApp : Application() {
     }
 
     private fun checkTheme() {
-        when(PreferencesApp(this).darkMode) {
+        when (PreferencesApp(this).darkMode) {
             0 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }

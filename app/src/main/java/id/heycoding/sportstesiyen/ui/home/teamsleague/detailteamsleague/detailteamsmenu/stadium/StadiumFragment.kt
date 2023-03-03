@@ -33,7 +33,8 @@ class StadiumFragment : Fragment() {
         if (bundle != null) {
             val dataTeams = bundle.getParcelable<TeamsLeague>(ConstSports.EXTRA_DATA_TEAMS)
             fragmentStadiumBinding?.apply {
-                Glide.with(this@StadiumFragment).load("${dataTeams?.strStadiumThumb}/preview").into(imgDetailStadium)
+                Glide.with(this@StadiumFragment).load("${dataTeams?.strStadiumThumb}/preview")
+                    .into(imgDetailStadium)
                 tvStadiumTeamsDetail.text = dataTeams?.strStadium
                 tvLocationStadiumTeamsDetail.text = dataTeams?.strStadiumLocation
                 tvCapacityStadiumTeamsDetail.text = "Capacity ${dataTeams?.intStadiumCapacity}"

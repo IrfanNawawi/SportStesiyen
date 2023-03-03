@@ -3,7 +3,6 @@ package id.heycoding.sportstesiyen.ui.home.banner
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import id.heycoding.sportstesiyen.databinding.ItemSliderSportHomeBinding
 

@@ -17,10 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/mulish_bold_700"
+            android:text="@string/txt_desc_detail_events"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/txt_desc_detail_events" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_desc_teams_detail"
@@ -36,12 +36,12 @@
             android:id="@+id/tv_league_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/mulish_bold_700"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/mulish_bold_700"
+            android:text="@string/txt_league"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_desc_teams_detail"
-            android:text="@string/txt_league" />
+            app:layout_constraintTop_toBottomOf="@id/tv_desc_teams_detail" />
 
         <LinearLayout
             android:id="@+id/ll_league_teams"
@@ -50,14 +50,15 @@
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_league_detail">
+
             <TextView
                 android:id="@+id/tv_league_teams_detail_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/mulish_semibold_600"
-                android:textSize="14sp"
-                android:text="@string/txt_league" />
+                android:text="@string/txt_league"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_league_teams_detail_two"
@@ -65,42 +66,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/mulish_semibold_600"
-                android:textSize="14sp"
-                android:text="@string/txt_league" />
+                android:text="@string/txt_league"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_league_teams_detail_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mulish_semibold_600"
-                android:textSize="14sp"
-                android:text="@string/txt_league" />
+                android:text="@string/txt_league"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_teams_kit_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/mulish_bold_700"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/mulish_bold_700"
+            android:text="@string/txt_teams_kit"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_league_teams"
-            android:text="@string/txt_teams_kit" />
+            app:layout_constraintTop_toBottomOf="@id/ll_league_teams" />
 
         <LinearLayout
             android:id="@+id/ll_teams_kit_teams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_teams_kit_detail">
+
             <FrameLayout
                 android:id="@+id/fm_teams_kit_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp">
+
                 <ImageView
                     android:id="@+id/img_teams_kit_one"
                     android:layout_width="30dp"
@@ -110,7 +113,7 @@
                     android:id="@+id/img_teams_kit_blank_one"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/bg_outline_kit_black"/>
+                    android:background="@drawable/bg_outline_kit_black" />
             </FrameLayout>
 
             <FrameLayout
@@ -128,7 +131,7 @@
                     android:id="@+id/img_teams_kit_blank_second"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/bg_outline_kit_black"/>
+                    android:background="@drawable/bg_outline_kit_black" />
             </FrameLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_gradient_primary"
@@ -13,13 +12,13 @@
         android:layout_height="match_parent"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/white"
         android:fontFamily="@font/mulish_medium_500"
+        android:gravity="center"
+        android:text="@string/txt_pos_statistic"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/txt_pos_statistic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_teams_statistic"
@@ -27,13 +26,12 @@
         android:layout_height="30dp"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:textColor="@color/white"
-        android:gravity="center"
         android:fontFamily="@font/mulish_medium_500"
-        app:layout_constraintStart_toEndOf="@id/tv_position_statistic"
-        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
         android:text="@string/txt_club_statistic"
-        />
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/tv_position_statistic"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_played_statistic"
@@ -41,27 +39,27 @@
         android:layout_height="match_parent"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textAlignment="center"
         android:fontFamily="@font/mulish_medium_500"
+        android:gravity="center"
+        android:text="@string/txt_played_statistic"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/txt_played_statistic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_win_statistic"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
-        android:textColor="@color/white"
         android:layout_weight="1"
-        android:gravity="center"
-        android:textAlignment="center"
         android:fontFamily="@font/mulish_medium_500"
+        android:gravity="center"
+        android:text="@string/txt_win_statistic"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/txt_win_statistic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_draw_statistic"
@@ -69,27 +67,27 @@
         android:layout_height="match_parent"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textAlignment="center"
         android:fontFamily="@font/mulish_medium_500"
+        android:gravity="center"
+        android:text="@string/txt_draw_statistic"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/txt_draw_statistic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_lose_statistic"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
-        android:textColor="@color/white"
         android:layout_weight="1"
-        android:gravity="center"
-        android:textAlignment="center"
         android:fontFamily="@font/mulish_medium_500"
+        android:gravity="center"
+        android:text="@string/txt_lose_statistic"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/txt_lose_statistic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_goal_different_statistic"
@@ -97,13 +95,13 @@
         android:layout_height="match_parent"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textAlignment="center"
         android:fontFamily="@font/mulish_medium_500"
+        android:gravity="center"
+        android:text="@string/txt_gd_statistic"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/txt_gd_statistic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_point_statistic"
@@ -111,11 +109,11 @@
         android:layout_height="match_parent"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textAlignment="center"
         android:fontFamily="@font/mulish_medium_500"
+        android:gravity="center"
+        android:text="@string/txt_point_statistic"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/txt_point_statistic" />
+        app:layout_constraintTop_toTopOf="parent" />
 </LinearLayout>
